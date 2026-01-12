@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read/write access to houses collection for authenticated users
+    match /houses/{houseId} {
+      allow read, write: if request.auth != null;
+      
+      // Allow read/write access to chores subcollection for authenticated users
+      match /chores/{choreId} {
+        allow read, write: if request.auth != null;
+      }
+    }
+  }
+}
+

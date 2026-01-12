@@ -1,0 +1,638 @@
+.setup-wizard {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.wizard-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+  padding: 2rem;
+}
+
+.wizard-header {
+  margin-bottom: 2rem;
+}
+
+.wizard-header h1 {
+  margin: 0 0 1.5rem 0;
+  color: #333;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.step.active {
+  background-color: #667eea;
+  color: white;
+}
+
+.wizard-content {
+  min-height: 300px;
+}
+
+.wizard-step {
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wizard-step h2 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.wizard-step p {
+  margin: 0 0 1.5rem 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.wizard-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.wizard-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.wizard-button {
+  padding: 12px 24px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.wizard-button:hover:not(:disabled) {
+  background-color: #5568d3;
+}
+
+.wizard-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wizard-button.secondary {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.wizard-button.secondary:hover {
+  background-color: #d0d0d0;
+}
+
+.wizard-button.primary {
+  background-color: #4caf50;
+}
+
+.wizard-button.primary:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.wizard-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.task-input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.add-task-button {
+  padding: 12px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.add-task-button:hover {
+  background-color: #45a049;
+}
+
+.task-section {
+  margin-bottom: 2rem;
+}
+
+.task-section h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.tasks-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  min-height: 40px;
+}
+
+.task-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.task-tag.sole-responsibility {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+}
+
+.remove-task-button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.remove-task-button:hover {
+  background-color: #ddd;
+  color: #333;
+}
+
+.members-section,
+.assignments-section {
+  margin-bottom: 2rem;
+}
+
+.members-section h3,
+.assignments-section h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.member-input {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.member-input label {
+  min-width: 80px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.member-name-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.member-name-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.assignments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.assignment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.assignment-item.sole-responsibility {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+}
+
+.schedule-assignments {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.task-schedule-item {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.task-schedule-header {
+  margin-bottom: 1rem;
+}
+
+.task-schedule-header .task-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.week-assignments {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.week-assignment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.week-assignment label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.member-select {
+  padding: 6px 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.member-select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.sole-assignments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.sole-assignment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  gap: 1rem;
+}
+
+.sole-assignment-item .task-name {
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+}
+
+.sole-assignment-item .member-select {
+  min-width: 150px;
+}
+
+.sole-task-header {
+  margin-bottom: 1rem;
+}
+
+.sole-task-header .task-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.member-selection {
+  margin-bottom: 1rem;
+}
+
+.member-selection label {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.member-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.member-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.member-checkbox-label:hover {
+  background-color: #f0f0f0;
+}
+
+.member-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.weekly-preview {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.weekly-preview label {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.week-assignments-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.week-preview-item {
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.assigned-member-name {
+  font-weight: 500;
+  color: #667eea;
+  padding: 4px 8px;
+  background-color: #f0f4ff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.task-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.assigned-to {
+  color: #667eea;
+  font-weight: 600;
+}
+
+.share-screen {
+  margin: 2rem 0;
+}
+
+.creator-name-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.creator-name-section h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.creator-name-section .help-text {
+  margin: 0 0 1rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.creator-name-input-wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.creator-name-input-wrapper .member-name-input {
+  flex: 1;
+  max-width: 300px;
+}
+
+.skip-button {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.share-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.info-value {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.house-code-display,
+.share-link-display {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.code-value {
+  flex: 1;
+  padding: 12px;
+  background-color: #f0f4ff;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-align: center;
+  color: #667eea;
+}
+
+.share-link-input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: #f9f9f9;
+}
+
+.copy-button {
+  padding: 12px 20px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.copy-button:hover {
+  background-color: #5568d3;
+}
+
+.bundle-chores-preview {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+  padding-left: 1rem;
+}
+
+.bundle-includes {
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .wizard-container {
+    padding: 1.5rem;
+  }
+
+  .wizard-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .step {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+
+  .task-input-group {
+    flex-direction: column;
+  }
+
+  .add-task-button {
+    width: 100%;
+  }
+
+  .member-input {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .member-input label {
+    min-width: auto;
+  }
+
+  .assignment-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .house-code-display,
+  .share-link-display {
+    flex-direction: column;
+  }
+
+  .copy-button {
+    width: 100%;
+  }
+}
+

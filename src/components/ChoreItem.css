@@ -1,0 +1,237 @@
+.chore-item {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #4a90e2;
+  transition: all 0.2s;
+}
+
+.chore-item:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.chore-item.done {
+  opacity: 0.7;
+  border-left-color: #4caf50;
+}
+
+.chore-item.overdue {
+  border-left-color: #f44336;
+  background-color: #fff5f5;
+}
+
+.chore-main {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.chore-checkbox-container {
+  margin-top: 4px;
+}
+
+.chore-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.chore-checkbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.chore-content {
+  flex: 1;
+}
+
+.chore-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.chore-item.done .chore-title {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.chore-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chore-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+.chore-assigned {
+  font-weight: 500;
+  color: #4a90e2;
+}
+
+.chore-due-date {
+  color: #666;
+}
+
+.chore-due-date.overdue-text {
+  color: #f44336;
+  font-weight: 500;
+}
+
+.chore-done-at {
+  color: #4caf50;
+  font-size: 13px;
+}
+
+.chore-title-section {
+  margin-bottom: 8px;
+}
+
+.chore-sole-responsibility {
+  color: #ff9800;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: #fff3cd;
+  padding: 2px 8px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.bundle-chores-list {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.bundle-label {
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+
+.bundle-chores {
+  display: inline;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bundle-chores li {
+  display: inline;
+  margin-right: 0.5rem;
+}
+
+.bundle-chores li:not(:last-child)::after {
+  content: ', ';
+}
+
+.chore-assigned-note {
+  font-size: 13px;
+  color: #999;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.chore-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+}
+
+.edit-field input {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.save-button {
+  background-color: #4a90e2;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.cancel-button {
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.chore-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.edit-button {
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+  .chore-item {
+    padding: 12px;
+  }
+
+  .chore-title {
+    font-size: 16px;
+  }
+
+  .chore-meta {
+    font-size: 13px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .chore-actions {
+    flex-direction: column;
+  }
+
+  .edit-button,
+  .delete-button {
+    width: 100%;
+  }
+}
+

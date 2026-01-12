@@ -1,0 +1,74 @@
+.activity-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.activity-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.activity-header {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.back-button:hover {
+  color: #5568d3;
+}
+
+.activity-header h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+}
+
+.activity-content {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-message {
+  text-align: center;
+  color: #666;
+}
+
+.placeholder-message p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.placeholder-subtext {
+  font-size: 0.9rem !important;
+  color: #999 !important;
+}
+
+@media (max-width: 768px) {
+  .activity-container {
+    padding: 1.5rem;
+  }
+
+  .activity-header h1 {
+    font-size: 1.5rem;
+  }
+}
+

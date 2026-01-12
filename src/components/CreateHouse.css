@@ -1,0 +1,38 @@
+.create-house {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.create-house-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.create-house-content h1 {
+  font-size: 32px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.create-house-content p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.create-button {
+  background-color: #4a90e2;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.create-button:hover {
+  background-color: #357abd;
+}
+
