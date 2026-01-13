@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createHouseWithUniqueCode, getHouse, CommonChoreBundle } from '../firebase/houses';
 import { initializeChoresWithSchedule } from '../firebase/chores';
-import { waitForAuth } from '../firebase/auth';
+import { waitForAuth, signInAnonymous } from '../firebase/auth';
 import { processAndAssignTasks, buildCommonBundles } from '../utils/taskAssignment';
 import { buildHouseShareLink, copyToClipboard } from '../utils/shareLink';
 import { setUserName } from '../utils/storage';
@@ -183,8 +183,9 @@ export default function SetupWizard() {
   const handleCreateHouse = async () => {
     setIsCreating(true);
     try {
-      const user = await waitForAuth();
-      const creatorUid = user;
+      // Ensure user is authenticated before creating house
+      await signInAnonymous();
+      const creatorUid = await waitForAuth();
       
       // Use creator name if provided, otherwise null (will skip adding creator as member)
       const finalCreatorName = creatorName.trim() || null;
