@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { createChore } from '../firebase/chores';
+import { endOfWeekSunday } from '../utils/weekUtils';
 import './AddChoreModal.css';
 
 interface AddChoreModalProps {
@@ -12,9 +13,13 @@ interface AddChoreModalProps {
 export default function AddChoreModal({ isOpen, onClose, houseCode, isMaintenanceMode = false }: AddChoreModalProps) {
   const [title, setTitle] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
-  const [dueDate, setDueDate] = useState(
-    new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-  );
+  // Default to next Sunday (end of current week)
+  const getNextSundayDateString = (): string => {
+    const sunday = endOfWeekSunday(new Date());
+    return sunday.toISOString().split('T')[0];
+  };
+  
+  const [dueDate, setDueDate] = useState(getNextSundayDateString());
 
   if (!isOpen) return null;
 
@@ -31,7 +36,7 @@ export default function AddChoreModal({ isOpen, onClose, houseCode, isMaintenanc
       await createChore(houseCode, title.trim(), assignedTo.trim(), new Date(dueDate).toISOString());
       setTitle('');
       setAssignedTo('');
-      setDueDate(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+      setDueDate(getNextSundayDateString());
       onClose();
     } catch (error) {
       console.error('Error creating chore:', error);

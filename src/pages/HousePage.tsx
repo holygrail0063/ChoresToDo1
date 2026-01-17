@@ -4,7 +4,7 @@ import { signInAnonymous, waitForAuth } from '../firebase/auth';
 import { getHouse, addMember, House } from '../firebase/houses';
 import { getUserName, setUserName } from '../utils/storage';
 import { normalizeHouseCode } from '../utils/houseCode';
-import { startOfWeekMonday, getRotationWeek, formatWeekRange, timestampToDate } from '../utils/weekUtils';
+import { startOfWeekMonday, formatWeekRange, timestampToDate } from '../utils/weekUtils';
 import { updateChoresForUser } from '../firebase/chores';
 import { getSiteSettings } from '../firebase/siteSettings';
 import HouseHeader from '../components/HouseHeader';
@@ -25,7 +25,7 @@ export default function HousePage() {
   const [house, setHouse] = useState<House | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [viewMode, setViewMode] = useState<'my' | 'all'>('my');
-  const [rotationInfo, setRotationInfo] = useState<{ rotationWeek: number; cycleLength: number; fromLabel: string; toLabel: string } | null>(null);
+  const [weekRange, setWeekRange] = useState<{ fromLabel: string; toLabel: string } | null>(null);
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
 
   useEffect(() => {
@@ -83,16 +83,11 @@ export default function HousePage() {
         const settings = await getSiteSettings();
         setIsMaintenanceMode(settings.maintenanceMode || false);
         
-        // Compute rotation week info
-        const cycleLength = houseData.cycleLength ?? houseData.memberCount ?? houseData.members?.length ?? 4;
-        const scheduleStart = houseData.scheduleStartDate 
-          ? timestampToDate(houseData.scheduleStartDate) || startOfWeekMonday(new Date())
-          : startOfWeekMonday(new Date());
+        // Compute week range (Monday to Sunday)
         const thisMonday = startOfWeekMonday(new Date());
-        const { rotationWeek } = getRotationWeek(scheduleStart, new Date(), cycleLength);
         const { fromLabel, toLabel } = formatWeekRange(thisMonday);
         
-        setRotationInfo({ rotationWeek, cycleLength, fromLabel, toLabel });
+        setWeekRange({ fromLabel, toLabel });
 
         // Migration: If house has no membersMap, initialize it
         if (!houseData.membersMap || Object.keys(houseData.membersMap).length === 0) {
@@ -200,11 +195,10 @@ export default function HousePage() {
       
       {currentUserName && (
         <>
-          {rotationInfo && (
+          {weekRange && (
             <div className="rotation-week-header">
               <h2>
-                Rotation Week {rotationInfo.rotationWeek} of {rotationInfo.cycleLength} — 
-                From {rotationInfo.fromLabel} to {rotationInfo.toLabel}
+                {weekRange.fromLabel} — {weekRange.toLabel}
               </h2>
             </div>
           )}

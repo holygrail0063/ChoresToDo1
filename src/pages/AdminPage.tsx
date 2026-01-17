@@ -168,13 +168,11 @@ export default function AdminPage() {
         <div className="weeks-table">
           <div className="weeks-header">
             <div className="week-col-header">Week Range</div>
-            <div className="week-col-header">Rotation</div>
             <div className="week-col-header">Assignments</div>
           </div>
           
           {weeks.map((weekMonday, idx) => {
             const { fromLabel, toLabel } = formatWeekRange(weekMonday);
-            const { rotationWeek } = getRotationWeek(scheduleStart, weekMonday, cycleLength);
             const assignments = getAssignmentsForWeek(weekMonday);
             const assignmentEntries = Object.entries(assignments);
             
@@ -183,11 +181,6 @@ export default function AdminPage() {
                 <div className="week-col">
                   <div className="week-range">
                     {fromLabel} – {toLabel}
-                  </div>
-                </div>
-                <div className="week-col">
-                  <div className="rotation-badge">
-                    Week {rotationWeek} of {cycleLength}
                   </div>
                 </div>
                 <div className="week-col assignments-col">
