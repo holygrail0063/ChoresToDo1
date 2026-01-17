@@ -36,13 +36,15 @@ export default function ChoreList({
   }, [houseCode]);
 
   // Filter chores based on view mode
+  // "My Chores" should ONLY match by UID when currentUid is available
+  // This prevents showing chores assigned to other people with the same name
   const filteredChores = viewMode === 'my' 
     ? chores.filter(chore => {
-        // Show chores assigned to current user (by uid or name fallback)
-        if (currentUid && chore.assignedToUid) {
+        // If currentUid exists, ONLY match by UID (never by name)
+        if (currentUid) {
           return chore.assignedToUid === currentUid;
         }
-        // Fallback to name matching for backward compatibility
+        // Only fallback to name matching if currentUid is not available (backward compatibility)
         return currentUserName && chore.assignedTo === currentUserName;
       })
     : chores;

@@ -88,6 +88,19 @@ export default function ChoreItem({
 
     const oldAssignedTo = chore.assignedTo;
     
+    // Look up UID from membersMap when assignee name changes
+    // This ensures the UID matches the name and prevents "My Chores" from showing wrong chores
+    let newAssignedToUid: string | undefined = undefined;
+    if (editedAssignedTo && house?.membersMap) {
+      // Find UID for the edited name in membersMap
+      const memberEntry = Object.entries(house.membersMap).find(
+        ([uid, member]) => member.name === editedAssignedTo
+      );
+      if (memberEntry) {
+        newAssignedToUid = memberEntry[0];
+      }
+    }
+    
     const editHistory: ChoreEditHistory = {
       changedBy: currentUserName || 'Unknown',
       changedByUid: currentUid || undefined,
@@ -99,7 +112,7 @@ export default function ChoreItem({
 
     await updateChore(houseCode, chore.id, {
       assignedTo: editedAssignedTo,
-      assignedToUid: editedAssignedToUid || undefined,
+      assignedToUid: newAssignedToUid,
       dueDate: new Date(editedDueDate).toISOString(),
     }, editHistory);
     setIsEditing(false);
@@ -214,7 +227,8 @@ export default function ChoreItem({
   };
 
   const members = getMembersList();
-  const canSwap = canEdit && chore.assignedToUid && members.length > 1;
+  // Show swap button for all chores when there are multiple members (always show if chore has an assignee)
+  const canSwap = canEdit && members.length > 1 && (chore.assignedTo || chore.assignedToUid);
 
   return (
     <div className={`chore-item ${chore.isDone ? 'done' : ''} ${isOverdue ? 'overdue' : ''}`}>
