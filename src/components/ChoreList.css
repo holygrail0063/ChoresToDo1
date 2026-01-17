@@ -1,21 +1,12 @@
 .chore-list-container {
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px;
   padding-bottom: 100px;
 }
 
-.chore-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 40px 20px;
-  color: #666;
+/* Ensure the list columns display properly */
+.chore-list-container .flex {
+  min-height: 400px;
 }
 
 .add-chore-button {
@@ -30,6 +21,8 @@
   border-radius: 50px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 100;
+  border: none;
+  cursor: pointer;
 }
 
 .add-chore-button:hover {
@@ -50,5 +43,9 @@
     padding: 14px 20px;
     font-size: 14px;
   }
-}
 
+  /* Stack columns on mobile */
+  .chore-list-container .flex-col.md\:flex-row {
+    flex-direction: column;
+  }
+}

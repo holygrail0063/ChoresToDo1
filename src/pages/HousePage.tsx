@@ -231,6 +231,7 @@ export default function HousePage() {
             currentUid={currentUid}
             isAdmin={isAdmin}
             viewMode={viewMode}
+            house={house}
           />
         </>
       )}
