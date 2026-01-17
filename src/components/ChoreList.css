@@ -4,9 +4,17 @@
   padding-bottom: 100px;
 }
 
-/* Ensure the list columns display properly */
-.chore-list-container .flex {
-  min-height: 400px;
+.chore-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chore-list-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 16px;
 }
 
 .add-chore-button {
@@ -23,6 +31,7 @@
   z-index: 100;
   border: none;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .add-chore-button:hover {
@@ -42,10 +51,5 @@
     right: 16px;
     padding: 14px 20px;
     font-size: 14px;
-  }
-
-  /* Stack columns on mobile */
-  .chore-list-container .flex-col.md\:flex-row {
-    flex-direction: column;
   }
 }
