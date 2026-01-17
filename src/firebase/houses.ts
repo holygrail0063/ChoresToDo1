@@ -41,6 +41,8 @@ export interface House {
   _scheduleMigrated?: boolean; // Internal flag to prevent re-migration
   // Common chore bundles (new approach - one bundle per member per week)
   commonChoreBundles?: CommonChoreBundle[];
+  // Admin fields
+  status?: 'active' | 'disabled';
 }
 
 export const createHouse = async (

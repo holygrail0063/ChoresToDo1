@@ -8,9 +8,10 @@ interface ChoreItemProps {
   currentUserName: string | null;
   currentUid?: string | null;
   isAdmin?: boolean;
+  isMaintenanceMode?: boolean;
 }
 
-export default function ChoreItem({ chore, houseCode, currentUserName, currentUid, isAdmin = false }: ChoreItemProps) {
+export default function ChoreItem({ chore, houseCode, currentUserName, currentUid, isAdmin = false, isMaintenanceMode = false }: ChoreItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedAssignedTo, setEditedAssignedTo] = useState(chore.assignedTo);
   const [editedDueDate, setEditedDueDate] = useState(
@@ -32,6 +33,10 @@ export default function ChoreItem({ chore, houseCode, currentUserName, currentUi
 
   const handleToggle = async () => {
     if (!canToggle) return;
+    if (isMaintenanceMode) {
+      alert('The site is currently under maintenance. Changes are disabled.');
+      return;
+    }
 
     const now = new Date().toISOString();
     await updateChore(houseCode, chore.id, {
@@ -43,6 +48,11 @@ export default function ChoreItem({ chore, houseCode, currentUserName, currentUi
   const handleSave = async () => {
     if (!editedDueDate) {
       alert('Please select a due date');
+      return;
+    }
+    if (isMaintenanceMode) {
+      alert('The site is currently under maintenance. Changes are disabled.');
+      setIsEditing(false);
       return;
     }
     await updateChore(houseCode, chore.id, {
@@ -61,6 +71,10 @@ export default function ChoreItem({ chore, houseCode, currentUserName, currentUi
   };
 
   const handleDelete = async () => {
+    if (isMaintenanceMode) {
+      alert('The site is currently under maintenance. Changes are disabled.');
+      return;
+    }
     if (window.confirm('Are you sure you want to delete this chore?')) {
       await deleteChore(houseCode, chore.id);
     }

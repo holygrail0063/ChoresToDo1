@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import MaintenanceBanner from '../components/MaintenanceBanner';
 import './LandingPage.css';
 
 export default function LandingPage() {
@@ -6,6 +7,7 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page">
+      <MaintenanceBanner />
       <div className="landing-container">
         <div className="landing-header">
           <h1>House Chores</h1>

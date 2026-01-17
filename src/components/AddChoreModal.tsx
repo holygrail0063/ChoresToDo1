@@ -6,9 +6,10 @@ interface AddChoreModalProps {
   isOpen: boolean;
   onClose: () => void;
   houseCode: string;
+  isMaintenanceMode?: boolean;
 }
 
-export default function AddChoreModal({ isOpen, onClose, houseCode }: AddChoreModalProps) {
+export default function AddChoreModal({ isOpen, onClose, houseCode, isMaintenanceMode = false }: AddChoreModalProps) {
   const [title, setTitle] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
   const [dueDate, setDueDate] = useState(
@@ -20,6 +21,11 @@ export default function AddChoreModal({ isOpen, onClose, houseCode }: AddChoreMo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
+    
+    if (isMaintenanceMode) {
+      alert('The site is currently under maintenance. Changes are disabled.');
+      return;
+    }
 
     try {
       await createChore(houseCode, title.trim(), assignedTo.trim(), new Date(dueDate).toISOString());

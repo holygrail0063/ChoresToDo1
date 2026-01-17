@@ -6,9 +6,11 @@ import { getUserName, setUserName } from '../utils/storage';
 import { normalizeHouseCode } from '../utils/houseCode';
 import { startOfWeekMonday, getRotationWeek, formatWeekRange, timestampToDate } from '../utils/weekUtils';
 import { updateChoresForUser } from '../firebase/chores';
+import { getSiteSettings } from '../firebase/siteSettings';
 import HouseHeader from '../components/HouseHeader';
 import ChoreList from '../components/ChoreList';
 import NameModal from '../components/NameModal';
+import MaintenanceBanner from '../components/MaintenanceBanner';
 import './HousePage.css';
 
 export default function HousePage() {
@@ -24,6 +26,7 @@ export default function HousePage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [viewMode, setViewMode] = useState<'my' | 'all'>('my');
   const [rotationInfo, setRotationInfo] = useState<{ rotationWeek: number; cycleLength: number; fromLabel: string; toLabel: string } | null>(null);
+  const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
 
   useEffect(() => {
     if (!rawHouseCode) {
@@ -63,11 +66,22 @@ export default function HousePage() {
           return;
         }
         
+        // Check if house is disabled
+        if (houseData.status === 'disabled') {
+          setError('This house is currently unavailable.');
+          setIsLoading(false);
+          return;
+        }
+        
         setHouse(houseData);
         setHouseName(houseData.name || '');
         
         // Check if user is admin
         setIsAdmin(houseData.adminUid === uid);
+        
+        // Load site settings for maintenance mode
+        const settings = await getSiteSettings();
+        setIsMaintenanceMode(settings.maintenanceMode || false);
         
         // Compute rotation week info
         const cycleLength = houseData.cycleLength ?? houseData.memberCount ?? houseData.members?.length ?? 4;
@@ -175,6 +189,7 @@ export default function HousePage() {
 
   return (
     <div className="house-page">
+      <MaintenanceBanner />
       <HouseHeader 
         houseCode={normalizedCode} 
         houseName={houseName} 
@@ -210,7 +225,8 @@ export default function HousePage() {
           </div>
           
           <ChoreList 
-            houseCode={normalizedCode} 
+            houseCode={normalizedCode}
+            isMaintenanceMode={isMaintenanceMode} 
             currentUserName={currentUserName}
             currentUid={currentUid}
             isAdmin={isAdmin}

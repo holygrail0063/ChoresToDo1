@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createHouseWithUniqueCode, getHouse, CommonChoreBundle } from '../firebase/houses';
 import { initializeChoresWithSchedule } from '../firebase/chores';
@@ -6,6 +6,8 @@ import { waitForAuth, signInAnonymous } from '../firebase/auth';
 import { processAndAssignTasks, buildCommonBundles } from '../utils/taskAssignment';
 import { buildHouseShareLink, copyToClipboard } from '../utils/shareLink';
 import { setUserName } from '../utils/storage';
+import { getSiteSettings } from '../firebase/siteSettings';
+import MaintenanceBanner from './MaintenanceBanner';
 import './SetupWizard.css';
 
 export default function SetupWizard() {
@@ -27,6 +29,22 @@ export default function SetupWizard() {
   const [createdHouseCode, setCreatedHouseCode] = useState<string | null>(null);
   const [creatorName, setCreatorName] = useState<string>('');
   const [isNamePromptVisible, setIsNamePromptVisible] = useState(true);
+  const [siteSettings, setSiteSettings] = useState<any>(null);
+  const [settingsLoading, setSettingsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const settings = await getSiteSettings();
+        setSiteSettings(settings);
+      } catch (error) {
+        console.error('Error loading site settings:', error);
+      } finally {
+        setSettingsLoading(false);
+      }
+    };
+    loadSettings();
+  }, []);
 
   const handleStep1Next = () => {
     if (houseName.trim()) {
@@ -181,6 +199,12 @@ export default function SetupWizard() {
   };
 
   const handleCreateHouse = async () => {
+    // Check if house creation is allowed
+    if (siteSettings && !siteSettings.allowNewHouseCreation) {
+      alert('New house creation is currently disabled. Please try again later.');
+      return;
+    }
+
     setIsCreating(true);
     try {
       // Ensure user is authenticated before creating house
@@ -249,8 +273,27 @@ export default function SetupWizard() {
     }
   };
 
+  // Show disabled message if house creation is not allowed
+  if (!settingsLoading && siteSettings && !siteSettings.allowNewHouseCreation) {
+    return (
+      <div className="setup-wizard">
+        <MaintenanceBanner />
+        <div className="wizard-container">
+          <div className="wizard-header">
+            <h1>House Creation Disabled</h1>
+            <p>New house creation is currently disabled. Please try again later.</p>
+            <button onClick={() => navigate('/')} className="back-button">
+              Go Home
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="setup-wizard">
+      <MaintenanceBanner />
       <div className="wizard-container">
         <div className="wizard-header">
           <h1>Set Up Your House</h1>

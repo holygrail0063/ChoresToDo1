@@ -10,9 +10,10 @@ interface ChoreListProps {
   currentUid?: string | null;
   isAdmin?: boolean;
   viewMode?: 'my' | 'all';
+  isMaintenanceMode?: boolean;
 }
 
-export default function ChoreList({ houseCode, currentUserName, currentUid, isAdmin = false, viewMode = 'all' }: ChoreListProps) {
+export default function ChoreList({ houseCode, currentUserName, currentUid, isAdmin = false, viewMode = 'all', isMaintenanceMode = false }: ChoreListProps) {
   const [chores, setChores] = useState<Chore[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
@@ -68,11 +69,12 @@ export default function ChoreList({ houseCode, currentUserName, currentUid, isAd
               currentUserName={currentUserName}
               currentUid={currentUid}
               isAdmin={isAdmin}
+              isMaintenanceMode={isMaintenanceMode}
             />
           ))
         )}
       </div>
-      {isAdmin && (
+      {isAdmin && !isMaintenanceMode && (
         <button
           className="add-chore-button"
           onClick={() => setIsAddModalOpen(true)}
@@ -84,6 +86,7 @@ export default function ChoreList({ houseCode, currentUserName, currentUid, isAd
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         houseCode={houseCode}
+        isMaintenanceMode={isMaintenanceMode}
       />
     </div>
   );

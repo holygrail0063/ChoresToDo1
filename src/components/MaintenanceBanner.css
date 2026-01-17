@@ -1,0 +1,30 @@
+.maintenance-banner {
+  background: #ffc107;
+  color: #856404;
+  padding: 12px 20px;
+  text-align: center;
+  border-bottom: 2px solid #ffb300;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.maintenance-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.maintenance-icon {
+  font-size: 20px;
+}
+
+.maintenance-message {
+  font-weight: 500;
+  font-size: 14px;
+}
+

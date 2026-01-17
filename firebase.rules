@@ -1,9 +1,36 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow read/write access to houses collection for authenticated users
+    // Helper function to check if user is a site admin
+    function isSiteAdmin() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/siteAdmins/$(request.auth.uid));
+    }
+    
+    // Site admins collection - only admins can read/write
+    match /siteAdmins/{uid} {
+      allow read, write: if isSiteAdmin();
+    }
+    
+    // Site settings - all authenticated users can read, only admins can write
+    match /siteSettings/{document=**} {
+      allow read: if request.auth != null;
+      allow write: if isSiteAdmin();
+    }
+    
+    // Houses collection
     match /houses/{houseId} {
-      allow read, write: if request.auth != null;
+      // All authenticated users can read houses
+      allow read: if request.auth != null;
+      
+      // Write access: authenticated users can create/update, but admins have special privileges
+      allow create: if request.auth != null;
+      allow update: if request.auth != null || isSiteAdmin();
+      allow delete: if isSiteAdmin(); // Only admins can delete houses
+      
+      // Admins can update house status field
+      allow update: if isSiteAdmin() && 
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']);
       
       // Allow read/write access to chores subcollection for authenticated users
       match /chores/{choreId} {
