@@ -24,7 +24,7 @@ export default function HousePage() {
   const [houseName, setHouseName] = useState<string>('');
   const [house, setHouse] = useState<House | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [viewMode, setViewMode] = useState<'my' | 'all'>('my');
+  const [viewMode, setViewMode] = useState<'my' | 'all'>('all');
   const [weekRange, setWeekRange] = useState<{ fromLabel: string; toLabel: string } | null>(null);
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
 
@@ -133,6 +133,8 @@ export default function HousePage() {
     const normalizedCode = rawHouseCode ? normalizeHouseCode(rawHouseCode) : '';
     if (!name || !normalizedCode || !currentUid) return;
     
+    const hadNameBefore = !!currentUserName;
+    
     try {
       // Add user to house members (updates membersMap)
       await addMember(normalizedCode, currentUid, name);
@@ -143,6 +145,11 @@ export default function HousePage() {
       // Update local state
       setCurrentUserName(name);
       setUserName(normalizedCode, name); // Cache in localStorage
+      
+      // Switch to "My Chores" view when name is set or changed
+      if (!hadNameBefore || viewMode === 'all') {
+        setViewMode('my');
+      }
       
       // Reload house to get updated membersMap
       const updatedHouse = await getHouse(normalizedCode);
