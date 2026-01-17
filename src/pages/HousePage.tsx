@@ -4,7 +4,7 @@ import { signInAnonymous, waitForAuth } from '../firebase/auth';
 import { getHouse, addMember, House } from '../firebase/houses';
 import { getUserName, setUserName } from '../utils/storage';
 import { normalizeHouseCode } from '../utils/houseCode';
-import { startOfWeekMonday, formatWeekRange, timestampToDate } from '../utils/weekUtils';
+import { startOfWeekMonday, formatWeekRange } from '../utils/weekUtils';
 import { updateChoresForUser } from '../firebase/chores';
 import { getSiteSettings } from '../firebase/siteSettings';
 import HouseHeader from '../components/HouseHeader';
@@ -225,7 +225,6 @@ export default function HousePage() {
             currentUid={currentUid}
             isAdmin={isAdmin}
             viewMode={viewMode}
-            house={house}
           />
         </>
       )}
