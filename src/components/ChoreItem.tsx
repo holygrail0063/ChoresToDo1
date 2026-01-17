@@ -87,7 +87,6 @@ export default function ChoreItem({
     }
 
     const oldAssignedTo = chore.assignedTo;
-    const oldAssignedToUid = chore.assignedToUid;
     
     const editHistory: ChoreEditHistory = {
       changedBy: currentUserName || 'Unknown',
@@ -122,7 +121,6 @@ export default function ChoreItem({
     }
 
     const oldAssignedTo = chore.assignedTo;
-    const oldAssignedToUid = chore.assignedToUid;
 
     const editHistory: ChoreEditHistory = {
       changedBy: currentUserName || 'Unknown',
