@@ -25,7 +25,6 @@ export default function ChoreItem({
   const [isEditing, setIsEditing] = useState(false);
   const [isSwapping, setIsSwapping] = useState(false);
   const [editedAssignedTo, setEditedAssignedTo] = useState(chore.assignedTo);
-  const [editedAssignedToUid, setEditedAssignedToUid] = useState(chore.assignedToUid || '');
   const [editedDueDate, setEditedDueDate] = useState(
     chore.dueDate ? new Date(chore.dueDate).toISOString().split('T')[0] : ''
   );
@@ -94,7 +93,7 @@ export default function ChoreItem({
     if (editedAssignedTo && house?.membersMap) {
       // Find UID for the edited name in membersMap
       const memberEntry = Object.entries(house.membersMap).find(
-        ([uid, member]) => member.name === editedAssignedTo
+        ([, member]) => member.name === editedAssignedTo
       );
       if (memberEntry) {
         newAssignedToUid = memberEntry[0];
