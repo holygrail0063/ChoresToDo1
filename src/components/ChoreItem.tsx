@@ -155,7 +155,6 @@ export default function ChoreItem({
 
   const handleCancel = () => {
     setEditedAssignedTo(chore.assignedTo);
-    setEditedAssignedToUid(chore.assignedToUid || '');
     setEditedDueDate(
       chore.dueDate ? new Date(chore.dueDate).toISOString().split('T')[0] : ''
     );
