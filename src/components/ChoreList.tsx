@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Chore, subscribeToChores } from '../firebase/chores';
+import { House } from '../firebase/houses';
 import AddChoreModal from './AddChoreModal';
 import ChoreItem from './ChoreItem';
 import './ChoreList.css';
@@ -11,6 +12,7 @@ interface ChoreListProps {
   isAdmin?: boolean;
   viewMode?: 'my' | 'all';
   isMaintenanceMode?: boolean;
+  house?: House | null;
 }
 
 export default function ChoreList({ 
@@ -19,7 +21,8 @@ export default function ChoreList({
   currentUid, 
   isAdmin = false, 
   viewMode = 'all', 
-  isMaintenanceMode = false
+  isMaintenanceMode = false,
+  house
 }: ChoreListProps) {
   const [chores, setChores] = useState<Chore[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -74,6 +77,7 @@ export default function ChoreList({
               currentUid={currentUid}
               isAdmin={isAdmin}
               isMaintenanceMode={isMaintenanceMode}
+              house={house}
             />
           ))}
         </div>

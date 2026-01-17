@@ -210,13 +210,57 @@
   background-color: #d32f2f;
 }
 
+.swap-button {
+  background-color: #ff9800;
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.swap-button:hover {
+  background-color: #f57c00;
+}
+
+.chore-swap-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.swap-select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.chore-edit-history {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+.edit-history-item {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
 @media (max-width: 768px) {
   .chore-item {
     padding: 12px;
+    margin-bottom: 12px;
   }
 
   .chore-title {
     font-size: 16px;
+    margin-bottom: 6px;
   }
 
   .chore-meta {
@@ -227,11 +271,44 @@
 
   .chore-actions {
     flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
   }
 
   .edit-button,
-  .delete-button {
+  .delete-button,
+  .swap-button {
     width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .edit-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .save-button,
+  .cancel-button {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .chore-edit-form,
+  .chore-swap-form {
+    gap: 10px;
+  }
+
+  .edit-field input,
+  .swap-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .edit-history-item {
+    font-size: 10px;
   }
 }
 

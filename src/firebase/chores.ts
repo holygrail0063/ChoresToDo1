@@ -6,6 +6,7 @@ import {
   deleteDoc,
   onSnapshot,
   getDocs,
+  getDoc,
   query,
   orderBy,
   Timestamp,
@@ -14,6 +15,17 @@ import {
 import { db } from './config';
 import { startOfWeekMonday, endOfWeekSunday, getRotationWeek } from '../utils/weekUtils';
 import { getCommonAssignmentsForWeek } from '../utils/taskAssignment';
+
+export interface ChoreEditHistory {
+  changedBy: string; // User name
+  changedByUid?: string; // User uid
+  changedAt: string; // ISO string
+  changeType: 'assigned' | 'unassigned' | 'swapped' | 'dueDate' | 'completed' | 'uncompleted';
+  oldValue?: string;
+  newValue?: string;
+  swappedWith?: string; // Name of person swapped with
+  swappedWithUid?: string; // UID of person swapped with
+}
 
 export interface Chore {
   id: string;
@@ -31,6 +43,7 @@ export interface Chore {
   isCommonBundle?: boolean;
   bundleChores?: string[]; // Array of chore titles in this bundle
   bundleId?: string; // Bundle identifier
+  editHistory?: ChoreEditHistory[]; // Track all edits
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -67,13 +80,23 @@ export const updateChore = async (
     dueDate: string;
     isDone: boolean;
     doneAt: string | null;
-  }>
+  }>,
+  editHistory?: ChoreEditHistory
 ): Promise<void> => {
   const choreRef = doc(db, 'houses', houseCode, 'chores', choreId);
-  await updateDoc(choreRef, {
+  const updateData: any = {
     ...updates,
     updatedAt: serverTimestamp(),
-  });
+  };
+  
+  // Add edit history if provided
+  if (editHistory) {
+    const choreSnap = await getDoc(choreRef);
+    const currentHistory = (choreSnap.data() as Chore)?.editHistory || [];
+    updateData.editHistory = [...currentHistory, editHistory];
+  }
+  
+  await updateDoc(choreRef, updateData);
 };
 
 export const deleteChore = async (

@@ -86,7 +86,12 @@ export default function AdminPage() {
     ? timestampToDate(house.scheduleStartDate) || startOfWeekMonday(new Date())
     : startOfWeekMonday(new Date());
 
-  const weeks = getWeeksForMonth(currentYear, currentMonth);
+  const allWeeks = getWeeksForMonth(currentYear, currentMonth);
+  // Filter weeks to only show from house creation date onwards
+  const weeks = allWeeks.filter(weekMonday => {
+    const scheduleStartMonday = startOfWeekMonday(scheduleStart);
+    return weekMonday >= scheduleStartMonday;
+  });
   const monthName = new Date(currentYear, currentMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
 
   // Get assignments for a given week's Monday
