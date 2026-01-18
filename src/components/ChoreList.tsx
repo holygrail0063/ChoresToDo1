@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Chore, subscribeToChores } from '../firebase/chores';
 import { House } from '../firebase/houses';
-import AddChoreModal from './AddChoreModal';
-import ChoreItem from './ChoreItem';
+import ChoreTable from './ChoreTable';
 import './ChoreList.css';
 
 interface ChoreListProps {
@@ -25,7 +24,6 @@ export default function ChoreList({
   house
 }: ChoreListProps) {
   const [chores, setChores] = useState<Chore[]>([]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = subscribeToChores(houseCode, (updatedChores) => {
@@ -63,42 +61,14 @@ export default function ChoreList({
   });
 
   return (
-    <div className="chore-list-container">
-      {sortedChores.length === 0 ? (
-        <div className="chore-list-empty">
-          <p>No chores yet. {isAdmin && !isMaintenanceMode && 'Add one to get started!'}</p>
-        </div>
-      ) : (
-        <div className="chore-list">
-          {sortedChores.map((chore) => (
-            <ChoreItem
-              key={chore.id}
-              chore={chore}
-              houseCode={houseCode}
-              currentUserName={currentUserName}
-              currentUid={currentUid}
-              isAdmin={isAdmin}
-              isMaintenanceMode={isMaintenanceMode}
-              house={house}
-            />
-          ))}
-        </div>
-      )}
-
-      {isAdmin && !isMaintenanceMode && (
-        <button
-          className="add-chore-button"
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          + Add Chore
-        </button>
-      )}
-      <AddChoreModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        houseCode={houseCode}
-        isMaintenanceMode={isMaintenanceMode}
-      />
-    </div>
+    <ChoreTable
+      chores={sortedChores}
+      houseCode={houseCode}
+      currentUserName={currentUserName}
+      currentUid={currentUid}
+      isAdmin={isAdmin}
+      isMaintenanceMode={isMaintenanceMode}
+      house={house}
+    />
   );
 }
