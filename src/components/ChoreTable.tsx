@@ -128,10 +128,17 @@ export default function ChoreTable({
   };
 
   // Check if user can toggle (must be assigned to them)
+  // Check both UID and name to handle all cases
   const canToggle = (chore: Chore): boolean => {
+    // If both UIDs exist, match by UID
     if (currentUid && chore.assignedToUid) {
       return chore.assignedToUid === currentUid;
     }
+    // If chore has UID but user doesn't, can't match
+    if (chore.assignedToUid && !currentUid) {
+      return false;
+    }
+    // Fallback to name matching (for backward compatibility or when UIDs not set)
     return currentUserName ? currentUserName === chore.assignedTo : false;
   };
 
@@ -400,13 +407,11 @@ export default function ChoreTable({
                             className="swap-select"
                           >
                             <option value="">Select...</option>
-                            {members
-                              .filter(m => m.uid !== chore.assignedToUid)
-                              .map(member => (
-                                <option key={member.uid} value={member.uid}>
-                                  {member.name}
-                                </option>
-                              ))}
+                            {members.map(member => (
+                              <option key={member.uid} value={member.uid}>
+                                {member.name}
+                              </option>
+                            ))}
                           </select>
                           <button onClick={() => handleSaveSwap(chore.id)} className="btn-save" disabled={!swapTargetUid}>
                             Swap
