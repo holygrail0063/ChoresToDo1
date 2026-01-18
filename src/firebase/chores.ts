@@ -108,8 +108,9 @@ export const deleteChore = async (
 };
 
 /**
- * Updates all chores assigned to a specific user (by uid) with a new name
- * This is called when a user changes their name
+ * Updates all chores assigned to a specific user (by uid or by name) with a new name and uid
+ * This is called when a user changes their name or enters their name for the first time
+ * It links existing chores assigned by name to the user's UID
  */
 export const updateChoresForUser = async (
   houseCode: string,
@@ -121,14 +122,33 @@ export const updateChoresForUser = async (
   
   const updatePromises: Promise<void>[] = [];
   
+  // Normalize name for comparison (trim + toLowerCase)
+  const normalizeName = (name: string | null | undefined): string => {
+    return (name || '').trim().toLowerCase();
+  };
+  const normalizedNewName = normalizeName(newName);
+  
   snapshot.forEach((docSnap) => {
     const chore = docSnap.data() as Chore;
+    const choreRef = doc(db, 'houses', houseCode, 'chores', docSnap.id);
+    const normalizedAssignedTo = normalizeName(chore.assignedTo);
+    
     // Update chores that are assigned to this user by uid
     if (chore.assignedToUid === uid) {
-      const choreRef = doc(db, 'houses', houseCode, 'chores', docSnap.id);
       updatePromises.push(
         updateDoc(choreRef, {
           assignedTo: newName,
+          updatedAt: serverTimestamp(),
+        })
+      );
+    }
+    // Also update chores assigned by name (but not by UID) to link them to this user's UID
+    // This ensures "My Chores" filtering works for existing chores assigned by name
+    else if (!chore.assignedToUid && normalizedAssignedTo === normalizedNewName) {
+      updatePromises.push(
+        updateDoc(choreRef, {
+          assignedTo: newName,
+          assignedToUid: uid,
           updatedAt: serverTimestamp(),
         })
       );

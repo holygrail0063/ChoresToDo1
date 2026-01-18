@@ -320,49 +320,82 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .chore-table-container {
-    padding: 16px;
+    padding: 12px;
     padding-bottom: 100px;
   }
 
   .chore-table-card {
-    padding: 16px;
+    padding: 12px;
     border-radius: 8px;
+    margin-bottom: 12px;
   }
 
   .chore-table-title {
     font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .chore-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -12px;
+    padding: 0 12px;
   }
 
   .chore-table {
-    font-size: 13px;
+    font-size: 12px;
+    min-width: 800px; /* Ensure table doesn't shrink too much */
   }
 
   .chore-table th,
   .chore-table td {
-    padding: 10px 8px;
+    padding: 8px 6px;
+  }
+
+  /* Reduce column widths on mobile but keep table scrollable */
+  .col-done {
+    width: 50px;
   }
 
   .col-task {
-    min-width: 150px;
+    min-width: 200px;
   }
 
-  .col-category,
-  .col-status,
+  .col-category {
+    width: 120px;
+  }
+
+  .col-status {
+    width: 100px;
+  }
+
   .col-due-date {
-    min-width: 100px;
+    width: 120px;
+    font-size: 11px;
+  }
+
+  .col-actions {
+    width: 60px;
+  }
+
+  .chore-checkbox {
+    width: 16px;
+    height: 16px;
   }
 
   .task-name {
-    font-size: 13px;
+    font-size: 12px;
+    margin-bottom: 2px;
   }
 
   .task-assigned {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .status-badge {
-    font-size: 11px;
-    padding: 3px 10px;
+    font-size: 10px;
+    padding: 3px 8px;
+    white-space: nowrap;
   }
 
   .action-buttons-inline {
@@ -373,11 +406,19 @@
   .btn-save,
   .btn-cancel {
     width: 100%;
-    padding: 8px;
+    padding: 6px;
+    font-size: 11px;
   }
 
   .swap-select {
     width: 100%;
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  .action-menu-trigger {
+    font-size: 18px;
+    padding: 2px 6px;
   }
 
   .add-chore-button {
