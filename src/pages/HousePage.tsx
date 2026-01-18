@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { signInAnonymous, waitForAuth } from '../firebase/auth';
-import { getHouse, addMember, House } from '../firebase/houses';
-import { getUserName, setUserName } from '../utils/storage';
+import { getHouse, House } from '../firebase/houses';
 import { normalizeHouseCode } from '../utils/houseCode';
 import { startOfWeekMonday, formatWeekRange } from '../utils/weekUtils';
-import { updateChoresForUser } from '../firebase/chores';
 import { getSiteSettings } from '../firebase/siteSettings';
 import HouseHeader from '../components/HouseHeader';
 import ChoreList from '../components/ChoreList';
-import NameModal from '../components/NameModal';
 import MaintenanceBanner from '../components/MaintenanceBanner';
 import './HousePage.css';
 
@@ -18,13 +15,10 @@ export default function HousePage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentUserName, setCurrentUserName] = useState<string | null>(null);
   const [currentUid, setCurrentUid] = useState<string | null>(null);
-  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [houseName, setHouseName] = useState<string>('');
   const [house, setHouse] = useState<House | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [viewMode, setViewMode] = useState<'my' | 'all'>('all');
   const [weekRange, setWeekRange] = useState<{ fromLabel: string; toLabel: string } | null>(null);
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
 
@@ -89,35 +83,6 @@ export default function HousePage() {
         
         setWeekRange({ fromLabel, toLabel });
 
-        // Migration: If house has no membersMap, initialize it
-        if (!houseData.membersMap || Object.keys(houseData.membersMap).length === 0) {
-          // Legacy house - check localStorage for name
-          const userName = getUserName(normalizedCode);
-          if (userName) {
-            // Add user to membersMap
-            await addMember(normalizedCode, uid, userName);
-            // Reload house
-            const updatedHouse = await getHouse(normalizedCode);
-            if (updatedHouse) {
-              setHouse(updatedHouse);
-            }
-          }
-        }
-
-        // Check membership
-        const membersMap = houseData.membersMap || {};
-        const userMember = membersMap[uid];
-        
-        if (!userMember) {
-          // User not a member - force Set Name
-          setIsNameModalOpen(true);
-        } else {
-          // User is a member - set name from Firestore
-          setCurrentUserName(userMember.name);
-          // Also cache in localStorage for backward compatibility
-          setUserName(normalizedCode, userMember.name);
-        }
-
         setIsLoading(false);
       } catch (error) {
         console.error('Error initializing house:', error);
@@ -129,40 +94,6 @@ export default function HousePage() {
     initialize();
   }, [rawHouseCode, navigate]);
 
-  const handleNameChange = async (name: string | null) => {
-    const normalizedCode = rawHouseCode ? normalizeHouseCode(rawHouseCode) : '';
-    if (!name || !normalizedCode || !currentUid) return;
-    
-    const hadNameBefore = !!currentUserName;
-    
-    try {
-      // Add user to house members (updates membersMap)
-      await addMember(normalizedCode, currentUid, name);
-      
-      // Update all chores assigned to this user with the new name
-      await updateChoresForUser(normalizedCode, currentUid, name);
-      
-      // Update local state
-      setCurrentUserName(name);
-      setUserName(normalizedCode, name); // Cache in localStorage
-      
-      // Switch to "My Chores" view when name is set or changed
-      if (!hadNameBefore || viewMode === 'all') {
-        setViewMode('my');
-      }
-      
-      // Reload house to get updated membersMap
-      const updatedHouse = await getHouse(normalizedCode);
-      if (updatedHouse) {
-        setHouse(updatedHouse);
-      }
-      
-      setIsNameModalOpen(false);
-    } catch (error) {
-      console.error('Error saving name:', error);
-      alert('Failed to save name. Please try again.');
-    }
-  };
 
   const normalizedCode = rawHouseCode ? normalizeHouseCode(rawHouseCode) : '';
 
@@ -197,51 +128,22 @@ export default function HousePage() {
         houseName={houseName} 
         currentUid={currentUid}
         house={house}
-        onNameChange={handleNameChange} 
       />
       
-      {currentUserName && (
-        <>
-          {weekRange && (
-            <div className="rotation-week-header">
-              <h2>
-                {weekRange.fromLabel} — {weekRange.toLabel}
-              </h2>
-            </div>
-          )}
-          
-          <div className="view-toggle">
-            <button
-              className={`toggle-button ${viewMode === 'my' ? 'active' : ''}`}
-              onClick={() => setViewMode('my')}
-            >
-              My Chores
-            </button>
-            <button
-              className={`toggle-button ${viewMode === 'all' ? 'active' : ''}`}
-              onClick={() => setViewMode('all')}
-            >
-              All Chores
-            </button>
-          </div>
-          
-          <ChoreList 
-            houseCode={normalizedCode}
-            isMaintenanceMode={isMaintenanceMode} 
-            currentUserName={currentUserName}
-            currentUid={currentUid}
-            isAdmin={isAdmin}
-            viewMode={viewMode}
-            house={house}
-          />
-        </>
+      {weekRange && (
+        <div className="rotation-week-header">
+          <h2>
+            {weekRange.fromLabel} — {weekRange.toLabel}
+          </h2>
+        </div>
       )}
       
-      <NameModal
-        isOpen={isNameModalOpen}
-        currentName={null}
-        onSave={handleNameChange}
-        required={true}
+      <ChoreList 
+        houseCode={normalizedCode}
+        isMaintenanceMode={isMaintenanceMode} 
+        currentUid={currentUid}
+        isAdmin={isAdmin}
+        house={house}
       />
     </div>
   );

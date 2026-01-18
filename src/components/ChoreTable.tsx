@@ -7,7 +7,6 @@ import './ChoreTable.css';
 interface ChoreTableProps {
   chores: Chore[];
   houseCode: string;
-  currentUserName: string | null;
   currentUid?: string | null;
   isAdmin?: boolean;
   isMaintenanceMode?: boolean;
@@ -17,7 +16,6 @@ interface ChoreTableProps {
 export default function ChoreTable({
   chores,
   houseCode,
-  currentUserName,
   currentUid,
   isAdmin = false,
   isMaintenanceMode = false,
@@ -136,50 +134,25 @@ export default function ChoreTable({
     return `${month} ${day}, ${year}`;
   };
 
-  // Normalize string for comparison (trim + toLowerCase)
-  const normalizeString = (str: string | null | undefined): string => {
-    return (str || '').trim().toLowerCase();
-  };
-
-  // Check if user can toggle (must be assigned to them)
-  // Use consistent normalized name comparison (same source as HouseHeader)
-  const canToggle = (chore: Chore): boolean => {
-    // If no current user name, can't toggle
-    if (!currentUserName) {
-      return false;
-    }
-
-    // If chore has no assignee, can't toggle
-    if (!chore.assignedTo) {
-      return false;
-    }
-
-    // Use UID comparison if both are available (more reliable)
-    if (currentUid && chore.assignedToUid) {
-      return chore.assignedToUid === currentUid;
-    }
-
-    // Otherwise, use normalized name comparison (consistent with app-wide display)
-    const normalizedCurrentName = normalizeString(currentUserName);
-    const normalizedAssignedTo = normalizeString(chore.assignedTo);
-    
-    return normalizedCurrentName === normalizedAssignedTo;
+  // Check if user can toggle - enable all checkboxes (no name-based restrictions)
+  const canToggle = (): boolean => {
+    return !isMaintenanceMode;
   };
 
   // Check if user can edit
   const canEditChore = (): boolean => {
-    return !isMaintenanceMode && !!(currentUserName && currentUid);
+    return !isMaintenanceMode;
   };
 
   // Handle toggle checkbox
   const handleToggle = async (chore: Chore) => {
-    if (!canToggle(chore) || isMaintenanceMode) return;
+    if (!canToggle() || isMaintenanceMode) return;
 
     const now = new Date().toISOString();
     const newIsDone = !chore.isDone;
     
     const editHistory: ChoreEditHistory = {
-      changedBy: currentUserName || 'Unknown',
+      changedBy: 'User',
       changedByUid: currentUid || undefined,
       changedAt: now,
       changeType: newIsDone ? 'completed' : 'uncompleted',
@@ -226,7 +199,7 @@ export default function ChoreTable({
     }
     
     const editHistory: ChoreEditHistory = {
-      changedBy: currentUserName || 'Unknown',
+      changedBy: 'User',
       changedByUid: currentUid || undefined,
       changedAt: new Date().toISOString(),
       changeType: editedAssignedTo !== oldAssignedTo ? 'assigned' : 'dueDate',
@@ -278,7 +251,7 @@ export default function ChoreTable({
     const oldAssignedTo = chore.assignedTo;
 
     const editHistory: ChoreEditHistory = {
-      changedBy: currentUserName || 'Unknown',
+      changedBy: 'User',
       changedByUid: currentUid || undefined,
       changedAt: new Date().toISOString(),
       changeType: 'swapped',
@@ -372,9 +345,9 @@ export default function ChoreTable({
                         type="checkbox"
                         checked={chore.isDone}
                         onChange={() => handleToggle(chore)}
-                        disabled={!canToggle(chore) || isMaintenanceMode || isEditing || isSwapping}
+                        disabled={!canToggle() || isMaintenanceMode || isEditing || isSwapping}
                         className="chore-checkbox"
-                        title={canToggle(chore) ? "Mark as done" : "Assigned to another user"}
+                        title={canToggle() ? "Mark as done" : "Disabled during maintenance"}
                       />
                     </td>
                     <td className="col-task">

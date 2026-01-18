@@ -1,7 +1,4 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NameModal from './NameModal';
-import { getUserName, setUserName } from '../utils/storage';
 import { House } from '../firebase/houses';
 import { buildHouseShareLink, copyToClipboard } from '../utils/shareLink';
 import './HouseHeader.css';
@@ -11,26 +8,10 @@ interface HouseHeaderProps {
   houseName?: string;
   currentUid?: string | null;
   house?: House | null;
-  onNameChange: (name: string | null) => void;
 }
 
-export default function HouseHeader({ houseCode, houseName, currentUid, house, onNameChange }: HouseHeaderProps) {
+export default function HouseHeader({ houseCode, houseName }: HouseHeaderProps) {
   const navigate = useNavigate();
-  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
-  
-  // Get name from Firestore membersMap (source of truth) or fallback to localStorage
-  const getDisplayName = (): string | null => {
-    if (currentUid && house?.membersMap) {
-      const member = house.membersMap[currentUid];
-      if (member) {
-        return member.name;
-      }
-    }
-    // Fallback to localStorage for backward compatibility
-    return getUserName(houseCode);
-  };
-  
-  const currentName = getDisplayName();
 
   const handleCopyLink = async () => {
     try {
@@ -42,12 +23,6 @@ export default function HouseHeader({ houseCode, houseName, currentUid, house, o
     }
   };
 
-  const handleNameSave = async (name: string) => {
-    setUserName(houseCode, name); // Cache in localStorage
-    await onNameChange(name); // This will update Firestore
-    setIsNameModalOpen(false);
-  };
-
   return (
     <header className="house-header">
       <div className="header-content">
@@ -56,26 +31,6 @@ export default function HouseHeader({ houseCode, houseName, currentUid, house, o
           <span className="house-code">Code: {houseCode}</span>
         </div>
         <div className="header-right">
-          <div className="user-name-section">
-            {currentName ? (
-              <>
-                <span className="user-name">{currentName}</span>
-                <button
-                  onClick={() => setIsNameModalOpen(true)}
-                  className="change-name-button"
-                >
-                  Change name
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={() => setIsNameModalOpen(true)}
-                className="set-name-button"
-              >
-                Set your name
-              </button>
-            )}
-          </div>
           <button onClick={handleCopyLink} className="share-button">
             📋 Copy Share Link
           </button>
@@ -87,11 +42,6 @@ export default function HouseHeader({ houseCode, houseName, currentUid, house, o
           </button>
         </div>
       </div>
-      <NameModal
-        isOpen={isNameModalOpen}
-        currentName={currentName}
-        onSave={handleNameSave}
-      />
     </header>
   );
 }
