@@ -66,13 +66,19 @@
 }
 
 .col-no {
-  width: 50px;
+  width: 60px;
   text-align: center;
 }
 
-.row-number {
+.col-no .row-number {
+  display: block;
   color: #999;
   font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.col-no .chore-checkbox {
+  margin-top: 4px;
 }
 
 .col-task {

@@ -299,15 +299,15 @@ export default function ChoreTable({
                 return (
                   <tr key={chore.id} className={chore.isDone ? 'row-completed' : ''}>
                     <td className="col-no">
-                      {isEditing || isSwapping ? (
-                        <span className="row-number">{index + 1}</span>
-                      ) : (
+                      <span className="row-number">{index + 1}</span>
+                      {!isEditing && !isSwapping && canToggle(chore) && (
                         <input
                           type="checkbox"
                           checked={chore.isDone}
                           onChange={() => handleToggle(chore)}
-                          disabled={!canToggle(chore) || isMaintenanceMode}
+                          disabled={isMaintenanceMode}
                           className="chore-checkbox"
+                          title="Mark as done"
                         />
                       )}
                     </td>
