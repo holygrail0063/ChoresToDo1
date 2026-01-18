@@ -54,35 +54,73 @@ export default function ChoreTable({
     return 'General';
   };
 
-  // Get status for a chore
-  const getStatus = (chore: Chore): { label: string; variant: 'completed' | 'in-progress' | 'overdue' | 'pending' | 'due-soon' } => {
+  // Parse date string as local date (YYYY-MM-DD format)
+  const parseLocalDate = (dateString: string): Date | null => {
+    if (!dateString) return null;
+    // If it's in YYYY-MM-DD format, parse as local date
+    if (dateString.match(/^\d{4}-\d{2}-\d{2}/)) {
+      const [year, month, day] = dateString.split('T')[0].split('-').map(Number);
+      return new Date(year, month - 1, day);
+    }
+    // Otherwise parse normally and extract date parts
+    const date = new Date(dateString);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  };
+
+  // Get status for a chore (in priority order)
+  const getStatus = (chore: Chore): { label: string; variant: 'completed' | 'overdue' | 'due-today' | 'due-soon' | 'pending' } => {
+    // 1. If done => Completed
     if (chore.isDone) {
       return { label: 'Completed', variant: 'completed' };
     }
+    
+    // 2. If no due date => Pending
     if (!chore.dueDate) {
       return { label: 'Pending', variant: 'pending' };
     }
-    const dueDate = new Date(chore.dueDate);
+    
+    // Parse due date as local date
+    const dueDate = parseLocalDate(chore.dueDate);
+    if (!dueDate) {
+      return { label: 'Pending', variant: 'pending' };
+    }
+    
+    // Get today at start of day (00:00:00)
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const due = new Date(dueDate);
-    due.setHours(0, 0, 0, 0);
-    const daysUntilDue = Math.ceil((due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     
-    if (due < today) {
+    // Get due date at end of day (23:59:59)
+    const endOfDueDate = new Date(dueDate);
+    endOfDueDate.setHours(23, 59, 59, 999);
+    
+    // Calculate days until due
+    const daysUntilDue = Math.ceil((dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    
+    // 3. If overdue (today > end of due date) => Overdue
+    if (today > endOfDueDate) {
       return { label: 'Overdue', variant: 'overdue' };
     }
+    
+    // 4. If due today => Due Today
+    if (daysUntilDue === 0) {
+      return { label: 'Due Today', variant: 'due-today' };
+    }
+    
+    // 5. If due within 2 days => Due Soon
     if (daysUntilDue <= 2) {
       return { label: 'Due Soon', variant: 'due-soon' };
     }
+    
+    // 6. Otherwise => Pending
     return { label: 'Pending', variant: 'pending' };
   };
 
-  // Format due date
+  // Format due date (parse as local date to avoid timezone issues)
   const formatDueDate = (dueDate: string | null): string => {
     if (!dueDate) return '—';
-    const date = new Date(dueDate);
-    return date.toLocaleDateString('en-US', {
+    const localDate = parseLocalDate(dueDate);
+    if (!localDate) return '—';
+    return localDate.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
@@ -282,7 +320,7 @@ export default function ChoreTable({
           <table className="chore-table">
             <thead>
               <tr>
-                <th className="col-no">No</th>
+                <th className="col-done">Done</th>
                 <th className="col-task">Task</th>
                 <th className="col-category">Category</th>
                 <th className="col-status">Status</th>
@@ -291,25 +329,22 @@ export default function ChoreTable({
               </tr>
             </thead>
             <tbody>
-              {chores.map((chore, index) => {
+              {chores.map((chore) => {
                 const status = getStatus(chore);
                 const isEditing = editingChoreId === chore.id;
                 const isSwapping = swappingChoreId === chore.id;
 
                 return (
                   <tr key={chore.id} className={chore.isDone ? 'row-completed' : ''}>
-                    <td className="col-no">
-                      <span className="row-number">{index + 1}</span>
-                      {!isEditing && !isSwapping && canToggle(chore) && (
-                        <input
-                          type="checkbox"
-                          checked={chore.isDone}
-                          onChange={() => handleToggle(chore)}
-                          disabled={isMaintenanceMode}
-                          className="chore-checkbox"
-                          title="Mark as done"
-                        />
-                      )}
+                    <td className="col-done">
+                      <input
+                        type="checkbox"
+                        checked={chore.isDone}
+                        onChange={() => handleToggle(chore)}
+                        disabled={!canToggle(chore) || isMaintenanceMode || isEditing || isSwapping}
+                        className="chore-checkbox"
+                        title={canToggle(chore) ? "Mark as done" : "Assigned to another user"}
+                      />
                     </td>
                     <td className="col-task">
                       {isEditing ? (
