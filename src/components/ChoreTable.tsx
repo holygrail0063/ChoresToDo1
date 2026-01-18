@@ -55,14 +55,20 @@ export default function ChoreTable({
   };
 
   // Parse date string as local date (YYYY-MM-DD format)
+  // DO NOT use new Date("YYYY-MM-DD") as it causes timezone shift
   const parseLocalDate = (dateString: string): Date | null => {
     if (!dateString) return null;
+    
+    // Extract date part (handle ISO strings like "2026-01-19T00:00:00.000Z")
+    const datePart = dateString.split('T')[0];
+    
     // If it's in YYYY-MM-DD format, parse as local date
-    if (dateString.match(/^\d{4}-\d{2}-\d{2}/)) {
-      const [year, month, day] = dateString.split('T')[0].split('-').map(Number);
-      return new Date(year, month - 1, day);
+    if (datePart.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      const [y, m, d] = datePart.split('-').map(Number);
+      return new Date(y, m - 1, d);
     }
-    // Otherwise parse normally and extract date parts
+    
+    // Otherwise parse normally and extract date parts as local
     const date = new Date(dateString);
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   };
@@ -116,30 +122,48 @@ export default function ChoreTable({
   };
 
   // Format due date (parse as local date to avoid timezone issues)
+  // Format as "MMM d, yyyy" (e.g., "Jan 19, 2026")
   const formatDueDate = (dueDate: string | null): string => {
     if (!dueDate) return '—';
     const localDate = parseLocalDate(dueDate);
     if (!localDate) return '—';
-    return localDate.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
+    
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = months[localDate.getMonth()];
+    const day = localDate.getDate();
+    const year = localDate.getFullYear();
+    
+    return `${month} ${day}, ${year}`;
+  };
+
+  // Normalize string for comparison (trim + toLowerCase)
+  const normalizeString = (str: string | null | undefined): string => {
+    return (str || '').trim().toLowerCase();
   };
 
   // Check if user can toggle (must be assigned to them)
-  // Check both UID and name to handle all cases
+  // Use consistent normalized name comparison (same source as HouseHeader)
   const canToggle = (chore: Chore): boolean => {
-    // If both UIDs exist, match by UID
+    // If no current user name, can't toggle
+    if (!currentUserName) {
+      return false;
+    }
+
+    // If chore has no assignee, can't toggle
+    if (!chore.assignedTo) {
+      return false;
+    }
+
+    // Use UID comparison if both are available (more reliable)
     if (currentUid && chore.assignedToUid) {
       return chore.assignedToUid === currentUid;
     }
-    // If chore has UID but user doesn't, can't match
-    if (chore.assignedToUid && !currentUid) {
-      return false;
-    }
-    // Fallback to name matching (for backward compatibility or when UIDs not set)
-    return currentUserName ? currentUserName === chore.assignedTo : false;
+
+    // Otherwise, use normalized name comparison (consistent with app-wide display)
+    const normalizedCurrentName = normalizeString(currentUserName);
+    const normalizedAssignedTo = normalizeString(chore.assignedTo);
+    
+    return normalizedCurrentName === normalizedAssignedTo;
   };
 
   // Check if user can edit

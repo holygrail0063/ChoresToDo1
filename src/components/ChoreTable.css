@@ -34,6 +34,7 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  table-layout: fixed; /* Fixed layout for consistent column widths */
 }
 
 .chore-table thead {
@@ -49,6 +50,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 2px solid #e9ecef;
+  white-space: nowrap; /* Prevent header text wrapping */
 }
 
 .chore-table td {
@@ -65,33 +67,34 @@
   opacity: 0.7;
 }
 
+/* Column widths - must match header and body exactly */
 .col-done {
-  width: 50px;
+  width: 60px;
   text-align: center;
 }
 
 .col-task {
-  min-width: 200px;
+  min-width: 260px;
 }
 
 .col-category {
-  min-width: 150px;
+  width: 180px;
   color: #666;
 }
 
 .col-status {
-  min-width: 120px;
+  width: 160px;
 }
 
 .col-due-date {
-  min-width: 120px;
+  width: 160px;
   text-align: right;
   color: #666;
 }
 
 .col-actions {
   width: 80px;
-  text-align: right;
+  text-align: center;
 }
 
 .chore-checkbox {
