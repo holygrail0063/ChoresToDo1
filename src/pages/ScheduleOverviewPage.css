@@ -113,11 +113,6 @@
   margin: 0 0 20px 0;
 }
 
-/* Desktop Table View */
-.desktop-view {
-  display: block;
-}
-
 .schedule-table-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -174,6 +169,12 @@
 }
 
 .week-range {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.week-range-dates {
   font-weight: 500;
   color: #333;
 }
@@ -183,7 +184,6 @@
   color: #999;
   font-weight: normal;
   font-style: italic;
-  margin-left: 8px;
 }
 
 .member-name {
@@ -204,71 +204,6 @@
 .no-assignment {
   color: #999;
   font-style: italic;
-}
-
-/* Mobile Card View */
-.mobile-view {
-  display: none;
-}
-
-.schedule-cards-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.week-card {
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  overflow: hidden;
-}
-
-.week-card-header {
-  background: #667eea;
-  color: white;
-  padding: 12px 16px;
-}
-
-.week-card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0;
-  color: white;
-}
-
-.week-card-body {
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.week-card-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.week-card-row:last-child {
-  border-bottom: none;
-}
-
-.week-card-task {
-  flex: 1;
-  font-weight: 500;
-  color: #333;
-  margin-right: 16px;
-  word-wrap: break-word;
-}
-
-.week-card-member {
-  flex-shrink: 0;
-  text-align: right;
-  color: #4a90e2;
-  font-weight: 500;
 }
 
 .loading-container {
@@ -348,13 +283,37 @@
     margin-bottom: 12px;
   }
 
-  /* Hide desktop table on mobile */
-  .desktop-view {
-    display: none;
+  .schedule-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -12px;
+    padding: 0 12px;
   }
 
-  /* Show mobile cards on mobile */
-  .mobile-view {
-    display: block;
+  .schedule-table {
+    font-size: 12px;
+    min-width: 600px;
+  }
+
+  .schedule-table th,
+  .schedule-table td {
+    padding: 10px 8px;
+  }
+
+  .col-week-range {
+    width: 140px;
+    min-width: 140px;
+  }
+
+  .col-task-assignment {
+    min-width: 120px;
+  }
+
+  .week-range-dates {
+    font-size: 0.9rem;
+  }
+
+  .rotation-debug {
+    font-size: 0.7rem;
   }
 }

@@ -191,7 +191,7 @@ export default function ScheduleOverviewPage() {
           <button onClick={handlePrevMonth} className="month-nav-button">←</button>
           <div className="month-display">
             <h2>{monthName}</h2>
-            <button onClick={handleToday} className="today-button">Today</button>
+            <button onClick={handleToday} className="today-button">Current Week</button>
           </div>
           <button onClick={handleNextMonth} className="month-nav-button">→</button>
         </div>
@@ -199,8 +199,7 @@ export default function ScheduleOverviewPage() {
         <div className="schedule-table-card">
           <h2 className="schedule-table-title">Schedule Overview</h2>
           
-          {/* Desktop Table View */}
-          <div className="schedule-table-wrapper desktop-view">
+          <div className="schedule-table-wrapper">
             <table className="schedule-table">
               <thead>
                 <tr>
@@ -224,7 +223,8 @@ export default function ScheduleOverviewPage() {
                     <tr key={idx}>
                       <td className="col-week-range">
                         <div className="week-range">
-                          {fromLabel} – {toLabel} <span className="rotation-debug">(Rotation: {debugRotationIndex})</span>
+                          <div className="week-range-dates">{fromLabel} – {toLabel}</div>
+                          <div className="rotation-debug">(Rotation: {debugRotationIndex})</div>
                         </div>
                       </td>
                       {taskColumns.map((task) => {
@@ -246,45 +246,6 @@ export default function ScheduleOverviewPage() {
                 })}
               </tbody>
             </table>
-          </div>
-
-          {/* Mobile Card View */}
-          <div className="schedule-cards-wrapper mobile-view">
-            {weeks.map((weekMonday, idx) => {
-              const normalizedWeekMonday = startOfWeekMonday(weekMonday);
-              const { fromLabel, toLabel } = formatWeekRange(normalizedWeekMonday);
-              const assignments = getAssignmentsForWeek(normalizedWeekMonday);
-              
-              // Calculate rotation index using calendar-safe method for mobile view
-              const debugRotationIndex = getRotationIndexForWeek(scheduleStartMonday, normalizedWeekMonday, cycleLength);
-              
-              return (
-                <div key={idx} className="week-card">
-                  <div className="week-card-header">
-                    <h3 className="week-card-title">{fromLabel} – {toLabel} <span className="rotation-debug">(Rotation: {debugRotationIndex})</span></h3>
-                  </div>
-                  <div className="week-card-body">
-                    {taskColumns.map((task) => {
-                      const member = assignments[task];
-                      return (
-                        <div key={task} className="week-card-row">
-                          <span className="week-card-task">{task}</span>
-                          <span className="week-card-member">
-                            {member === 'Unassigned' ? (
-                              <span className="unassigned-badge">Unassigned</span>
-                            ) : member ? (
-                              <span className="member-name">{member}</span>
-                            ) : (
-                              <span className="no-assignment">—</span>
-                            )}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
