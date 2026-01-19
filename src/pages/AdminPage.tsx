@@ -94,11 +94,45 @@ export default function AdminPage() {
   });
   const monthName = new Date(currentYear, currentMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
 
+  // Get fixed sole responsibility assignments (same every week)
+  const getSoleResponsibilityAssignments = (): Record<string, string | 'Unassigned'> => {
+    const soleAssignments: Record<string, string | 'Unassigned'> = {};
+    
+    if (house.soleResponsibilityAssignments) {
+      Object.keys(house.soleResponsibilityAssignments).forEach(task => {
+        const taskAssignments = house.soleResponsibilityAssignments![task] || [];
+        
+        if (taskAssignments.length === 0) {
+          // No assignments - mark as unassigned
+          soleAssignments[task] = 'Unassigned';
+        } else {
+          // Get all unique members from assignments (fixed, not rotating)
+          // For fixed assignments, we take all members from the assignments array
+          const members = new Set<string>();
+          taskAssignments.forEach((a: any) => {
+            if (a.member) {
+              members.add(a.member);
+            }
+          });
+          
+          if (members.size === 0) {
+            soleAssignments[task] = 'Unassigned';
+          } else {
+            // Join multiple members with comma if there are multiple
+            soleAssignments[task] = Array.from(members).join(', ');
+          }
+        }
+      });
+    }
+    
+    return soleAssignments;
+  };
+
   // Get assignments for a given week's Monday
   const getAssignmentsForWeek = (weekMonday: Date) => {
     const { rotationIndex } = getRotationWeek(scheduleStart, weekMonday, cycleLength);
     
-    const assignments: Record<string, string> = {};
+    const assignments: Record<string, string | 'Unassigned'> = {};
     
     // NEW APPROACH: Process common chore bundles (one bundle per member per week)
     if (house.commonChoreBundles && house.commonChoreBundles.length > 0 && house.members && house.members.length > 0) {
@@ -129,23 +163,11 @@ export default function AdminPage() {
       });
     }
     
-    // Process sole responsibility tasks
-    if (house.soleResponsibilityAssignments) {
-      Object.keys(house.soleResponsibilityAssignments).forEach(task => {
-        const taskAssignments = house.soleResponsibilityAssignments![task] || [];
-        const assignment = taskAssignments.find((a: any) => {
-          if ('rotationIndex' in a) {
-            return a.rotationIndex === rotationIndex;
-          } else {
-            // Legacy: map week 1-5 to rotation index
-            return (a.week - 1) % cycleLength === rotationIndex;
-          }
-        });
-        if (assignment) {
-          assignments[task] = assignment.member;
-        }
-      });
-    }
+    // Add fixed sole responsibility assignments (same for every week)
+    const soleAssignments = getSoleResponsibilityAssignments();
+    Object.keys(soleAssignments).forEach(task => {
+      assignments[task] = soleAssignments[task];
+    });
     
     return assignments;
   };
@@ -194,7 +216,11 @@ export default function AdminPage() {
                       {assignmentEntries.map(([task, member], taskIdx) => (
                         <div key={taskIdx} className="assignment-item">
                           <span className="task-name">{task}:</span>
-                          <span className="member-name">{member}</span>
+                          {member === 'Unassigned' ? (
+                            <span className="member-name unassigned-badge">Unassigned</span>
+                          ) : (
+                            <span className="member-name">{member}</span>
+                          )}
                         </div>
                       ))}
                     </div>

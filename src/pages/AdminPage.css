@@ -183,6 +183,15 @@
   font-weight: 500;
 }
 
+.unassigned-badge {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
 .no-assignments {
   color: #999;
   font-style: italic;
