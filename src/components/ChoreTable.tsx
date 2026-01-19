@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Chore, ChoreEditHistory, updateChore, deleteChore } from '../firebase/chores';
 import { House } from '../firebase/houses';
 import AddChoreModal from './AddChoreModal';
@@ -26,6 +27,15 @@ export default function ChoreTable({
   const [editedDueDate, setEditedDueDate] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [actionMenuOpen, setActionMenuOpen] = useState<string | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{ top: number; left: number; flipUp: boolean } | null>(null);
+  const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+  // Reset menu position when menu closes
+  useEffect(() => {
+    if (!actionMenuOpen) {
+      setMenuPosition(null);
+    }
+  }, [actionMenuOpen]);
 
   // Get list of members for dropdown
   // Combines membersMap (uid -> member) and members array (legacy) to show all house members
@@ -412,25 +422,58 @@ export default function ChoreTable({
                           {canEditChore() && (
                             <>
                               <button
+                                ref={(el) => { triggerRefs.current[chore.id] = el; }}
                                 className="action-menu-trigger"
-                                onClick={() => setActionMenuOpen(actionMenuOpen === chore.id ? null : chore.id)}
+                                onClick={() => {
+                                  const trigger = triggerRefs.current[chore.id];
+                                  if (trigger) {
+                                    const rect = trigger.getBoundingClientRect();
+                                    const viewportHeight = window.innerHeight;
+                                    const menuHeight = 100; // Approximate menu height
+                                    const spaceBelow = viewportHeight - rect.bottom;
+                                    const spaceAbove = rect.top;
+                                    const flipUp = spaceBelow < menuHeight && spaceAbove > spaceBelow;
+                                    
+                                    setMenuPosition({
+                                      top: flipUp ? rect.top - menuHeight : rect.bottom,
+                                      left: rect.right - 120, // Menu width is ~120px
+                                      flipUp,
+                                    });
+                                  }
+                                  setActionMenuOpen(actionMenuOpen === chore.id ? null : chore.id);
+                                }}
                               >
                                 ⋯
                               </button>
-                              {actionMenuOpen === chore.id && (
+                              {actionMenuOpen === chore.id && menuPosition && createPortal(
                                 <>
                                   <div className="action-menu-overlay" onClick={() => setActionMenuOpen(null)} />
-                                  <div className="action-menu">
-                                    <button onClick={() => handleStartEdit(chore)} className="action-menu-item">
+                                  <div 
+                                    className={`action-menu ${menuPosition.flipUp ? 'action-menu-flip-up' : ''}`}
+                                    style={{
+                                      position: 'fixed',
+                                      top: `${menuPosition.top}px`,
+                                      left: `${menuPosition.left}px`,
+                                      zIndex: 9999,
+                                    }}
+                                  >
+                                    <button onClick={() => {
+                                      handleStartEdit(chore);
+                                      setActionMenuOpen(null);
+                                    }} className="action-menu-item">
                                       Edit
                                     </button>
                                     {isAdmin && (
-                                      <button onClick={() => handleDelete(chore.id)} className="action-menu-item action-menu-item-danger">
+                                      <button onClick={() => {
+                                        handleDelete(chore.id);
+                                        setActionMenuOpen(null);
+                                      }} className="action-menu-item action-menu-item-danger">
                                         Delete
                                       </button>
                                     )}
                                   </div>
-                                </>
+                                </>,
+                                document.body
                               )}
                             </>
                           )}
