@@ -158,6 +158,14 @@ export default function AdminPage() {
     return assignments;
   };
 
+  // Get all unique tasks across all weeks to build column headers
+  const allTasks = new Set<string>();
+  weeks.forEach(weekMonday => {
+    const assignments = getAssignmentsForWeek(weekMonday);
+    Object.keys(assignments).forEach(task => allTasks.add(task));
+  });
+  const taskColumns = Array.from(allTasks).sort();
+
   return (
     <div className="admin-page">
       <div className="admin-container">
@@ -178,45 +186,50 @@ export default function AdminPage() {
           <button onClick={handleNextMonth} className="month-nav-button">→</button>
         </div>
 
-        <div className="weeks-table">
-          <div className="weeks-header">
-            <div className="week-col-header">Week Range</div>
-            <div className="week-col-header">Assignments</div>
-          </div>
-          
-          {weeks.map((weekMonday, idx) => {
-            const { fromLabel, toLabel } = formatWeekRange(weekMonday);
-            const assignments = getAssignmentsForWeek(weekMonday);
-            const assignmentEntries = Object.entries(assignments);
-            
-            return (
-              <div key={idx} className="week-row">
-                <div className="week-col">
-                  <div className="week-range">
-                    {fromLabel} – {toLabel}
-                  </div>
-                </div>
-                <div className="week-col assignments-col">
-                  {assignmentEntries.length > 0 ? (
-                    <div className="assignments-list">
-                      {assignmentEntries.map(([task, member], taskIdx) => (
-                        <div key={taskIdx} className="assignment-item">
-                          <span className="task-name">{task}:</span>
-                          {member === 'Unassigned' ? (
-                            <span className="member-name unassigned-badge">Unassigned</span>
-                          ) : (
-                            <span className="member-name">{member}</span>
-                          )}
+        <div className="schedule-table-card">
+          <h2 className="schedule-table-title">Schedule Overview</h2>
+          <div className="schedule-table-wrapper">
+            <table className="schedule-table">
+              <thead>
+                <tr>
+                  <th className="col-week-range">Week Range</th>
+                  {taskColumns.map((task) => (
+                    <th key={task} className="col-task-assignment">{task}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {weeks.map((weekMonday, idx) => {
+                  const { fromLabel, toLabel } = formatWeekRange(weekMonday);
+                  const assignments = getAssignmentsForWeek(weekMonday);
+                  
+                  return (
+                    <tr key={idx}>
+                      <td className="col-week-range">
+                        <div className="week-range">
+                          {fromLabel} – {toLabel}
                         </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="no-assignments">No assignments</span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+                      </td>
+                      {taskColumns.map((task) => {
+                        const member = assignments[task];
+                        return (
+                          <td key={task} className="col-task-assignment">
+                            {member === 'Unassigned' ? (
+                              <span className="member-name unassigned-badge">Unassigned</span>
+                            ) : member ? (
+                              <span className="member-name">{member}</span>
+                            ) : (
+                              <span className="no-assignment">—</span>
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
