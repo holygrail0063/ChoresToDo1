@@ -11,6 +11,7 @@ import {
   startOfWeekMonday 
 } from '../utils/weekUtils';
 import { getCommonAssignmentsForWeek, getSoleResponsibilityAssignmentForWeek } from '../utils/taskAssignment';
+import Footer from '../components/Footer';
 import './ScheduleOverviewPage.css';
 
 export default function ScheduleOverviewPage() {
@@ -249,6 +250,7 @@ export default function ScheduleOverviewPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

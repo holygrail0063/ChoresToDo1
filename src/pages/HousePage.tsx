@@ -8,6 +8,7 @@ import { getSiteSettings } from '../firebase/siteSettings';
 import HouseHeader from '../components/HouseHeader';
 import ChoreList from '../components/ChoreList';
 import MaintenanceBanner from '../components/MaintenanceBanner';
+import Footer from '../components/Footer';
 import './HousePage.css';
 
 export default function HousePage() {
@@ -120,32 +121,34 @@ export default function HousePage() {
 
   if (!normalizedCode || normalizedCode.length !== 6) return null;
 
-  return (
-    <div className="house-page">
-      <MaintenanceBanner />
-      <HouseHeader 
-        houseCode={normalizedCode} 
-        houseName={houseName} 
-        currentUid={currentUid}
-        house={house}
-      />
-      
-      {weekRange && (
-        <div className="rotation-week-header">
-          <h2>
-            {weekRange.fromLabel} — {weekRange.toLabel}
-          </h2>
+      return (
+        <div className="house-page">
+          <MaintenanceBanner />
+          <HouseHeader 
+            houseCode={normalizedCode} 
+            houseName={houseName} 
+            currentUid={currentUid}
+            house={house}
+          />
+          
+          {weekRange && (
+            <div className="rotation-week-header">
+              <h2>
+                {weekRange.fromLabel} — {weekRange.toLabel}
+              </h2>
+            </div>
+          )}
+          
+          <ChoreList 
+            houseCode={normalizedCode}
+            isMaintenanceMode={isMaintenanceMode} 
+            currentUid={currentUid}
+            isAdmin={isAdmin}
+            house={house}
+          />
+          
+          <Footer />
         </div>
-      )}
-      
-      <ChoreList 
-        houseCode={normalizedCode}
-        isMaintenanceMode={isMaintenanceMode} 
-        currentUid={currentUid}
-        isAdmin={isAdmin}
-        house={house}
-      />
-    </div>
-  );
+      );
 }
 

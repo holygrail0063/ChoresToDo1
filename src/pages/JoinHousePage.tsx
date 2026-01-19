@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { signInAnonymous } from '../firebase/auth';
 import { getHouse } from '../firebase/houses';
 import { normalizeHouseCode } from '../utils/houseCode';
+import Footer from '../components/Footer';
 import './JoinHousePage.css';
 
 export default function JoinHousePage() {
@@ -95,6 +96,7 @@ export default function JoinHousePage() {
           </button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

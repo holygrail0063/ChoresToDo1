@@ -8,6 +8,7 @@ import { buildHouseShareLink, copyToClipboard } from '../utils/shareLink';
 import { setUserName } from '../utils/storage';
 import { getSiteSettings } from '../firebase/siteSettings';
 import MaintenanceBanner from './MaintenanceBanner';
+import Footer from './Footer';
 import './SetupWizard.css';
 
 export default function SetupWizard() {
@@ -654,6 +655,7 @@ export default function SetupWizard() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -5,6 +5,8 @@ import JoinHousePage from './pages/JoinHousePage';
 import HousePage from './pages/HousePage';
 import ScheduleOverviewPage from './pages/ScheduleOverviewPage';
 import SiteAdminPage from './pages/SiteAdminPage';
+import AboutPage from './pages/AboutPage';
+import TermsPage from './pages/TermsPage';
 import './App.css';
 
 // Legacy route redirects
@@ -24,6 +26,8 @@ function App() {
         <Route path="/house/:houseCode/schedule" element={<ScheduleOverviewPage />} />
         <Route path="/house/:houseCode/admin" element={<ScheduleOverviewPage />} />
         <Route path="/Admin" element={<SiteAdminPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         {/* Legacy routes for backward compatibility */}
         <Route path="/h/:houseCode" element={<LegacyHouseRedirect />} />
         <Route path="*" element={<Navigate to="/" replace />} />
