@@ -9,7 +9,7 @@ import {
   timestampToDate,
   startOfWeekMonday 
 } from '../utils/weekUtils';
-import { getCommonAssignmentsForWeek } from '../utils/taskAssignment';
+import { getCommonAssignmentsForWeek, getSoleResponsibilityAssignmentForWeek } from '../utils/taskAssignment';
 import './AdminPage.css';
 
 export default function AdminPage() {
@@ -94,34 +94,20 @@ export default function AdminPage() {
   });
   const monthName = new Date(currentYear, currentMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
 
-  // Get fixed sole responsibility assignments (same every week)
-  const getSoleResponsibilityAssignments = (): Record<string, string | 'Unassigned'> => {
+  // Get sole responsibility assignments for a specific week (rotating through responsible members)
+  const getSoleResponsibilityAssignmentsForWeek = (weekMonday: Date): Record<string, string | 'Unassigned'> => {
     const soleAssignments: Record<string, string | 'Unassigned'> = {};
+    const scheduleStartMonday = startOfWeekMonday(scheduleStart);
     
     if (house.soleResponsibilityAssignments) {
       Object.keys(house.soleResponsibilityAssignments).forEach(task => {
         const taskAssignments = house.soleResponsibilityAssignments![task] || [];
-        
-        if (taskAssignments.length === 0) {
-          // No assignments - mark as unassigned
-          soleAssignments[task] = 'Unassigned';
-        } else {
-          // Get all unique members from assignments (fixed, not rotating)
-          // For fixed assignments, we take all members from the assignments array
-          const members = new Set<string>();
-          taskAssignments.forEach((a: any) => {
-            if (a.member) {
-              members.add(a.member);
-            }
-          });
-          
-          if (members.size === 0) {
-            soleAssignments[task] = 'Unassigned';
-          } else {
-            // Join multiple members with comma if there are multiple
-            soleAssignments[task] = Array.from(members).join(', ');
-          }
-        }
+        const assignedMember = getSoleResponsibilityAssignmentForWeek(
+          taskAssignments as Array<{ member: string; rotationIndex?: number; week?: number }>,
+          scheduleStartMonday,
+          weekMonday
+        );
+        soleAssignments[task] = assignedMember;
       });
     }
     
@@ -163,8 +149,8 @@ export default function AdminPage() {
       });
     }
     
-    // Add fixed sole responsibility assignments (same for every week)
-    const soleAssignments = getSoleResponsibilityAssignments();
+    // Add rotating sole responsibility assignments (one person per week, rotating through responsible members)
+    const soleAssignments = getSoleResponsibilityAssignmentsForWeek(weekMonday);
     Object.keys(soleAssignments).forEach(task => {
       assignments[task] = soleAssignments[task];
     });

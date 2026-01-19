@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore';
 import { db } from './config';
 import { startOfWeekMonday, endOfWeekSunday, getRotationWeek } from '../utils/weekUtils';
+import { getSoleResponsibilityAssignmentForWeek } from '../utils/taskAssignment';
 import { getCommonAssignmentsForWeek } from '../utils/taskAssignment';
 
 export interface ChoreEditHistory {
@@ -211,7 +212,7 @@ export const initializeChoresWithSchedule = async (
   soleResponsibilityTasks: string[],
   commonAreaAssignments: Record<string, Assignment[]>,
   soleResponsibilityAssignments: Record<string, Assignment[]>,
-  membersMap?: { [name: string]: string }, // Map member name to uid (optional for backward compatibility)
+  membersMap?: { [uid: string]: { name: string; joinedAt?: any } } | { [name: string]: string }, // Map uid to Member OR name to uid (for backward compatibility)
   scheduleStartDate?: Date,
   cycleLength?: number,
   commonChoreBundles?: Array<{ id: string; title: string; choreTitles: string[] }>, // New: bundles
@@ -241,7 +242,23 @@ export const initializeChoresWithSchedule = async (
         const bundle = commonChoreBundles.find(b => b.id === assignment.bundleId);
         if (!bundle) continue;
         
-        const assignedToUid = membersMap && assignment.memberName ? membersMap[assignment.memberName] : undefined;
+        // Find UID for the assigned member
+        let assignedToUid: string | undefined = undefined;
+        if (membersMap && assignment.memberName) {
+          // Check if membersMap is uid->Member format or name->uid format
+          const memberEntry = Object.entries(membersMap).find(([key, value]) => {
+            if (typeof value === 'string') {
+              // Legacy format: name -> uid
+              return key === assignment.memberName;
+            } else {
+              // New format: uid -> Member
+              return value.name === assignment.memberName;
+            }
+          });
+          if (memberEntry) {
+            assignedToUid = typeof memberEntry[1] === 'string' ? memberEntry[1] : memberEntry[0];
+          }
+        }
         
         await addDoc(choresRef, {
           title: bundle.title,
@@ -293,26 +310,40 @@ export const initializeChoresWithSchedule = async (
       }
     }
     
-    // Create chores for sole responsibility tasks with rotation-based assignments
+    // Create chores for sole responsibility tasks with rotating assignments
+    // Sole responsibility rotates through responsible members (one person per week)
     for (const task of soleResponsibilityTasks) {
       const weeklyAssignments = soleResponsibilityAssignments[task] || [];
+      const scheduleStartMonday = startOfWeekMonday(scheduleStart);
+      const todayMonday = startOfWeekMonday(today);
       
-      // Find assignment for current rotation index
-      const currentAssignment = weeklyAssignments.find(a => {
-        if ('rotationIndex' in a) {
-          return a.rotationIndex === rotationIndex;
-        } else {
-          // Legacy: map week 1-5 to rotation index
-          return (a.week - 1) % cycleLen === rotationIndex;
+      // Get assigned member for current week (rotates through responsible members)
+      const assignedMember = getSoleResponsibilityAssignmentForWeek(
+        weeklyAssignments as Array<{ member: string; rotationIndex?: number; week?: number }>,
+        scheduleStartMonday,
+        todayMonday
+      );
+      
+      let assignedToUid: string | undefined = undefined;
+      if (membersMap && assignedMember !== 'Unassigned' && assignedMember) {
+        // Find UID for the assigned member
+        const memberEntry = Object.entries(membersMap).find(([key, value]) => {
+          if (typeof value === 'string') {
+            // Legacy format: name -> uid
+            return key === assignedMember;
+          } else {
+            // New format: uid -> Member
+            return value.name === assignedMember;
+          }
+        });
+        if (memberEntry) {
+          assignedToUid = typeof memberEntry[1] === 'string' ? memberEntry[1] : memberEntry[0];
         }
-      });
-      
-      const assignedMember = currentAssignment?.member || '';
-      const assignedToUid = membersMap && assignedMember ? membersMap[assignedMember] : undefined;
+      }
       
       await addDoc(choresRef, {
         title: task,
-        assignedTo: assignedMember,
+        assignedTo: assignedMember !== 'Unassigned' ? assignedMember : '',
         assignedToUid: assignedToUid || null,
         dueDate: thisSunday.toISOString(),
         isDone: false,

@@ -208,3 +208,48 @@ export function getCommonAssignmentsForWeek(
   return assignments;
 }
 
+/**
+ * Gets the assigned member for a sole responsibility task for a given week
+ * Sole responsibility tasks rotate through their responsible members
+ * @param taskAssignments - Array of assignments from soleResponsibilityAssignments[task]
+ * @param scheduleStartMonday - Monday of the schedule start week
+ * @param weekMonday - Monday of the target week
+ * @returns Assigned member name or 'Unassigned' if no responsible members
+ */
+export function getSoleResponsibilityAssignmentForWeek(
+  taskAssignments: Array<{ member: string; rotationIndex?: number; week?: number }>,
+  scheduleStartMonday: Date,
+  weekMonday: Date
+): string | 'Unassigned' {
+  if (!taskAssignments || taskAssignments.length === 0) {
+    return 'Unassigned';
+  }
+
+  // Extract unique responsible members from assignments
+  const responsibleMembers = new Set<string>();
+  taskAssignments.forEach((a) => {
+    if (a.member) {
+      responsibleMembers.add(a.member);
+    }
+  });
+
+  if (responsibleMembers.size === 0) {
+    return 'Unassigned';
+  }
+
+  // If only one member, always assign that member
+  if (responsibleMembers.size === 1) {
+    return Array.from(responsibleMembers)[0];
+  }
+
+  // Calculate weeks elapsed
+  const diffMs = weekMonday.getTime() - scheduleStartMonday.getTime();
+  const weeksElapsed = Math.floor(diffMs / (7 * 24 * 60 * 60 * 1000));
+
+  // Calculate rotation index within responsible members
+  const responsibleMembersArray = Array.from(responsibleMembers);
+  const idx = weeksElapsed % responsibleMembersArray.length;
+
+  return responsibleMembersArray[idx];
+}
+
