@@ -389,8 +389,7 @@ export default function SetupWizard() {
 
               <div className="task-section">
                 <h3>Sole Responsibility Tasks</h3>
-                <p className="help-text">Fixed Chores
-Chores that don't rotate and are always handled by specific people (for example, a shared washroom between two rooms).</p>
+                <p className="help-text">Fixed Chores<br />Chores that don't rotate and are always handled by specific people (for example, a shared washroom between two rooms).</p>
                 <div className="task-input-group">
                   <input
                     type="text"
