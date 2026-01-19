@@ -79,15 +79,60 @@ export function formatWeekRange(monday: Date): {
 
 /**
  * Returns the integer number of weeks between two Monday-midnight dates
+ * Uses calendar-safe UTC date-only calculation to avoid DST issues
  */
 export function weeksBetweenMondays(aMonday: Date, bMonday: Date): number {
-  const diffMs = bMonday.getTime() - aMonday.getTime();
-  return Math.floor(diffMs / MS_PER_WEEK);
+  // Normalize both to Monday 00:00:00 local
+  const a = getWeekStartMonday(aMonday);
+  const b = getWeekStartMonday(bMonday);
+  
+  // Use UTC date-only to avoid DST issues
+  const aUTC = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const bUTC = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  
+  const diffMs = bUTC - aUTC;
+  const diffDays = Math.floor(diffMs / MS_PER_DAY);
+  const weeksElapsed = Math.floor(diffDays / 7);
+  
+  return weeksElapsed;
+}
+
+/**
+ * Computes the rotation index for a specific week using calendar-safe calculation
+ * This function avoids DST issues by using UTC date-only calculations
+ * 
+ * @param scheduleStartMonday - Monday 00:00:00 local of the schedule start
+ * @param weekStartMonday - Monday 00:00:00 local of the target week
+ * @param cycleLength - Number of weeks in the rotation cycle
+ * @returns Rotation index (0 to cycleLength-1)
+ */
+export function getRotationIndexForWeek(
+  scheduleStartMonday: Date,
+  weekStartMonday: Date,
+  cycleLength: number
+): number {
+  // Normalize both dates to Monday 00:00:00 local
+  const scheduleMonday = getWeekStartMonday(scheduleStartMonday);
+  const targetMonday = getWeekStartMonday(weekStartMonday);
+  
+  // Use UTC date-only to avoid DST issues
+  const scheduleUTC = Date.UTC(scheduleMonday.getFullYear(), scheduleMonday.getMonth(), scheduleMonday.getDate());
+  const targetUTC = Date.UTC(targetMonday.getFullYear(), targetMonday.getMonth(), targetMonday.getDate());
+  
+  const diffMs = targetUTC - scheduleUTC;
+  const diffDays = Math.floor(diffMs / MS_PER_DAY);
+  const weeksElapsed = Math.floor(diffDays / 7);
+  
+  // Calculate rotation index with safe negative handling
+  const rotationIndex = ((weeksElapsed % cycleLength) + cycleLength) % cycleLength;
+  
+  return rotationIndex;
 }
 
 /**
  * Computes the rotation week based on schedule start date and cycle length
  * Uses normalized Monday 00:00:00 dates for accurate week calculations
+ * Now uses calendar-safe getRotationIndexForWeek internally
  */
 export function getRotationWeek(
   scheduleStartDate: Date,
@@ -102,12 +147,12 @@ export function getRotationWeek(
   const scheduleMonday = getWeekStartMonday(scheduleStartDate);
   const targetWeekMonday = getWeekStartMonday(targetDate);
   
-  // Calculate weeks elapsed using normalized Monday dates
-  const diffMs = targetWeekMonday.getTime() - scheduleMonday.getTime();
-  const weeksElapsed = Math.floor(diffMs / MS_PER_WEEK);
+  // Use calendar-safe calculation
+  const rotationIndex = getRotationIndexForWeek(scheduleMonday, targetWeekMonday, cycleLength);
   
-  // Calculate rotation index with safe negative handling
-  const rotationIndex = ((weeksElapsed % cycleLength) + cycleLength) % cycleLength;
+  // Calculate weeksElapsed using calendar-safe method
+  const weeksElapsed = weeksBetweenMondays(scheduleMonday, targetWeekMonday);
+  
   const rotationWeek = rotationIndex + 1;
   
   return {

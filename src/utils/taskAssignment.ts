@@ -170,9 +170,22 @@ export function getWeekRotationIndex(
   weekMonday: Date,
   cycleLength: number
 ): number {
-  const diffMs = weekMonday.getTime() - scheduleStartMonday.getTime();
-  const weeksElapsed = Math.floor(diffMs / (7 * 24 * 60 * 60 * 1000));
-  return weeksElapsed % cycleLength;
+  // Normalize both dates to Monday 00:00:00 local
+  const scheduleMonday = new Date(scheduleStartMonday);
+  scheduleMonday.setHours(0, 0, 0, 0);
+  const targetMonday = new Date(weekMonday);
+  targetMonday.setHours(0, 0, 0, 0);
+
+  // Use UTC date-only to avoid DST issues
+  const scheduleUTC = Date.UTC(scheduleMonday.getFullYear(), scheduleMonday.getMonth(), scheduleMonday.getDate());
+  const targetUTC = Date.UTC(targetMonday.getFullYear(), targetMonday.getMonth(), targetMonday.getDate());
+  
+  const diffMs = targetUTC - scheduleUTC;
+  const diffDays = Math.floor(diffMs / (24 * 60 * 60 * 1000));
+  const weeksElapsed = Math.floor(diffDays / 7);
+  
+  // Calculate rotation index with safe negative handling
+  return ((weeksElapsed % cycleLength) + cycleLength) % cycleLength;
 }
 
 /**
@@ -242,13 +255,23 @@ export function getSoleResponsibilityAssignmentForWeek(
     return Array.from(responsibleMembers)[0];
   }
 
-  // Calculate weeks elapsed using normalized Monday dates
-  // Both dates should already be normalized to Monday 00:00:00 LOCAL time
-  const diffMs = weekMonday.getTime() - scheduleStartMonday.getTime();
-  const weeksElapsed = Math.floor(diffMs / (7 * 24 * 60 * 60 * 1000));
+  // Use calendar-safe calculation to avoid DST issues
+  // Normalize both dates to Monday 00:00:00 local
+  const scheduleMonday = new Date(scheduleStartMonday);
+  scheduleMonday.setHours(0, 0, 0, 0);
+  const targetMonday = new Date(weekMonday);
+  targetMonday.setHours(0, 0, 0, 0);
+
+  // Use UTC date-only to avoid DST issues
+  const scheduleUTC = Date.UTC(scheduleMonday.getFullYear(), scheduleMonday.getMonth(), scheduleMonday.getDate());
+  const targetUTC = Date.UTC(targetMonday.getFullYear(), targetMonday.getMonth(), targetMonday.getDate());
+  
+  const diffMs = targetUTC - scheduleUTC;
+  const diffDays = Math.floor(diffMs / (24 * 60 * 60 * 1000));
+  const weeksElapsed = Math.floor(diffDays / 7);
 
   // Calculate rotation index within responsible members with safe negative handling
-  const responsibleMembersArray = Array.from(responsibleMembers);
+  const responsibleMembersArray = Array.from(responsibleMembers).sort();
   const idx = ((weeksElapsed % responsibleMembersArray.length) + responsibleMembersArray.length) % responsibleMembersArray.length;
 
   return responsibleMembersArray[idx];
