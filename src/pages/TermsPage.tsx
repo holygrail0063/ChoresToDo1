@@ -8,8 +8,8 @@ export default function TermsPage() {
   return (
     <div className="terms-page">
       <div className="terms-container">
-        <button onClick={() => navigate('/')} className="back-button">
-          ← Back to Home
+        <button onClick={() => navigate(-1)} className="back-button">
+          ← Back
         </button>
         
         <div className="terms-content">

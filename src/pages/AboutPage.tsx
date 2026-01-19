@@ -8,8 +8,8 @@ export default function AboutPage() {
   return (
     <div className="about-page">
       <div className="about-container">
-        <button onClick={() => navigate('/')} className="back-button">
-          ← Back to Home
+        <button onClick={() => navigate(-1)} className="back-button">
+          ← Back
         </button>
         
         <div className="about-content">
