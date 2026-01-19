@@ -4,15 +4,23 @@ export const MS_PER_DAY = 86400000;
 export const MS_PER_WEEK = 7 * MS_PER_DAY;
 
 /**
- * Returns the Monday 00:00:00.000 of the week containing the given date
+ * Returns the Monday 00:00:00.000 LOCAL time of the week containing the given date
+ * Helper: getWeekStartMonday - ensures Monday at 00:00:00 local time
  */
 export function startOfWeekMonday(date: Date): Date {
   const d = new Date(date);
   const day = d.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
   const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
   const monday = new Date(d.setDate(diff));
-  monday.setHours(0, 0, 0, 0);
+  monday.setHours(0, 0, 0, 0); // Set to 00:00:00.000 LOCAL time
   return monday;
+}
+
+/**
+ * Alias for startOfWeekMonday - returns Monday 00:00:00 LOCAL time
+ */
+export function getWeekStartMonday(date: Date): Date {
+  return startOfWeekMonday(date);
 }
 
 /**
@@ -24,6 +32,17 @@ export function endOfWeekSunday(date: Date): Date {
   const sunday = new Date(monday);
   sunday.setDate(sunday.getDate() + 6); // Add 6 days to get Sunday
   sunday.setHours(23, 59, 59, 999);
+  return sunday;
+}
+
+/**
+ * Helper: getWeekEndSunday - returns Sunday date for display (or end of day)
+ */
+export function getWeekEndSunday(date: Date): Date {
+  const monday = getWeekStartMonday(date);
+  const sunday = new Date(monday);
+  sunday.setDate(sunday.getDate() + 6); // Add 6 days to get Sunday
+  sunday.setHours(23, 59, 59, 999); // End of day
   return sunday;
 }
 
@@ -68,21 +87,27 @@ export function weeksBetweenMondays(aMonday: Date, bMonday: Date): number {
 
 /**
  * Computes the rotation week based on schedule start date and cycle length
+ * Uses normalized Monday 00:00:00 dates for accurate week calculations
  */
 export function getRotationWeek(
   scheduleStartDate: Date,
-  today: Date,
+  targetDate: Date,
   cycleLength: number
 ): {
   rotationWeek: number;
   rotationIndex: number;
   weeksElapsed: number;
 } {
-  const scheduleMonday = startOfWeekMonday(scheduleStartDate);
-  const todayMonday = startOfWeekMonday(today);
+  // Normalize both dates to Monday 00:00:00 LOCAL time
+  const scheduleMonday = getWeekStartMonday(scheduleStartDate);
+  const targetWeekMonday = getWeekStartMonday(targetDate);
   
-  const weeksElapsed = weeksBetweenMondays(scheduleMonday, todayMonday);
-  const rotationIndex = weeksElapsed % cycleLength;
+  // Calculate weeks elapsed using normalized Monday dates
+  const diffMs = targetWeekMonday.getTime() - scheduleMonday.getTime();
+  const weeksElapsed = Math.floor(diffMs / MS_PER_WEEK);
+  
+  // Calculate rotation index with safe negative handling
+  const rotationIndex = ((weeksElapsed % cycleLength) + cycleLength) % cycleLength;
   const rotationWeek = rotationIndex + 1;
   
   return {

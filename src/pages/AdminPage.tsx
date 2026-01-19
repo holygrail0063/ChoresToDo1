@@ -82,22 +82,26 @@ export default function AdminPage() {
   }
 
   const cycleLength = house.cycleLength ?? house.memberCount ?? house.members?.length ?? 4;
+  // Normalize schedule start to Monday 00:00:00 LOCAL time
   const scheduleStart = house.scheduleStartDate 
     ? timestampToDate(house.scheduleStartDate) || startOfWeekMonday(new Date())
     : startOfWeekMonday(new Date());
+  const scheduleStartMonday = startOfWeekMonday(scheduleStart);
 
   const allWeeks = getWeeksForMonth(currentYear, currentMonth);
   // Filter weeks to only show from house creation date onwards
+  // Normalize each week Monday to ensure proper comparison
   const weeks = allWeeks.filter(weekMonday => {
-    const scheduleStartMonday = startOfWeekMonday(scheduleStart);
-    return weekMonday >= scheduleStartMonday;
+    const normalizedWeekMonday = startOfWeekMonday(weekMonday);
+    return normalizedWeekMonday >= scheduleStartMonday;
   });
   const monthName = new Date(currentYear, currentMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
 
   // Get sole responsibility assignments for a specific week (rotating through responsible members)
-  const getSoleResponsibilityAssignmentsForWeek = (weekMonday: Date): Record<string, string | 'Unassigned'> => {
+  const getSoleResponsibilityAssignmentsForWeek = (targetWeekMonday: Date): Record<string, string | 'Unassigned'> => {
     const soleAssignments: Record<string, string | 'Unassigned'> = {};
-    const scheduleStartMonday = startOfWeekMonday(scheduleStart);
+    // Normalize target week Monday to 00:00:00 LOCAL time
+    const normalizedTargetMonday = startOfWeekMonday(targetWeekMonday);
     
     if (house.soleResponsibilityAssignments) {
       Object.keys(house.soleResponsibilityAssignments).forEach(task => {
@@ -105,7 +109,7 @@ export default function AdminPage() {
         const assignedMember = getSoleResponsibilityAssignmentForWeek(
           taskAssignments as Array<{ member: string; rotationIndex?: number; week?: number }>,
           scheduleStartMonday,
-          weekMonday
+          normalizedTargetMonday
         );
         soleAssignments[task] = assignedMember;
       });
@@ -115,8 +119,13 @@ export default function AdminPage() {
   };
 
   // Get assignments for a given week's Monday
-  const getAssignmentsForWeek = (weekMonday: Date) => {
-    const { rotationIndex } = getRotationWeek(scheduleStart, weekMonday, cycleLength);
+  // IMPORTANT: Use the target week's Monday, NOT today's date
+  const getAssignmentsForWeek = (targetWeekMonday: Date) => {
+    // Normalize target week Monday to 00:00:00 LOCAL time
+    const normalizedTargetMonday = startOfWeekMonday(targetWeekMonday);
+    
+    // Calculate rotation index for THIS specific week (not today)
+    const { rotationIndex } = getRotationWeek(scheduleStartMonday, normalizedTargetMonday, cycleLength);
     
     const assignments: Record<string, string | 'Unassigned'> = {};
     
@@ -150,7 +159,7 @@ export default function AdminPage() {
     }
     
     // Add rotating sole responsibility assignments (one person per week, rotating through responsible members)
-    const soleAssignments = getSoleResponsibilityAssignmentsForWeek(weekMonday);
+    const soleAssignments = getSoleResponsibilityAssignmentsForWeek(normalizedTargetMonday);
     Object.keys(soleAssignments).forEach(task => {
       assignments[task] = soleAssignments[task];
     });
@@ -200,14 +209,19 @@ export default function AdminPage() {
               </thead>
               <tbody>
                 {weeks.map((weekMonday, idx) => {
-                  const { fromLabel, toLabel } = formatWeekRange(weekMonday);
-                  const assignments = getAssignmentsForWeek(weekMonday);
+                  // Normalize week Monday to ensure consistent calculation
+                  const normalizedWeekMonday = startOfWeekMonday(weekMonday);
+                  const { fromLabel, toLabel } = formatWeekRange(normalizedWeekMonday);
+                  const assignments = getAssignmentsForWeek(normalizedWeekMonday);
+                  
+                  // Calculate rotation index for debug display
+                  const { rotationIndex: debugRotationIndex } = getRotationWeek(scheduleStartMonday, normalizedWeekMonday, cycleLength);
                   
                   return (
                     <tr key={idx}>
                       <td className="col-week-range">
                         <div className="week-range">
-                          {fromLabel} – {toLabel}
+                          {fromLabel} – {toLabel} <span className="rotation-debug">(Rotation: {debugRotationIndex})</span>
                         </div>
                       </td>
                       {taskColumns.map((task) => {
