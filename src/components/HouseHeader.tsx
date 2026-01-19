@@ -32,13 +32,10 @@ export default function HouseHeader({ houseCode, houseName }: HouseHeaderProps) 
         </div>
         <div className="header-right">
           <button onClick={handleCopyLink} className="share-button">
-            📋 Copy Share Link
+            📋 Share Link
           </button>
           <button onClick={() => navigate(`/house/${houseCode}/schedule`)} className="admin-button">
             📊 Schedule
-          </button>
-          <button onClick={() => navigate(`/house/${houseCode}/activity`)} className="activity-button">
-            📜 Activity
           </button>
         </div>
       </div>
