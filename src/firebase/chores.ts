@@ -87,9 +87,27 @@ export const updateChore = async (
   try {
     const choreRef = doc(db, 'houses', houseCode, 'chores', choreId);
     const updateData: any = {
-      ...updates,
       updatedAt: serverTimestamp(),
     };
+    
+    // Only include fields that are provided and not undefined
+    if (updates.title !== undefined) {
+      updateData.title = updates.title;
+    }
+    if (updates.assignedTo !== undefined) {
+      updateData.assignedTo = updates.assignedTo;
+    }
+    // Only include assignedToUid if it's defined (not undefined)
+    // If undefined, set to null to remove the field or keep existing value
+    if (updates.assignedToUid !== undefined) {
+      updateData.assignedToUid = updates.assignedToUid || null;
+    }
+    if (updates.isDone !== undefined) {
+      updateData.isDone = updates.isDone;
+    }
+    if (updates.doneAt !== undefined) {
+      updateData.doneAt = updates.doneAt;
+    }
     
     // Convert dueDate string to Firestore Timestamp if provided
     if (updates.dueDate) {
