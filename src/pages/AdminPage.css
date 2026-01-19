@@ -124,6 +124,7 @@
   border-collapse: collapse;
   font-size: 14px;
   table-layout: fixed;
+  border: 1px solid #d0d0d0;
 }
 
 .schedule-table thead {
@@ -138,13 +139,14 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 2px solid #e9ecef;
+  border: 1px solid #d0d0d0;
+  border-bottom: 2px solid #b0b0b0;
   white-space: nowrap;
 }
 
 .schedule-table td {
   padding: 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border: 1px solid #d0d0d0;
   vertical-align: middle;
 }
 
