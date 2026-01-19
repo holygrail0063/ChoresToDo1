@@ -253,16 +253,26 @@ export default function ChoreTable({
     };
 
     try {
+      // Pass dueDate as YYYY-MM-DD string (from date input)
+      // updateChore will convert it to Firestore Timestamp
       await updateChore(houseCode, choreId, {
         assignedTo: editedAssignedTo,
         assignedToUid: newAssignedToUid,
-        dueDate: new Date(editedDueDate).toISOString(),
+        dueDate: editedDueDate, // Pass as YYYY-MM-DD string
       }, editHistory);
       setEditingChoreId(null);
       // UI will update automatically via onSnapshot subscription
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving chore:', error);
-      alert('Failed to save changes. Please try again.');
+      console.error('Error details:', {
+        code: error?.code,
+        message: error?.message,
+        houseCode,
+        choreId,
+        editedAssignedTo,
+        editedDueDate,
+      });
+      alert(`Failed to save changes: ${error?.message || 'Unknown error'}. Please try again.`);
     }
   };
 

@@ -84,20 +84,54 @@ export const updateChore = async (
   }>,
   editHistory?: ChoreEditHistory
 ): Promise<void> => {
-  const choreRef = doc(db, 'houses', houseCode, 'chores', choreId);
-  const updateData: any = {
-    ...updates,
-    updatedAt: serverTimestamp(),
-  };
-  
-  // Add edit history if provided
-  if (editHistory) {
-    const choreSnap = await getDoc(choreRef);
-    const currentHistory = (choreSnap.data() as Chore)?.editHistory || [];
-    updateData.editHistory = [...currentHistory, editHistory];
+  try {
+    const choreRef = doc(db, 'houses', houseCode, 'chores', choreId);
+    const updateData: any = {
+      ...updates,
+      updatedAt: serverTimestamp(),
+    };
+    
+    // Convert dueDate string to Firestore Timestamp if provided
+    if (updates.dueDate) {
+      // Handle both "YYYY-MM-DD" format and ISO string format
+      let dateObj: Date;
+      if (updates.dueDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        // YYYY-MM-DD format - add time to make it a valid date
+        dateObj = new Date(updates.dueDate + 'T00:00:00');
+      } else {
+        // ISO string format
+        dateObj = new Date(updates.dueDate);
+      }
+      
+      // Validate date
+      if (isNaN(dateObj.getTime())) {
+        throw new Error(`Invalid date format: ${updates.dueDate}`);
+      }
+      
+      // Convert to Firestore Timestamp
+      updateData.dueDate = Timestamp.fromDate(dateObj);
+    }
+    
+    // Add edit history if provided
+    if (editHistory) {
+      const choreSnap = await getDoc(choreRef);
+      if (!choreSnap.exists()) {
+        throw new Error(`Chore ${choreId} not found in house ${houseCode}`);
+      }
+      const currentHistory = (choreSnap.data() as Chore)?.editHistory || [];
+      updateData.editHistory = [...currentHistory, editHistory];
+    }
+    
+    console.log('Updating chore:', { houseCode, choreId, updateData });
+    await updateDoc(choreRef, updateData);
+    console.log('Chore updated successfully');
+  } catch (error: any) {
+    console.error('Error updating chore:', error);
+    console.error('Error code:', error?.code);
+    console.error('Error message:', error?.message);
+    console.error('Update data:', { houseCode, choreId, updates });
+    throw error;
   }
-  
-  await updateDoc(choreRef, updateData);
 };
 
 export const deleteChore = async (
@@ -167,10 +201,26 @@ export const subscribeToChores = (
   const q = query(choresRef, orderBy('createdAt', 'asc'));
   
   return onSnapshot(q, (snapshot) => {
-    const chores: Chore[] = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Chore[];
+    const chores: Chore[] = snapshot.docs.map((doc) => {
+      const data = doc.data();
+      // Convert dueDate from Firestore Timestamp to ISO string if it exists
+      let dueDate: string | null = null;
+      if (data.dueDate) {
+        if (data.dueDate.toDate) {
+          // Firestore Timestamp
+          dueDate = data.dueDate.toDate().toISOString();
+        } else if (typeof data.dueDate === 'string') {
+          // Already a string (backward compatibility)
+          dueDate = data.dueDate;
+        }
+      }
+      
+      return {
+        id: doc.id,
+        ...data,
+        dueDate, // Override with converted value
+      } as Chore;
+    });
     callback(chores);
   });
 };
