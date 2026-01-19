@@ -167,18 +167,29 @@ export default function ChoreTable({
   // Start editing
   const handleStartEdit = (chore: Chore) => {
     setEditingChoreId(chore.id);
-    setEditedAssignedTo(chore.assignedTo || '');
+    // Initialize with current assignedTo, or first member if unassigned
+    const currentAssignedTo = chore.assignedTo || '';
+    setEditedAssignedTo(currentAssignedTo);
     setEditedDueDate(chore.dueDate ? new Date(chore.dueDate).toISOString().split('T')[0] : '');
     setActionMenuOpen(null);
   };
 
   // Save edit
   const handleSaveEdit = async (choreId: string) => {
-    if (!editedDueDate || isMaintenanceMode) {
-      if (isMaintenanceMode) {
-        alert('The site is currently under maintenance. Changes are disabled.');
-      }
+    if (isMaintenanceMode) {
+      alert('The site is currently under maintenance. Changes are disabled.');
       setEditingChoreId(null);
+      return;
+    }
+
+    if (!editedDueDate) {
+      alert('Please select a due date.');
+      return;
+    }
+
+    // Validate assignedTo is selected (not empty)
+    if (!editedAssignedTo || editedAssignedTo.trim() === '') {
+      alert('Please select an assigned member.');
       return;
     }
 
@@ -207,12 +218,18 @@ export default function ChoreTable({
       newValue: editedAssignedTo,
     };
 
-    await updateChore(houseCode, choreId, {
-      assignedTo: editedAssignedTo,
-      assignedToUid: newAssignedToUid,
-      dueDate: new Date(editedDueDate).toISOString(),
-    }, editHistory);
-    setEditingChoreId(null);
+    try {
+      await updateChore(houseCode, choreId, {
+        assignedTo: editedAssignedTo,
+        assignedToUid: newAssignedToUid,
+        dueDate: new Date(editedDueDate).toISOString(),
+      }, editHistory);
+      setEditingChoreId(null);
+      // UI will update automatically via onSnapshot subscription
+    } catch (error) {
+      console.error('Error saving chore:', error);
+      alert('Failed to save changes. Please try again.');
+    }
   };
 
   // Cancel edit
@@ -351,24 +368,31 @@ export default function ChoreTable({
                       />
                     </td>
                     <td className="col-task">
-                      {isEditing ? (
-                        <div className="edit-form-inline">
-                          <input
-                            type="text"
-                            value={editedAssignedTo}
-                            onChange={(e) => setEditedAssignedTo(e.target.value)}
-                            placeholder="Assigned to"
-                            className="edit-input"
-                          />
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="task-name">{chore.title}</div>
-                          {chore.assignedTo && (
+                      <div>
+                        <div className="task-name">{chore.title}</div>
+                        {isEditing ? (
+                          <div className="edit-form-inline">
+                            <label className="edit-label">Assigned to:</label>
+                            <select
+                              value={editedAssignedTo}
+                              onChange={(e) => setEditedAssignedTo(e.target.value)}
+                              className="edit-select"
+                              required
+                            >
+                              <option value="">Select member...</option>
+                              {members.map(member => (
+                                <option key={member.uid} value={member.name}>
+                                  {member.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : (
+                          chore.assignedTo && (
                             <div className="task-assigned">Assigned to {chore.assignedTo}</div>
-                          )}
-                        </div>
-                      )}
+                          )
+                        )}
+                      </div>
                     </td>
                     <td className="col-category">
                       {getCategory(chore)}

@@ -236,6 +236,16 @@
 .edit-form-inline {
   display: flex;
   gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.edit-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .edit-input {
@@ -244,6 +254,22 @@
   border-radius: 4px;
   font-size: 14px;
   width: 100%;
+}
+
+.edit-select {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 150px;
+  background: white;
+  cursor: pointer;
+}
+
+.edit-select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
 }
 
 .action-buttons-inline {
