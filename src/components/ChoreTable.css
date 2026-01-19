@@ -312,13 +312,6 @@
   background: #d0d0d0;
 }
 
-.swap-select {
-  padding: 6px 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 12px;
-  min-width: 100px;
-}
 
 .add-chore-button {
   position: fixed;
@@ -436,11 +429,6 @@
     font-size: 11px;
   }
 
-  .swap-select {
-    width: 100%;
-    font-size: 11px;
-    padding: 4px 6px;
-  }
 
   .action-menu-trigger {
     font-size: 18px;

@@ -22,10 +22,8 @@ export default function ChoreTable({
   house,
 }: ChoreTableProps) {
   const [editingChoreId, setEditingChoreId] = useState<string | null>(null);
-  const [swappingChoreId, setSwappingChoreId] = useState<string | null>(null);
   const [editedAssignedTo, setEditedAssignedTo] = useState('');
   const [editedDueDate, setEditedDueDate] = useState('');
-  const [swapTargetUid, setSwapTargetUid] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [actionMenuOpen, setActionMenuOpen] = useState<string | null>(null);
 
@@ -283,59 +281,6 @@ export default function ChoreTable({
     setEditedDueDate('');
   };
 
-  // Start swap
-  const handleStartSwap = (chore: Chore) => {
-    setSwappingChoreId(chore.id);
-    setSwapTargetUid('');
-    setActionMenuOpen(null);
-  };
-
-  // Save swap
-  const handleSaveSwap = async (choreId: string) => {
-    if (!swapTargetUid || isMaintenanceMode) {
-      if (isMaintenanceMode) {
-        alert('The site is currently under maintenance. Changes are disabled.');
-      }
-      setSwappingChoreId(null);
-      return;
-    }
-
-    const chore = chores.find(c => c.id === choreId);
-    if (!chore) return;
-
-    const targetMember = house?.membersMap?.[swapTargetUid];
-    if (!targetMember) {
-      alert('Selected member not found');
-      return;
-    }
-
-    const oldAssignedTo = chore.assignedTo;
-
-    const editHistory: ChoreEditHistory = {
-      changedBy: 'User',
-      changedByUid: currentUid || undefined,
-      changedAt: new Date().toISOString(),
-      changeType: 'swapped',
-      oldValue: oldAssignedTo,
-      newValue: targetMember.name,
-      swappedWith: targetMember.name,
-      swappedWithUid: swapTargetUid,
-    };
-
-    await updateChore(houseCode, choreId, {
-      assignedTo: targetMember.name,
-      assignedToUid: swapTargetUid,
-    }, editHistory);
-    setSwappingChoreId(null);
-    setSwapTargetUid('');
-  };
-
-  // Cancel swap
-  const handleCancelSwap = () => {
-    setSwappingChoreId(null);
-    setSwapTargetUid('');
-  };
-
   // Handle delete
   const handleDelete = async (choreId: string) => {
     if (isMaintenanceMode || !isAdmin) {
@@ -351,7 +296,6 @@ export default function ChoreTable({
   };
 
   const members = getMembersList();
-  const canSwapChore = (chore: Chore) => canEditChore() && members.length > 1 && (chore.assignedTo || chore.assignedToUid);
 
   if (chores.length === 0) {
     return (
@@ -397,7 +341,6 @@ export default function ChoreTable({
               {chores.map((chore) => {
                 const status = getStatus(chore);
                 const isEditing = editingChoreId === chore.id;
-                const isSwapping = swappingChoreId === chore.id;
 
                 return (
                   <tr key={chore.id} className={chore.isDone ? 'row-completed' : ''}>
@@ -406,7 +349,7 @@ export default function ChoreTable({
                         type="checkbox"
                         checked={chore.isDone}
                         onChange={() => handleToggle(chore)}
-                        disabled={!canToggle() || isMaintenanceMode || isEditing || isSwapping}
+                        disabled={!canToggle() || isMaintenanceMode || isEditing}
                         className="chore-checkbox"
                         title={canToggle() ? "Mark as done" : "Disabled during maintenance"}
                       />
@@ -464,25 +407,6 @@ export default function ChoreTable({
                           <button onClick={() => handleSaveEdit(chore.id)} className="btn-save">Save</button>
                           <button onClick={handleCancelEdit} className="btn-cancel">Cancel</button>
                         </div>
-                      ) : isSwapping ? (
-                        <div className="action-buttons-inline">
-                          <select
-                            value={swapTargetUid}
-                            onChange={(e) => setSwapTargetUid(e.target.value)}
-                            className="swap-select"
-                          >
-                            <option value="">Select...</option>
-                            {members.map(member => (
-                              <option key={member.uid} value={member.uid}>
-                                {member.name}
-                              </option>
-                            ))}
-                          </select>
-                          <button onClick={() => handleSaveSwap(chore.id)} className="btn-save" disabled={!swapTargetUid}>
-                            Swap
-                          </button>
-                          <button onClick={handleCancelSwap} className="btn-cancel">Cancel</button>
-                        </div>
                       ) : (
                         <div className="action-menu-wrapper">
                           {canEditChore() && (
@@ -497,11 +421,6 @@ export default function ChoreTable({
                                 <>
                                   <div className="action-menu-overlay" onClick={() => setActionMenuOpen(null)} />
                                   <div className="action-menu">
-                                    {canSwapChore(chore) && (
-                                      <button onClick={() => handleStartSwap(chore)} className="action-menu-item">
-                                        Swap
-                                      </button>
-                                    )}
                                     <button onClick={() => handleStartEdit(chore)} className="action-menu-item">
                                       Edit
                                     </button>
