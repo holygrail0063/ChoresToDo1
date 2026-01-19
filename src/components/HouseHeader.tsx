@@ -34,7 +34,7 @@ export default function HouseHeader({ houseCode, houseName }: HouseHeaderProps) 
           <button onClick={handleCopyLink} className="share-button">
             📋 Copy Share Link
           </button>
-          <button onClick={() => navigate(`/house/${houseCode}/admin`)} className="admin-button">
+          <button onClick={() => navigate(`/house/${houseCode}/schedule`)} className="admin-button">
             📊 Schedule
           </button>
           <button onClick={() => navigate(`/house/${houseCode}/activity`)} className="activity-button">

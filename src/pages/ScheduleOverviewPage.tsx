@@ -10,9 +10,9 @@ import {
   startOfWeekMonday 
 } from '../utils/weekUtils';
 import { getCommonAssignmentsForWeek, getSoleResponsibilityAssignmentForWeek } from '../utils/taskAssignment';
-import './AdminPage.css';
+import './ScheduleOverviewPage.css';
 
-export default function AdminPage() {
+export default function ScheduleOverviewPage() {
   const { houseCode } = useParams<{ houseCode: string }>();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
@@ -73,7 +73,7 @@ export default function AdminPage() {
 
   if (isLoading || !house) {
     return (
-      <div className="admin-page">
+      <div className="schedule-overview-page">
         <div className="loading-container">
           <p>Loading...</p>
         </div>
@@ -176,9 +176,9 @@ export default function AdminPage() {
   const taskColumns = Array.from(allTasks).sort();
 
   return (
-    <div className="admin-page">
-      <div className="admin-container">
-        <div className="admin-header">
+    <div className="schedule-overview-page">
+      <div className="schedule-overview-container">
+        <div className="schedule-overview-header">
           <button onClick={() => navigate(`/house/${houseCode}`)} className="back-button">
             ← Back to House
           </button>
@@ -197,7 +197,9 @@ export default function AdminPage() {
 
         <div className="schedule-table-card">
           <h2 className="schedule-table-title">Schedule Overview</h2>
-          <div className="schedule-table-wrapper">
+          
+          {/* Desktop Table View */}
+          <div className="schedule-table-wrapper desktop-view">
             <table className="schedule-table">
               <thead>
                 <tr>
@@ -243,6 +245,42 @@ export default function AdminPage() {
                 })}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="schedule-cards-wrapper mobile-view">
+            {weeks.map((weekMonday, idx) => {
+              const normalizedWeekMonday = startOfWeekMonday(weekMonday);
+              const { fromLabel, toLabel } = formatWeekRange(normalizedWeekMonday);
+              const assignments = getAssignmentsForWeek(normalizedWeekMonday);
+              
+              return (
+                <div key={idx} className="week-card">
+                  <div className="week-card-header">
+                    <h3 className="week-card-title">{fromLabel} – {toLabel}</h3>
+                  </div>
+                  <div className="week-card-body">
+                    {taskColumns.map((task) => {
+                      const member = assignments[task];
+                      return (
+                        <div key={task} className="week-card-row">
+                          <span className="week-card-task">{task}</span>
+                          <span className="week-card-member">
+                            {member === 'Unassigned' ? (
+                              <span className="unassigned-badge">Unassigned</span>
+                            ) : member ? (
+                              <span className="member-name">{member}</span>
+                            ) : (
+                              <span className="no-assignment">—</span>
+                            )}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
