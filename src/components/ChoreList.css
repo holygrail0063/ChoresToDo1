@@ -19,25 +19,26 @@
 
 .add-chore-button {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #4a90e2;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  background-color: var(--primary);
   color: white;
-  padding: 16px 24px;
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 50px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
   z-index: 100;
   border: none;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  height: auto;
 }
 
 .add-chore-button:hover {
-  background-color: #357abd;
+  background-color: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
 }
 
 @media (max-width: 768px) {

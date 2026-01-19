@@ -5,12 +5,13 @@
 }
 
 .activity-container {
-  max-width: 1200px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-2xl);
 }
 
 .activity-header {
@@ -23,15 +24,15 @@
 .back-button {
   background: none;
   border: none;
-  color: #667eea;
-  font-size: 0.9rem;
+  color: var(--primary);
+  font-size: var(--font-size-sm);
   cursor: pointer;
   padding: 0;
   text-decoration: underline;
 }
 
 .back-button:hover {
-  color: #5568d3;
+  color: var(--primary-hover);
 }
 
 .activity-header h1 {

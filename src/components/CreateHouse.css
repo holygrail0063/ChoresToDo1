@@ -25,14 +25,16 @@
 }
 
 .create-button {
-  background-color: #4a90e2;
+  background-color: var(--primary);
   color: white;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 500;
+  padding: var(--button-padding-y) var(--spacing-xl);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  height: var(--button-height);
+  border-radius: var(--border-radius);
 }
 
 .create-button:hover {
-  background-color: #357abd;
+  background-color: var(--primary-hover);
 }
 

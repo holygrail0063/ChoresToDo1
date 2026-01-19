@@ -40,7 +40,7 @@
 }
 
 .admin-tabs button.active {
-  background: #667eea;
+  background: var(--primary);
   color: white;
 }
 
@@ -73,10 +73,10 @@
 }
 
 .stat-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--primary);
   color: white;
-  padding: 30px;
-  border-radius: 8px;
+  padding: var(--spacing-2xl);
+  border-radius: var(--border-radius);
   text-align: center;
 }
 
@@ -232,8 +232,8 @@
 
 .setting-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .save-message {

@@ -45,14 +45,17 @@
 }
 
 .modal-actions button {
-  background-color: #4a90e2;
+  background-color: var(--primary);
   color: white;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: var(--button-padding-y) var(--spacing-xl);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  height: var(--button-height);
+  border-radius: var(--border-radius);
 }
 
 .modal-actions button:hover {
-  background-color: #357abd;
+  background-color: var(--primary-hover);
 }
 
 .help-text {
