@@ -107,6 +107,7 @@ button:disabled {
 .btn-primary {
   background-color: var(--primary);
   color: white;
+  border: none;
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -122,6 +123,7 @@ button:disabled {
 
 .btn-secondary:hover:not(:disabled) {
   background-color: var(--border-light);
+  border-color: var(--border);
 }
 
 /* Input Styles */

@@ -1,16 +1,16 @@
-import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
+import BackButton from '../components/BackButton';
+import ThemeToggle from '../components/ThemeToggle';
 import './AboutPage.css';
 
 export default function AboutPage() {
-  const navigate = useNavigate();
-
   return (
     <div className="about-page">
+      <div className="about-header">
+        <ThemeToggle />
+      </div>
       <div className="about-container">
-        <button onClick={() => navigate(-1)} className="back-button">
-          ← Back
-        </button>
+        <BackButton />
         
         <div className="about-content">
           <h1>About ChoresToDo</h1>

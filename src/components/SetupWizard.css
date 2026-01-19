@@ -6,13 +6,21 @@
   justify-content: center;
   padding: var(--page-padding);
   background: var(--bg);
+  position: relative;
+}
+
+.wizard-header-top {
+  position: fixed;
+  top: var(--spacing-lg);
+  right: var(--page-padding);
+  z-index: 100;
 }
 
 .wizard-container {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   max-width: 600px;
   width: 100%;
   padding: var(--spacing-2xl);
@@ -62,6 +70,13 @@
 
 .wizard-step {
   animation: fadeIn 0.3s;
+}
+
+/* Segmented navigation spacing */
+.wizard-step > .segmented-nav {
+  margin-top: var(--spacing-2xl);
+  display: flex;
+  justify-content: flex-end;
 }
 
 @keyframes fadeIn {
@@ -142,11 +157,11 @@
 }
 
 .wizard-button.primary {
-  background-color: var(--success);
+  background-color: var(--primary);
 }
 
 .wizard-button.primary:hover:not(:disabled) {
-  background-color: #059669;
+  background-color: var(--primary-hover);
 }
 
 .wizard-actions {
@@ -156,6 +171,8 @@
   margin-top: var(--spacing-2xl);
 }
 
+/* Segmented navigation is handled by SegmentedNav component */
+
 .task-input-group {
   display: flex;
   gap: var(--spacing-sm);
@@ -164,7 +181,7 @@
 
 .add-task-button {
   padding: var(--button-padding-y) var(--spacing-xl);
-  background-color: var(--success);
+  background-color: var(--primary);
   color: white;
   border: none;
   border-radius: var(--border-radius);
@@ -173,11 +190,11 @@
   cursor: pointer;
   height: var(--button-height);
   white-space: nowrap;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.15s ease;
 }
 
 .add-task-button:hover {
-  background-color: #059669;
+  background-color: var(--primary-hover);
 }
 
 .task-section {

@@ -1,16 +1,16 @@
-import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
+import BackButton from '../components/BackButton';
+import ThemeToggle from '../components/ThemeToggle';
 import './TermsPage.css';
 
 export default function TermsPage() {
-  const navigate = useNavigate();
-
   return (
     <div className="terms-page">
+      <div className="terms-header">
+        <ThemeToggle />
+      </div>
       <div className="terms-container">
-        <button onClick={() => navigate(-1)} className="back-button">
-          ← Back
-        </button>
+        <BackButton />
         
         <div className="terms-content">
           <h1>Terms & Conditions</h1>

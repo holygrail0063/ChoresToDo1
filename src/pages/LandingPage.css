@@ -8,6 +8,13 @@
   padding-bottom: 80px;
 }
 
+.landing-header-top {
+  position: fixed;
+  top: var(--spacing-lg);
+  right: var(--page-padding);
+  z-index: 100;
+}
+
 .landing-container {
   background: var(--surface);
   border: 1px solid var(--border);

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { House } from '../firebase/houses';
 import { buildHouseShareLink, copyToClipboard } from '../utils/shareLink';
+import ThemeToggle from './ThemeToggle';
 import './HouseHeader.css';
 
 interface HouseHeaderProps {
@@ -32,11 +33,12 @@ export default function HouseHeader({ houseCode, houseName }: HouseHeaderProps) 
         </div>
         <div className="header-right">
           <button onClick={handleCopyLink} className="share-button">
-            📋 Share Link
+            Share Link
           </button>
           <button onClick={() => navigate(`/house/${houseCode}/schedule`)} className="admin-button">
-            📊 Schedule
+            Schedule
           </button>
+          <ThemeToggle />
         </div>
       </div>
     </header>

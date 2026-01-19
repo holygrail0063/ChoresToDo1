@@ -9,6 +9,8 @@ import { setUserName } from '../utils/storage';
 import { getSiteSettings } from '../firebase/siteSettings';
 import MaintenanceBanner from './MaintenanceBanner';
 import Footer from './Footer';
+import SegmentedNav from './ui/SegmentedNav';
+import ThemeToggle from './ThemeToggle';
 import './SetupWizard.css';
 
 export default function SetupWizard() {
@@ -295,6 +297,9 @@ export default function SetupWizard() {
   return (
     <div className="setup-wizard">
       <MaintenanceBanner />
+      <div className="wizard-header-top">
+        <ThemeToggle />
+      </div>
       <div className="wizard-container">
         <div className="wizard-header">
           <h1>Set Up Your House</h1>
@@ -322,9 +327,12 @@ export default function SetupWizard() {
                 className="wizard-input"
                 autoFocus
               />
-              <button onClick={handleStep1Next} className="wizard-button">
-                Next
-              </button>
+              <SegmentedNav
+                onPrevious={() => {}}
+                onNext={handleStep1Next}
+                previousDisabled={true}
+                nextDisabled={!houseName.trim()}
+              />
             </div>
           )}
 
@@ -343,14 +351,11 @@ export default function SetupWizard() {
                 placeholder="0"
                 autoFocus
               />
-              <div className="wizard-actions">
-                <button onClick={() => setStep(1)} className="wizard-button secondary">
-                  Back
-                </button>
-                <button onClick={handleStep2Next} className="wizard-button">
-                  Next
-                </button>
-              </div>
+              <SegmentedNav
+                onPrevious={() => setStep(1)}
+                onNext={handleStep2Next}
+                nextDisabled={typeof memberCount === 'number' ? memberCount < 1 || memberCount >= 12 : !memberCount || parseInt(String(memberCount)) < 1 || parseInt(String(memberCount)) >= 12}
+              />
             </div>
           )}
 
@@ -417,14 +422,10 @@ export default function SetupWizard() {
               </div>
 
               {(tasks.length > 0 || soleResponsibilityTasks.length > 0) && (
-                <div className="wizard-actions">
-                  <button onClick={() => setStep(2)} className="wizard-button secondary">
-                    Back
-                  </button>
-                  <button onClick={handleStep3Next} className="wizard-button">
-                    Next
-                  </button>
-                </div>
+                <SegmentedNav
+                  onPrevious={() => setStep(2)}
+                  onNext={handleStep3Next}
+                />
               )}
             </div>
           )}
@@ -570,25 +571,19 @@ export default function SetupWizard() {
                 </div>
               )}
 
-              <div className="wizard-actions">
-                <button onClick={() => setStep(3)} className="wizard-button secondary">
-                  Back
-                </button>
-                <button 
-                  onClick={handleCreateHouse} 
-                  className="wizard-button primary"
-                  disabled={isCreating}
-                >
-                  {isCreating ? 'Creating...' : 'Create Schedule'}
-                </button>
-              </div>
+              <SegmentedNav
+                onPrevious={() => setStep(3)}
+                onNext={handleCreateHouse}
+                nextLabel={isCreating ? 'Creating...' : 'Finish →'}
+                nextDisabled={isCreating}
+              />
             </div>
           )}
 
           {/* Step 5: Share House */}
           {step === 5 && createdHouseCode && (
             <div className="wizard-step">
-              <h2>🎉 House Created!</h2>
+              <h2>House Created!</h2>
               <p>Share this house code and link with your housemates</p>
               
               <div className="share-screen">
@@ -612,7 +607,7 @@ export default function SetupWizard() {
                         }}
                         className="copy-button"
                       >
-                        📋 Copy Code
+                        Copy Code
                       </button>
                     </div>
                   </div>
@@ -636,7 +631,7 @@ export default function SetupWizard() {
                         }}
                         className="copy-button"
                       >
-                        📋 Copy Link
+                        Copy Link
                       </button>
                     </div>
                   </div>

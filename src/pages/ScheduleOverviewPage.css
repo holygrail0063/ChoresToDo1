@@ -18,6 +18,13 @@
   gap: var(--spacing-sm);
 }
 
+.schedule-overview-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
 .back-button {
   background: none;
   border: none;
@@ -129,35 +136,45 @@
 
 .schedule-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: var(--font-size-base);
   table-layout: fixed;
   border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
 .schedule-table thead {
-  background: var(--border-light);
+  background: var(--bg);
 }
 
 .schedule-table th {
   padding: var(--spacing-md) var(--spacing-lg);
   text-align: left;
   font-weight: var(--font-weight-semibold);
-  color: var(--text-muted);
-  font-size: var(--font-size-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  text-transform: none;
+  letter-spacing: 0;
   border: 1px solid var(--border);
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
   white-space: normal;
   word-break: break-word;
   line-height: 1.2;
+  background: var(--bg);
 }
 
 .schedule-table td {
   padding: var(--spacing-lg);
   border: 1px solid var(--border);
+  border-top: none;
   vertical-align: middle;
+  background: var(--surface);
+}
+
+.schedule-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .schedule-table tbody tr:hover {
