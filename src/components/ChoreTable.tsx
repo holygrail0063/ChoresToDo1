@@ -29,13 +29,40 @@ export default function ChoreTable({
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [actionMenuOpen, setActionMenuOpen] = useState<string | null>(null);
 
-  // Get list of members for swap dropdown
+  // Get list of members for dropdown
+  // Combines membersMap (uid -> member) and members array (legacy) to show all house members
   const getMembersList = () => {
-    if (!house?.membersMap) return [];
-    return Object.entries(house.membersMap).map(([uid, member]) => ({
-      uid,
-      name: member.name,
-    }));
+    const membersList: Array<{ uid: string; name: string }> = [];
+    
+    // First, add all members from membersMap (if it exists)
+    if (house?.membersMap) {
+      Object.entries(house.membersMap).forEach(([uid, member]) => {
+        membersList.push({
+          uid,
+          name: member.name,
+        });
+      });
+    }
+    
+    // Then, add any members from the members array that aren't already in membersMap
+    // This handles legacy houses or cases where members haven't been added to membersMap yet
+    if (house?.members && Array.isArray(house.members)) {
+      const existingNames = new Set(membersList.map(m => m.name));
+      house.members.forEach((memberName, index) => {
+        // Only add if not already in the list
+        if (memberName && !existingNames.has(memberName)) {
+          // For members not in membersMap, use a temporary UID based on index
+          // This allows the dropdown to work, but UID lookup will fail (which is okay for legacy)
+          membersList.push({
+            uid: `legacy-${index}`, // Temporary UID for legacy members
+            name: memberName,
+          });
+        }
+      });
+    }
+    
+    // Sort by name for consistent display
+    return membersList.sort((a, b) => a.name.localeCompare(b.name));
   };
 
   // Get category for a chore
@@ -200,13 +227,20 @@ export default function ChoreTable({
     
     // Look up UID from membersMap when assignee name changes
     let newAssignedToUid: string | undefined = undefined;
-    if (editedAssignedTo && house?.membersMap) {
-      const memberEntry = Object.entries(house.membersMap).find(
-        ([, member]) => member.name === editedAssignedTo
-      );
-      if (memberEntry) {
-        newAssignedToUid = memberEntry[0];
+    if (editedAssignedTo) {
+      // First try to find in membersMap
+      if (house?.membersMap) {
+        const memberEntry = Object.entries(house.membersMap).find(
+          ([, member]) => member.name === editedAssignedTo
+        );
+        if (memberEntry) {
+          newAssignedToUid = memberEntry[0];
+        }
       }
+      
+      // If not found in membersMap, check if it's a legacy member
+      // For legacy members, we can't set a real UID, so leave it undefined
+      // The assignedTo name will still be saved, which is fine for backward compatibility
     }
     
     const editHistory: ChoreEditHistory = {
