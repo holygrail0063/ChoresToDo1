@@ -1,65 +1,58 @@
-.segmented-nav {
-  display: inline-flex;
-  border: 1px solid var(--border);
-  border-radius: var(--border-radius);
-  background: var(--surface);
-  overflow: hidden;
-  box-shadow: none;
+.step-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
 }
 
-.segmented-nav-button {
+.step-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  min-height: 36px;
+  width: auto;
+  flex: none;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 500;
   background: var(--surface);
   color: var(--text);
-  border: none;
-  padding: var(--button-padding-y) var(--button-padding-x);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--border);
   cursor: pointer;
-  height: var(--button-height);
-  transition: all 0.15s ease;
-  border-right: 1px solid var(--border);
+  transition: background 0.15s ease, border-color 0.15s ease;
   white-space: nowrap;
 }
 
-.segmented-nav-button:last-child {
-  border-right: none;
-}
-
-.segmented-nav-button:hover:not(:disabled) {
+.step-button:hover:not(:disabled) {
   background: var(--border-light);
+  border-color: var(--border);
 }
 
-.segmented-nav-button:active:not(:disabled) {
-  background: var(--border);
-}
-
-.segmented-nav-button:focus {
+.step-button:focus {
   outline: none;
-  box-shadow: inset 0 0 0 2px var(--primary-light);
 }
 
-.segmented-nav-button:disabled {
-  opacity: 0.4;
+.step-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.step-button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
-  background: var(--border-light);
-}
-
-.segmented-nav-button-left {
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
-}
-
-.segmented-nav-button-right {
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 
 @media (max-width: 768px) {
-  .segmented-nav {
-    width: 100%;
+  .step-navigation {
+    gap: 12px;
+    padding: 12px;
   }
 
-  .segmented-nav-button {
-    flex: 1;
+  .step-button {
     font-size: var(--font-size-sm);
+    padding: 8px 14px;
   }
 }
 

@@ -73,10 +73,8 @@
 }
 
 /* Segmented navigation spacing */
-.wizard-step > .segmented-nav {
+.wizard-step > .step-navigation {
   margin-top: var(--spacing-2xl);
-  display: flex;
-  justify-content: flex-end;
 }
 
 @keyframes fadeIn {

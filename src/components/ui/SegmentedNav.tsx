@@ -18,18 +18,18 @@ export default function SegmentedNav({
   previousLabel = '← Previous',
 }: SegmentedNavProps) {
   return (
-    <div className="segmented-nav">
+    <div className="step-navigation">
       <button
         onClick={onPrevious}
         disabled={previousDisabled}
-        className="segmented-nav-button segmented-nav-button-left"
+        className="step-button step-button-previous"
       >
         {previousLabel}
       </button>
       <button
         onClick={onNext}
         disabled={nextDisabled}
-        className="segmented-nav-button segmented-nav-button-right"
+        className="step-button step-button-next"
       >
         {nextLabel}
       </button>
