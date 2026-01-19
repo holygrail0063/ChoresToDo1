@@ -388,8 +388,8 @@ export default function SetupWizard() {
               </div>
 
               <div className="task-section">
-                <h3>Sole Responsibility Tasks</h3>
-                <p className="help-text">Fixed Chores<br />Chores that don't rotate and are always handled by specific people (for example, a shared washroom between two rooms).</p>
+                <h3>Fixed Chores</h3>
+                <p className="help-text">Chores that don't rotate and are always handled by specific people (for example, Clean a washroom shared between two rooms).</p>
                 <div className="task-input-group">
                   <input
                     type="text"
@@ -482,7 +482,7 @@ export default function SetupWizard() {
 
               {soleResponsibilityTasks.length > 0 && (
                 <div className="assignments-section">
-                  <h3>Sole Responsibility - Select Responsible Members</h3>
+                  <h3>Fixed Chores - Select Responsible Members</h3>
                   <p className="help-text">Select which members are responsible for each task. Tasks will be divided weekly among selected members equally.</p>
                   <div className="sole-assignments">
                     {soleResponsibilityTasks.map((task, index) => {
