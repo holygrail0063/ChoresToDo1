@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center;
   padding: var(--page-padding);
-  padding-top: var(--spacing-xl);
   background: var(--bg);
   position: relative;
 }

@@ -5,7 +5,6 @@
   justify-content: center;
   background: var(--bg);
   padding: var(--page-padding);
-  padding-top: var(--spacing-xl);
   padding-bottom: 80px;
 }
 
