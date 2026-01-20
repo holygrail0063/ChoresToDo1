@@ -5,4 +5,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  flex: 1;
+}
+
+/* Home page specific: center content vertically and remove extra padding */
+.app-main > .home-main {
+  padding-bottom: 0;
+  margin: 0;
 }
