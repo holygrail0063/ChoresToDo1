@@ -5,7 +5,6 @@ import { initializeChoresWithSchedule } from '../firebase/chores';
 import { waitForAuth, signInAnonymous } from '../firebase/auth';
 import { processAndAssignTasks, buildCommonBundles } from '../utils/taskAssignment';
 import { buildHouseShareLink, copyToClipboard } from '../utils/shareLink';
-import { setUserName } from '../utils/storage';
 import { getSiteSettings } from '../firebase/siteSettings';
 import MaintenanceBanner from './MaintenanceBanner';
 import Footer from './Footer';
@@ -259,11 +258,6 @@ export default function SetupWizard() {
         commonChoreBundles, // New: bundles
         members // Needed for bundle assignments
       );
-      
-      // Save creator name to localStorage if provided, so they don't get prompted again
-      if (finalCreatorName) {
-        setUserName(houseCode, finalCreatorName);
-      }
       
       setCreatedHouseCode(houseCode);
       setStep(5); // Show share screen

@@ -85,6 +85,10 @@
   --error-light: #7f1d1d;
   --danger: var(--error);
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  /* Special container styling for dark theme */
+  --special-bg: rgba(255, 255, 255, 0.04);
+  --special-border: rgba(255, 255, 255, 0.10);
+  --special-accent: rgba(59, 130, 246, 0.35);
 }
 
 [data-theme="light"] {

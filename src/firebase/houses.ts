@@ -66,6 +66,7 @@ export const createHouse = async (
   const cycleLength = memberCount || members.length || 4;
   
   // Only add creator to membersMap if a name was provided
+  // If creatorUid already exists, update the name instead of duplicating
   const membersMap: { [uid: string]: Member } = {};
   if (creatorName && creatorName.trim()) {
     membersMap[creatorUid] = {

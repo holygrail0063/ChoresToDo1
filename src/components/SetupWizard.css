@@ -480,13 +480,30 @@
 
 .sole-assignment-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-md);
+  flex-direction: column;
+  padding: var(--spacing-lg);
   background-color: var(--warning-light);
   border: 1px solid var(--warning);
   border-radius: var(--border-radius);
   gap: var(--spacing-lg);
+  position: relative;
+}
+
+[data-theme="dark"] .sole-assignment-item {
+  background-color: var(--special-bg);
+  border: 1px solid var(--special-border);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .sole-assignment-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--special-accent);
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
 }
 
 .sole-assignment-item .task-name {
