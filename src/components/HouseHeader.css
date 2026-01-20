@@ -3,7 +3,7 @@
   border-bottom: 1px solid var(--border);
   padding: var(--spacing-lg) var(--page-padding);
   margin-bottom: var(--spacing-xl);
-  margin-top: calc(60px + var(--spacing-md));
+  margin-top: var(--spacing-xl);
   position: relative;
   z-index: 10;
 }

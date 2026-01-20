@@ -10,6 +10,23 @@
   align-items: center;
 }
 
+[data-theme="light"] .global-header {
+  background-color: var(--brand);
+  border-bottom: 1px solid var(--border);
+}
+
+[data-theme="light"] .global-header-title {
+  color: #0B0B0D;
+}
+
+[data-theme="light"] .global-header-subtitle {
+  color: rgba(11, 11, 13, 0.7);
+}
+
+[data-theme="light"] .global-header-icon {
+  filter: brightness(0);
+}
+
 .global-header-content {
   max-width: var(--max-width);
   width: 100%;
