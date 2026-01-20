@@ -443,22 +443,6 @@
 }
 
 /* Floating add chore button removed - now in header */
-  background-color: var(--primary-pressed);
-}
-
-[data-theme="light"] /* Removed floating button styles */
-  background-color: var(--accent-pink-pressed);
-}
-
-.add-chore-button:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-[data-theme="light"] .add-chore-button:focus-visible {
-  outline: 2px solid var(--accent-pink-hover);
-  outline-offset: 2px;
-}
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
@@ -557,10 +541,5 @@
     padding: 2px var(--spacing-xs);
   }
 
-  .add-chore-button {
-    bottom: var(--spacing-lg);
-    right: var(--spacing-lg);
-    padding: var(--spacing-md) var(--spacing-xl);
-    font-size: var(--font-size-sm);
-  }
+  /* Floating add chore button removed - now in header */
 }
