@@ -141,8 +141,8 @@ export default function SiteAdminDashboard() {
                 className="search-input"
               />
             </div>
-            <div className="table-scroll-x">
-              <table className="houses-table">
+            <div className="housesTableScroll">
+              <table className="housesTable">
                 <thead>
                   <tr>
                     <th>House Code</th>
