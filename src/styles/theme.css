@@ -85,19 +85,11 @@
   --error-light: #7f1d1d;
   --danger: var(--error);
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  /* Special container styling for dark theme */
-  --special-bg: rgba(255, 255, 255, 0.04);
-  --special-border: rgba(255, 255, 255, 0.10);
-  --special-accent: rgba(59, 130, 246, 0.35);
-  /* Chip/Pill styling for dark theme */
-  --chip-bg: rgba(255, 255, 255, 0.04);
-  --chip-border: rgba(255, 255, 255, 0.10);
-  --chip-hover: rgba(255, 255, 255, 0.06);
-  --chip-active-border: rgba(59, 130, 246, 0.45);
-  /* Panel styling for dark theme */
-  --panel-bg: rgba(255, 255, 255, 0.04);
-  --panel-border: rgba(255, 255, 255, 0.10);
-  --panel-accent: rgba(59, 130, 246, 0.35);
+  /* Yellow accent for dark theme (replaces orange) */
+  --warning-yellow: #FACC15;
+  --warning-yellow-bg: rgba(250, 204, 21, 0.18);
+  --warning-yellow-border: rgba(250, 204, 21, 0.55);
+  --warning-yellow-hover: rgba(250, 204, 21, 0.25);
 }
 
 [data-theme="light"] {

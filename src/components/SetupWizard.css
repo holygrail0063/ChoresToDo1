@@ -315,14 +315,14 @@
 }
 
 [data-theme="dark"] .task-tag.sole-responsibility {
-  background-color: var(--chip-bg);
-  border-color: var(--chip-border);
+  background-color: var(--warning-yellow-bg);
+  border-color: var(--warning-yellow-border);
   color: var(--text);
 }
 
 [data-theme="dark"] .task-tag.sole-responsibility:hover {
-  background-color: var(--chip-hover);
-  border-color: var(--chip-active-border);
+  background-color: var(--warning-yellow-hover);
+  border-color: var(--warning-yellow);
 }
 
 .remove-task-button {
@@ -423,8 +423,8 @@
 }
 
 [data-theme="dark"] .assignment-item.sole-responsibility {
-  background-color: var(--panel-bg);
-  border-color: var(--panel-border);
+  background-color: var(--warning-yellow-bg);
+  border-color: var(--warning-yellow-border);
 }
 
 .schedule-assignments {
@@ -506,8 +506,8 @@
 }
 
 [data-theme="dark"] .sole-assignment-item {
-  background-color: var(--special-bg);
-  border: 1px solid var(--special-border);
+  background-color: var(--warning-yellow-bg);
+  border: 1px solid var(--warning-yellow-border);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
@@ -518,7 +518,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background-color: var(--special-accent);
+  background-color: var(--warning-yellow);
   border-radius: var(--border-radius) 0 0 var(--border-radius);
 }
 
