@@ -1,5 +1,8 @@
 .app-footer {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   height: var(--footer-h);
   background-color: var(--surface);
@@ -19,7 +22,7 @@
   background-color: var(--brand);
 }
 
-/* Dark theme: footer matches header (dark surface) */
+/* Dark theme: footer matches header (same as header background) */
 [data-theme="dark"] .app-footer {
   background-color: var(--surface);
 }

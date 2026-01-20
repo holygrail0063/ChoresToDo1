@@ -54,7 +54,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     loadTheme();
   }, []);
 
-  // Subscribe to siteSettings changes (polling or real-time if needed)
+  // Subscribe to siteSettings changes (polling + event listener)
   useEffect(() => {
     const pollTheme = async () => {
       try {
@@ -71,9 +71,23 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       }
     };
 
+    // Listen for immediate theme changes from admin
+    const handleThemeChange = (event: CustomEvent) => {
+      const newTheme = event.detail.theme as Theme;
+      setThemeState(newTheme);
+      if (typeof document !== 'undefined') {
+        document.documentElement.setAttribute('data-theme', newTheme);
+      }
+    };
+
+    window.addEventListener('theme-changed', handleThemeChange as EventListener);
+
     // Poll every 30 seconds to check for theme changes
     const interval = setInterval(pollTheme, 30000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('theme-changed', handleThemeChange as EventListener);
+    };
   }, [theme]);
 
   useEffect(() => {

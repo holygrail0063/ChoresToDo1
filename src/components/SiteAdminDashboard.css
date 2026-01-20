@@ -2,7 +2,8 @@
   min-height: 100vh;
   background: var(--bg);
   padding: 24px 16px;
-  max-width: 1100px;
+  max-width: 980px;
+  width: min(980px, 92vw);
   margin: 24px auto;
 }
 
@@ -63,21 +64,33 @@
   box-shadow: var(--shadow-sm);
   overflow: visible; /* IMPORTANT: Allow table scroll container to overflow */
   min-width: 0; /* Allow shrinking in flex layouts */
+  min-height: 520px; /* Consistent viewport height for all tabs */
+  display: flex;
+  flex-direction: column;
 }
 
 .houses-section {
   min-width: 0; /* Allow shrinking in flex layouts */
   overflow: visible; /* IMPORTANT: Do not trap scroll */
-}
-
-.houses-section {
-  min-width: 0; /* Allow shrinking in flex layouts */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 .loading {
   text-align: center;
   padding: 40px;
   color: #666;
+}
+
+.overview-section,
+.houses-section,
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 .overview-section h2,
@@ -129,39 +142,59 @@
   font-size: 14px;
 }
 
-/* Horizontal scroll container for houses table - iOS Safari safe */
+/* Houses table container - separate card for table */
+.houses-table-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  margin-top: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Allow shrinking */
+  overflow: hidden; /* Contain scroll within this container */
+}
+
+/* Horizontal and vertical scroll container for houses table - iOS Safari safe */
 .housesTableScroll {
   width: 100%;
   overflow-x: auto;
-  overflow-y: visible; /* IMPORTANT: do not trap vertical scroll */
+  overflow-y: auto; /* Enable vertical scroll */
   -webkit-overflow-scrolling: touch;
   min-width: 0; /* Allow shrinking in flex layouts */
-  /* Ensure scroll container can actually scroll */
   position: relative;
+  max-height: clamp(320px, 45vh, 520px); /* Responsive max-height */
+  background: var(--surface); /* Match container background */
+  flex: 1;
 }
 
 .housesTable {
   width: max-content; /* Allow table to be wider than viewport */
-  min-width: 1000px; /* Increased to ensure all 6 columns (Code, Name, Members, Created, Status, Actions) require scroll */
+  min-width: 820px; /* Ensure all 6 columns (Code, Name, Members, Created, Status, Actions) require scroll */
   border-collapse: separate;
   border-spacing: 0;
   table-layout: auto; /* Allow columns to size naturally */
+  background: var(--surface); /* Match container background */
 }
 
 .housesTable th {
-  background: var(--surface);
+  background: var(--bg) !important; /* Consistent header background */
   padding: 12px;
   text-align: left;
   font-weight: 600;
   color: var(--text);
   border-bottom: 2px solid var(--border);
   white-space: nowrap; /* Prevent header text wrapping */
+  position: static !important; /* No sticky columns */
 }
 
 .housesTable td {
   padding: 12px;
   border-bottom: 1px solid var(--border);
   white-space: nowrap; /* Prevent cell text wrapping */
+  background: var(--surface) !important; /* Consistent body background */
+  position: static !important; /* No sticky columns */
 }
 
 .housesTable code {
@@ -376,6 +409,7 @@
   .admin-dashboard {
     padding: 16px;
     margin: 16px auto;
+    width: min(980px, 92vw);
   }
 
   .admin-header {
@@ -384,11 +418,28 @@
 
   .admin-content {
     padding: 20px 16px;
+    min-height: 60vh; /* Responsive min-height on mobile */
     overflow: visible; /* IMPORTANT: Ensure table scroll container can overflow */
   }
 
   .houses-section {
     overflow: visible; /* IMPORTANT: Do not trap scroll on mobile */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .houses-table-container {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden; /* Contain scroll within */
+  }
+
+  .housesTableScroll {
+    max-height: clamp(320px, 45vh, 520px); /* Responsive max-height on mobile */
+    overflow-x: auto;
+    overflow-y: auto; /* Both scroll directions enabled */
   }
 
   .search-input {
@@ -406,23 +457,8 @@
     max-width: 100%;
   }
 
-  /* Ensure table scroll container works on mobile */
-  .housesTableScroll {
-    margin: 0 calc(-1 * 16px); /* Extend to card edges */
-    padding: 0 16px; /* Add padding back for content */
-  }
-
   .housesTable {
-    min-width: 1000px; /* Increased minimum width for scrolling - ensures all columns (Code, Name, Members, Created, Status, Actions) visible */
-  }
-  
-  /* Ensure parent containers don't block scrolling */
-  .admin-content {
-    overflow: visible !important;
-  }
-  
-  .houses-section {
-    overflow: visible !important;
+    min-width: 820px; /* Minimum width for scrolling - ensures all columns visible */
   }
 }
 

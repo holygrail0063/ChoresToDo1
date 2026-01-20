@@ -53,7 +53,16 @@ export default function SiteAdminDashboard() {
     setSaveMessage('');
     try {
       await updateSiteSettings(updates);
-      setSettings({ ...settings, ...updates });
+      const updatedSettings = { ...settings, ...updates };
+      setSettings(updatedSettings);
+      
+      // If theme was updated, apply it immediately globally
+      if (updates.uiTheme && typeof document !== 'undefined') {
+        document.documentElement.setAttribute('data-theme', updates.uiTheme);
+        // Trigger a re-render by updating the theme in ThemeProvider
+        window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: updates.uiTheme } }));
+      }
+      
       setSaveMessage('Settings saved successfully!');
       setTimeout(() => setSaveMessage(''), 3000);
     } catch (error) {
@@ -141,8 +150,9 @@ export default function SiteAdminDashboard() {
                 className="search-input"
               />
             </div>
-            <div className="housesTableScroll">
-              <table className="housesTable">
+            <div className="houses-table-container">
+              <div className="housesTableScroll">
+                <table className="housesTable">
                 <thead>
                   <tr>
                     <th>House Code</th>
@@ -190,6 +200,7 @@ export default function SiteAdminDashboard() {
                   )}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         )}

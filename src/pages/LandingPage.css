@@ -1,5 +1,5 @@
 .landing-page {
-  min-height: calc(100vh - 60px - 64px);
+  min-height: calc(100vh - var(--header-h) - var(--footer-h));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +9,7 @@
   width: 100%;
   overflow-x: hidden;
   flex: 1;
+  box-sizing: border-box;
 }
 
 /* When inside app-main, remove extra padding-bottom */
@@ -21,12 +22,12 @@
   border: 1px solid var(--border);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
-  width: min(920px, 100%);
-  max-height: calc(100vh - 60px - 64px - 48px);
+  width: min(920px, 92vw);
+  max-width: 920px;
   padding: var(--spacing-3xl);
   text-align: center;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible; /* Remove internal scroll, let page handle it */
+  box-sizing: border-box;
 }
 
 .landing-header {
@@ -91,14 +92,16 @@
 
 @media (max-width: 640px) {
   .landing-page {
-    padding: 16px;
-    min-height: calc(100vh - 60px - 64px);
+    padding: calc(var(--header-h) + 12px) 12px calc(var(--footer-h) + 12px) 12px;
+    min-height: calc(100vh - var(--header-h) - var(--footer-h));
+    justify-content: center;
   }
 
   .landing-container {
-    padding: 20px 16px;
-    border-radius: 16px;
-    max-height: calc(100vh - 60px - 64px - 32px);
+    padding: var(--spacing-xl) var(--spacing-md);
+    border-radius: var(--border-radius);
+    width: min(920px, 92vw);
+    max-width: 100%;
   }
 
   .landing-header {
