@@ -34,11 +34,8 @@ export default function ChoreList({
   // Always show all chores (no filtering)
   const filteredChores = chores;
 
-  // Sort chores: incomplete first, then by due date
+  // Sort chores: only by due date (maintain original order, don't move completed tasks to bottom)
   const sortedChores = [...filteredChores].sort((a, b) => {
-    if (a.isDone !== b.isDone) {
-      return a.isDone ? 1 : -1;
-    }
     if (a.dueDate && b.dueDate) {
       return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
     }

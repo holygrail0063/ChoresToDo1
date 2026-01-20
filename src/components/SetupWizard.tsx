@@ -57,10 +57,10 @@ export default function SetupWizard() {
   const handleStep2Next = () => {
     const count = typeof memberCount === 'number' ? memberCount : parseInt(String(memberCount)) || 0;
     if (count >= 1 && count < 12) {
-      // Generate member names
+      // Initialize member names as empty strings (will be filled in step 4)
       const memberNames: string[] = [];
       for (let i = 1; i <= count; i++) {
-        memberNames.push(`Member ${i}`);
+        memberNames.push('');
       }
       setMembers(memberNames);
       setStep(3);
@@ -436,7 +436,7 @@ export default function SetupWizard() {
                         type="text"
                         value={member}
                         onChange={(e) => handleUpdateMemberName(index, e.target.value)}
-                        placeholder="Enter name"
+                        placeholder="Enter your roommate's first name"
                         className="member-name-input"
                         autoComplete="off"
                       />
@@ -496,7 +496,7 @@ export default function SetupWizard() {
                                     onChange={() => handleToggleSoleResponsibilityMember(task, member)}
                                     className="member-checkbox"
                                   />
-                                  <span>{member}</span>
+                                  <span>{member || `Member ${idx + 1}`}</span>
                                 </label>
                               ))}
                             </div>
