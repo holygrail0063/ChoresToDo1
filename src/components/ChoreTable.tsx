@@ -532,11 +532,6 @@ export default function ChoreTable({
           </table>
         </div>
       </div>
-      {isAdmin && !isMaintenanceMode && (
-        <button className="add-chore-button" onClick={() => setIsAddModalOpen(true)}>
-          + Add Chore
-        </button>
-      )}
       <AddChoreModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
