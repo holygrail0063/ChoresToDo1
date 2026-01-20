@@ -36,6 +36,14 @@
   --border-radius-sm: 8px;
   --border-radius-lg: 14px;
   
+  /* Fixed header and footer heights */
+  --header-h: 60px;
+  --footer-h: 64px;
+  
+  @media (max-width: 768px) {
+    --header-h: 56px;
+  }
+  
   /* Shadows - Basecamp minimal */
   --shadow-sm: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.08);

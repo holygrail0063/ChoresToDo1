@@ -17,45 +17,4 @@
   font-size: 16px;
 }
 
-.add-chore-button {
-  position: fixed;
-  bottom: calc(64px + 20px);
-  right: 24px;
-  background-color: var(--primary);
-  color: white;
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 14px;
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-md);
-  z-index: 60;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-xs);
-}
-
-.add-chore-button:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-@media (max-width: 768px) {
-  .chore-list-container {
-    padding: 16px;
-    padding-bottom: 100px;
-  }
-
-  .add-chore-button {
-    bottom: calc(64px + 20px);
-    right: var(--spacing-md);
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: 14px;
-    height: 40px;
-  }
-}
+/* Floating add chore button removed - now in header */

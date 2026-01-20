@@ -4,13 +4,13 @@
   left: 0;
   right: 0;
   width: 100%;
-  height: 64px;
+  height: var(--footer-h);
   background-color: var(--surface);
   padding: 0 var(--page-padding);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0) + 0px);
   text-align: center;
-  z-index: 50;
+  z-index: 1000;
   box-shadow: var(--shadow-sm);
-  position: relative;
   overflow: visible;
   display: flex;
   align-items: center;

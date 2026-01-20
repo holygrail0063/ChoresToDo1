@@ -18,11 +18,38 @@
 }
 
 .chore-table-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--spacing-md);
   align-items: center;
   margin-bottom: var(--spacing-xl);
-  gap: var(--spacing-md);
+}
+
+.chore-table-header-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.chore-table-header-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chore-table-header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.chore-table-week-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chore-table-title {
@@ -30,6 +57,46 @@
   font-weight: var(--font-weight-semibold);
   color: var(--text);
   margin: 0;
+  text-align: center;
+}
+
+.chore-table-add-button {
+  background-color: var(--primary);
+  color: white;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs) var(--spacing-md);
+  height: var(--button-height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .chore-table-add-button {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.chore-table-add-button:hover {
+  background-color: var(--primary-hover);
+}
+
+[data-theme="light"] .chore-table-add-button:hover {
+  background-color: var(--accent-pink-hover);
+}
+
+.chore-table-add-button:active {
+  background-color: var(--primary-pressed);
+}
+
+[data-theme="light"] .chore-table-add-button:active {
+  background-color: var(--accent-pink-pressed);
 }
 
 .chore-table-date-badge {
@@ -375,45 +442,11 @@
   background: var(--border);
 }
 
-.add-chore-button {
-  position: fixed;
-  bottom: var(--spacing-xl);
-  right: var(--spacing-xl);
-  background-color: var(--primary);
-  color: white;
-  padding: var(--spacing-lg) var(--spacing-xl);
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  z-index: 100;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-  height: var(--button-height-lg);
-}
-
-[data-theme="light"] .add-chore-button {
-  background-color: var(--accent-pink);
-  color: #0B0B0D;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.add-chore-button:hover {
-  background-color: var(--primary-hover);
-  box-shadow: var(--shadow-md);
-}
-
-[data-theme="light"] .add-chore-button:hover {
-  background-color: var(--accent-pink-hover);
-  box-shadow: var(--shadow-md);
-}
-
-.add-chore-button:active {
+/* Floating add chore button removed - now in header */
   background-color: var(--primary-pressed);
 }
 
-[data-theme="light"] .add-chore-button:active {
+[data-theme="light"] /* Removed floating button styles */
   background-color: var(--accent-pink-pressed);
 }
 

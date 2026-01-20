@@ -1,6 +1,7 @@
 .app-main {
-  min-height: calc(100vh - 60px);
-  padding-bottom: calc(64px + 24px);
+  min-height: 100vh;
+  padding-top: var(--header-h);
+  padding-bottom: calc(var(--footer-h) + 24px);
   overflow-x: hidden;
   width: 100%;
   display: flex;

@@ -314,22 +314,31 @@ export default function ChoreTable({
       <div className="chore-table-container">
         <div className="chore-table-card">
           <div className="chore-table-header">
-            <h2 className="chore-table-title">Current Week Chore Schedule</h2>
-            {weekRange && (
-              <span className="chore-table-date-badge">
-                {weekRange.fromLabel} — {weekRange.toLabel}
-              </span>
-            )}
+            <div className="chore-table-header-left">
+              {weekRange && (
+                <span className="chore-table-week-label">
+                  Current Week {weekRange.fromLabel} — {weekRange.toLabel}
+                </span>
+              )}
+            </div>
+            <div className="chore-table-header-center">
+              <h2 className="chore-table-title">Chore Schedule</h2>
+            </div>
+            <div className="chore-table-header-right">
+              {isAdmin && !isMaintenanceMode && (
+                <button 
+                  className="chore-table-add-button" 
+                  onClick={() => setIsAddModalOpen(true)}
+                >
+                  + Add Chore
+                </button>
+              )}
+            </div>
           </div>
           <div className="chore-table-empty">
             <p>No chores yet. {isAdmin && !isMaintenanceMode && 'Add one to get started!'}</p>
           </div>
         </div>
-        {isAdmin && !isMaintenanceMode && (
-          <button className="add-chore-button" onClick={() => setIsAddModalOpen(true)}>
-            + Add Chore
-          </button>
-        )}
         <AddChoreModal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
@@ -344,12 +353,26 @@ export default function ChoreTable({
     <div className="chore-table-container">
       <div className="chore-table-card">
         <div className="chore-table-header">
-          <h2 className="chore-table-title">Current Week Chore Schedule</h2>
-          {weekRange && (
-            <span className="chore-table-date-badge">
-              {weekRange.fromLabel} — {weekRange.toLabel}
-            </span>
-          )}
+          <div className="chore-table-header-left">
+            {weekRange && (
+              <span className="chore-table-week-label">
+                Current Week {weekRange.fromLabel} — {weekRange.toLabel}
+              </span>
+            )}
+          </div>
+          <div className="chore-table-header-center">
+            <h2 className="chore-table-title">Chore Schedule</h2>
+          </div>
+          <div className="chore-table-header-right">
+            {isAdmin && !isMaintenanceMode && (
+              <button 
+                className="chore-table-add-button" 
+                onClick={() => setIsAddModalOpen(true)}
+              >
+                + Add Chore
+              </button>
+            )}
+          </div>
         </div>
         <div className="chore-table-wrapper">
           <table className="chore-table">
