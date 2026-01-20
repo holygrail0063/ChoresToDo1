@@ -1,8 +1,7 @@
 .schedule-overview-page {
   min-height: 100vh;
   background-color: var(--bg);
-  padding: var(--page-padding);
-  padding-bottom: 80px;
+  padding: 0 var(--page-padding) 80px var(--page-padding);
 }
 
 .schedule-overview-container {
