@@ -328,9 +328,11 @@ export default function SetupWizard() {
                 autoFocus
               />
               <SegmentedNav
-                onPrevious={() => {}}
+                onPrevious={() => {
+                  window.location.href = 'https://www.chorestodo.ca/';
+                }}
                 onNext={handleStep1Next}
-                previousDisabled={true}
+                previousDisabled={false}
                 nextDisabled={!houseName.trim()}
               />
             </div>
