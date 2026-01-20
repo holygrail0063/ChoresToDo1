@@ -61,6 +61,12 @@
   border-radius: var(--border-radius-lg);
   padding: 24px;
   box-shadow: var(--shadow-sm);
+  overflow: visible; /* Allow table scroll container to overflow */
+  min-width: 0; /* Allow shrinking in flex layouts */
+}
+
+.houses-section {
+  min-width: 0; /* Allow shrinking in flex layouts */
 }
 
 .loading {
@@ -118,35 +124,62 @@
   font-size: 14px;
 }
 
-.houses-table {
+/* Horizontal scroll container for houses table */
+.table-scroll-x {
+  width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  min-width: 0; /* Allow shrinking in flex layouts */
 }
 
-.houses-table table {
+.houses-table {
   width: 100%;
-  border-collapse: collapse;
+  min-width: 720px; /* Ensures table overflows on small screens */
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .houses-table th {
-  background: #f8f9fa;
+  background: var(--surface);
   padding: 12px;
   text-align: left;
   font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #dee2e6;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap; /* Prevent header text wrapping */
+}
+
+.houses-table th:first-child,
+.houses-table td:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--surface);
+  z-index: 2;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.houses-table th:first-child {
+  z-index: 3; /* Header sticky column above body sticky column */
 }
 
 .houses-table td {
   padding: 12px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap; /* Prevent cell text wrapping */
+}
+
+.houses-table td:first-child {
+  background: var(--surface);
 }
 
 .houses-table code {
-  background: #f8f9fa;
+  background: var(--bg);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
-  color: #495057;
+  color: var(--text-muted);
 }
 
 .status-badge {
@@ -361,6 +394,11 @@
 
   .admin-content {
     padding: 20px 16px;
+    overflow-x: visible; /* Ensure table scroll container can overflow */
+  }
+
+  .search-input {
+    max-width: 100%; /* Prevent search input from overflowing */
   }
 
   .setting-item.setting-checkbox {
@@ -372,6 +410,16 @@
   .setting-input,
   .setting-textarea {
     max-width: 100%;
+  }
+
+  /* Ensure table scroll container works on mobile */
+  .table-scroll-x {
+    margin: 0 calc(-1 * 16px); /* Extend to card edges */
+    padding: 0 16px; /* Add padding back for content */
+  }
+
+  .houses-table {
+    min-width: 720px; /* Maintain minimum width for scrolling */
   }
 }
 
