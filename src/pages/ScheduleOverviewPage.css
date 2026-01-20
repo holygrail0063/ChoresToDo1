@@ -2,6 +2,7 @@
   min-height: 100vh;
   background-color: var(--bg);
   padding: 0 var(--page-padding) 80px var(--page-padding);
+  padding-top: var(--house-header-h);
 }
 
 .schedule-overview-container {

@@ -39,9 +39,11 @@
   /* Fixed header and footer heights */
   --header-h: 60px;
   --footer-h: 64px;
+  --house-header-h: 80px; /* Approximate height of house header */
   
   @media (max-width: 768px) {
     --header-h: 56px;
+    --house-header-h: 100px; /* Taller on mobile due to stacked buttons */
   }
   
   /* Shadows - Basecamp minimal */

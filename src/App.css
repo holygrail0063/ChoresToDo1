@@ -9,6 +9,11 @@
   flex: 1;
 }
 
+/* Pages with house header need extra top padding */
+.app-main:has(.house-header) {
+  padding-top: calc(var(--header-h) + var(--house-header-h));
+}
+
 /* Home page specific: center content vertically and remove extra padding */
 .app-main > .home-main {
   padding-bottom: 0;
