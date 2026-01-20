@@ -176,6 +176,8 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   position: relative;
+  background: var(--surface); /* Match card background to prevent strip */
+  overflow-y: visible; /* Do not trap vertical scroll */
 }
 
 .schedule-table {
@@ -187,6 +189,7 @@
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   overflow: hidden;
+  background: var(--surface); /* Ensure table has consistent background */
 }
 
 /* On mobile, switch to auto layout for better column alignment */
@@ -214,7 +217,7 @@
   white-space: normal;
   word-break: break-word;
   line-height: 1.2;
-  background: var(--bg);
+  background: var(--bg) !important; /* Force consistent header background */
 }
 
 .schedule-table td {
@@ -222,7 +225,7 @@
   border: 1px solid var(--border);
   border-top: none;
   vertical-align: middle;
-  background: var(--surface);
+  background: var(--surface) !important; /* Force consistent body background */
 }
 
 .schedule-table tbody tr:last-child td {
@@ -365,79 +368,67 @@
   .schedule-table-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    overflow-y: visible; /* Do not trap vertical scroll */
     margin: 0 calc(-1 * var(--spacing-md));
     padding: 0 var(--spacing-md);
     position: relative;
+    background: var(--surface) !important; /* Match card background to prevent strip */
+    mask-image: none !important; /* Remove any mask overlays */
   }
 
-  /* Horizontal scroll indicator - right edge fade */
-  .schedule-table-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 40px;
-    background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.8;
-  }
-
-  /* Horizontal scroll indicator - left edge fade (when scrolled) */
+  /* Remove gradient overlays on mobile - they cause background mismatch */
+  .schedule-table-wrapper::after,
   .schedule-table-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 40px;
-    background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  /* Horizontal scroll indicator - right edge fade */
-  .schedule-table-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 40px;
-    background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.8;
-  }
-
-  /* Horizontal scroll indicator - left edge fade (when scrolled) */
-  .schedule-table-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 40px;
-    background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    content: none !important;
+    display: none !important;
   }
 
   .schedule-table {
     font-size: var(--font-size-sm);
     min-width: 600px;
     /* table-layout: auto and width: max-content already set in media query above */
+    width: max-content; /* Allow table to size based on content */
+    background: var(--surface) !important; /* Ensure consistent background */
   }
 
   .schedule-table th,
   .schedule-table td {
     padding: var(--spacing-sm) var(--spacing-md); /* Increased padding for better alignment */
     vertical-align: middle; /* Ensure vertical alignment */
+    background: inherit !important; /* Inherit from table, ensure consistency */
+    position: static !important; /* Disable any sticky positioning */
+    box-shadow: none !important; /* Remove any shadows */
+  }
+
+  /* Force consistent backgrounds on mobile */
+  .schedule-table thead th {
+    background: var(--bg) !important; /* Header background */
+  }
+
+  .schedule-table tbody td {
+    background: var(--surface) !important; /* Body background */
+  }
+
+  /* Ensure no sticky columns or overlays */
+  .schedule-table th.sticky,
+  .schedule-table td.sticky,
+  .schedule-table th.pinned,
+  .schedule-table td.pinned,
+  .schedule-table th.frozen,
+  .schedule-table td.frozen {
+    position: static !important;
+    box-shadow: none !important;
+  }
+
+  .schedule-table th.sticky::before,
+  .schedule-table th.sticky::after,
+  .schedule-table td.sticky::before,
+  .schedule-table td.sticky::after,
+  .schedule-table th.pinned::before,
+  .schedule-table th.pinned::after,
+  .schedule-table td.pinned::before,
+  .schedule-table td.pinned::after {
+    content: none !important;
   }
 
   .col-week-range {
