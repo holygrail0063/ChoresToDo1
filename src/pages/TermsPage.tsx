@@ -1,4 +1,3 @@
-import Footer from '../components/Footer';
 import BackButton from '../components/BackButton';
 import './TermsPage.css';
 
@@ -69,8 +68,6 @@ export default function TermsPage() {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }

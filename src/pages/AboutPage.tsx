@@ -1,4 +1,3 @@
-import Footer from '../components/Footer';
 import BackButton from '../components/BackButton';
 import './AboutPage.css';
 
@@ -42,8 +41,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }

@@ -7,7 +7,6 @@ import { processAndAssignTasks, buildCommonBundles } from '../utils/taskAssignme
 import { buildHouseShareLink, copyToClipboard } from '../utils/shareLink';
 import { getSiteSettings } from '../firebase/siteSettings';
 import MaintenanceBanner from './MaintenanceBanner';
-import Footer from './Footer';
 import SegmentedNav from './ui/SegmentedNav';
 import './SetupWizard.css';
 
@@ -641,7 +640,6 @@ export default function SetupWizard() {
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

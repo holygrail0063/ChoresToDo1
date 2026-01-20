@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import MaintenanceBanner from '../components/MaintenanceBanner';
-import Footer from '../components/Footer';
 import './LandingPage.css';
 
 export default function LandingPage() {
@@ -29,7 +28,6 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

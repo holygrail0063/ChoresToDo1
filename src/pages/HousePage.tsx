@@ -8,7 +8,6 @@ import { getSiteSettings } from '../firebase/siteSettings';
 import HouseHeader from '../components/HouseHeader';
 import ChoreList from '../components/ChoreList';
 import MaintenanceBanner from '../components/MaintenanceBanner';
-import Footer from '../components/Footer';
 import './HousePage.css';
 
 export default function HousePage() {
@@ -139,8 +138,6 @@ export default function HousePage() {
             house={house}
             weekRange={weekRange}
           />
-          
-          <Footer />
         </div>
       );
 }

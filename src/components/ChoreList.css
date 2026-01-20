@@ -19,8 +19,8 @@
 
 .add-chore-button {
   position: fixed;
-  bottom: 80px;
-  right: var(--spacing-xl);
+  bottom: calc(64px + 20px);
+  right: 24px;
   background-color: var(--primary);
   color: white;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -28,7 +28,7 @@
   font-weight: var(--font-weight-medium);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-md);
-  z-index: 100;
+  z-index: 60;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -52,7 +52,7 @@
   }
 
   .add-chore-button {
-    bottom: 80px;
+    bottom: calc(64px + 20px);
     right: var(--spacing-md);
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: 14px;

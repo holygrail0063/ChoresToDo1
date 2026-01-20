@@ -8,6 +8,7 @@ import SiteAdminPage from './pages/SiteAdminPage';
 import AboutPage from './pages/AboutPage';
 import TermsPage from './pages/TermsPage';
 import GlobalHeader from './components/GlobalHeader';
+import Footer from './components/Footer';
 import './App.css';
 
 // Legacy route redirects
@@ -20,20 +21,23 @@ function App() {
   return (
     <HashRouter>
       <GlobalHeader />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/create" element={<CreateHouse />} />
-        <Route path="/join" element={<JoinHousePage />} />
-        <Route path="/house/:houseCode" element={<HousePage />} />
-        <Route path="/house/:houseCode/schedule" element={<ScheduleOverviewPage />} />
-        <Route path="/house/:houseCode/admin" element={<ScheduleOverviewPage />} />
-        <Route path="/Admin" element={<SiteAdminPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        {/* Legacy routes for backward compatibility */}
-        <Route path="/h/:houseCode" element={<LegacyHouseRedirect />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <main className="app-main">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/create" element={<CreateHouse />} />
+          <Route path="/join" element={<JoinHousePage />} />
+          <Route path="/house/:houseCode" element={<HousePage />} />
+          <Route path="/house/:houseCode/schedule" element={<ScheduleOverviewPage />} />
+          <Route path="/house/:houseCode/admin" element={<ScheduleOverviewPage />} />
+          <Route path="/Admin" element={<SiteAdminPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          {/* Legacy routes for backward compatibility */}
+          <Route path="/h/:houseCode" element={<LegacyHouseRedirect />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+      <Footer />
     </HashRouter>
   );
 }
