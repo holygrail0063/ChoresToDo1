@@ -68,18 +68,28 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
+}
+
 body {
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg);
   color: var(--text);
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
 }
 
 #root {
   min-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 100%;
 }
 
 /* Standardized Button Styles */
