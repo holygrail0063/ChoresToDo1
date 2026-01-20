@@ -36,8 +36,16 @@
   align-self: flex-start;
 }
 
+[data-theme="light"] .back-button {
+  color: #0B0B0D;
+}
+
 .back-button:hover {
   color: var(--primary-hover);
+}
+
+[data-theme="light"] .back-button:hover {
+  color: rgba(11, 11, 13, 0.7);
 }
 
 .schedule-overview-header h1 {
@@ -92,8 +100,26 @@
   transition: background-color 0.2s ease;
 }
 
+[data-theme="light"] .month-nav-button {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .month-nav-button:hover {
   background-color: var(--primary-hover);
+}
+
+[data-theme="light"] .month-nav-button:hover {
+  background-color: var(--accent-pink-hover);
+}
+
+.month-nav-button:active {
+  background-color: var(--primary-pressed);
+}
+
+[data-theme="light"] .month-nav-button:active {
+  background-color: var(--accent-pink-pressed);
 }
 
 .today-button {
@@ -109,8 +135,26 @@
   transition: background-color 0.2s ease;
 }
 
+[data-theme="light"] .today-button {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .today-button:hover {
   background-color: var(--primary-hover);
+}
+
+[data-theme="light"] .today-button:hover {
+  background-color: var(--accent-pink-hover);
+}
+
+.today-button:active {
+  background-color: var(--primary-pressed);
+}
+
+[data-theme="light"] .today-button:active {
+  background-color: var(--accent-pink-pressed);
 }
 
 .schedule-table-card {
@@ -212,6 +256,10 @@
   color: var(--primary);
   font-weight: var(--font-weight-medium);
   word-break: break-word;
+}
+
+[data-theme="light"] .member-name {
+  color: #0B0B0D;
 }
 
 .unassigned-badge {
