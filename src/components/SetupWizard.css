@@ -2,9 +2,11 @@
   padding-bottom: 60px;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: var(--page-padding);
+  padding-top: var(--spacing-md);
   background: var(--bg);
   position: relative;
 }
