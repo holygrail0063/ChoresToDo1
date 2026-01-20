@@ -183,10 +183,18 @@
   border-collapse: separate;
   border-spacing: 0;
   font-size: var(--font-size-base);
-  table-layout: fixed;
+  table-layout: fixed; /* Fixed layout for desktop */
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   overflow: hidden;
+}
+
+/* On mobile, switch to auto layout for better column alignment */
+@media (max-width: 900px) {
+  .schedule-table {
+    table-layout: auto;
+    width: max-content;
+  }
 }
 
 .schedule-table thead {
@@ -249,7 +257,7 @@
 
 .col-task-assignment {
   min-width: 160px;
-  text-align: left;
+  text-align: center; /* Center align for better visual consistency */
 }
 
 .member-name {
@@ -423,21 +431,24 @@
   .schedule-table {
     font-size: var(--font-size-sm);
     min-width: 600px;
+    /* table-layout: auto and width: max-content already set in media query above */
   }
 
   .schedule-table th,
   .schedule-table td {
-    padding: var(--spacing-sm) var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md); /* Increased padding for better alignment */
+    vertical-align: middle; /* Ensure vertical alignment */
   }
 
   .col-week-range {
-    width: 120px;
-    min-width: 120px;
+    width: auto; /* Let it size naturally */
+    min-width: 140px; /* Increased from 120px for better readability */
   }
 
   .col-task-assignment {
-    min-width: 100px;
+    min-width: 120px; /* Increased from 100px for better alignment */
     font-size: var(--font-size-xs);
+    width: auto; /* Let columns size naturally */
   }
 
   .week-range-dates {

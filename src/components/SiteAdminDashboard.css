@@ -136,13 +136,16 @@
   overflow-y: visible; /* IMPORTANT: do not trap vertical scroll */
   -webkit-overflow-scrolling: touch;
   min-width: 0; /* Allow shrinking in flex layouts */
+  /* Ensure scroll container can actually scroll */
+  position: relative;
 }
 
 .housesTable {
   width: max-content; /* Allow table to be wider than viewport */
-  min-width: 900px; /* Ensure all columns (Code, Name, Members, Created, Status, Actions) require scroll */
+  min-width: 1000px; /* Increased to ensure all 6 columns (Code, Name, Members, Created, Status, Actions) require scroll */
   border-collapse: separate;
   border-spacing: 0;
+  table-layout: auto; /* Allow columns to size naturally */
 }
 
 .housesTable th {
@@ -410,7 +413,16 @@
   }
 
   .housesTable {
-    min-width: 900px; /* Maintain minimum width for scrolling - ensures all columns (Code, Name, Members, Created, Status, Actions) visible */
+    min-width: 1000px; /* Increased minimum width for scrolling - ensures all columns (Code, Name, Members, Created, Status, Actions) visible */
+  }
+  
+  /* Ensure parent containers don't block scrolling */
+  .admin-content {
+    overflow: visible !important;
+  }
+  
+  .houses-section {
+    overflow: visible !important;
   }
 }
 
