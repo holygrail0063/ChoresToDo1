@@ -1,11 +1,31 @@
 .house-header {
-  background: var(--surface);
+  background: var(--brand);
   border-bottom: 1px solid var(--border);
   padding: var(--spacing-lg) var(--page-padding);
   margin-bottom: var(--spacing-xl);
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+[data-theme="dark"] .house-header {
+  background: var(--surface);
+}
+
+.house-header .header-left h1 {
+  color: white;
+}
+
+[data-theme="dark"] .house-header .header-left h1 {
+  color: var(--text);
+}
+
+.house-header .house-code {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] .house-header .house-code {
+  color: var(--text-muted);
 }
 
 .header-content {
