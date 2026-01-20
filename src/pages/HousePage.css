@@ -4,7 +4,6 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 60px;
-  padding-top: var(--house-header-h);
 }
 
 .loading-container {

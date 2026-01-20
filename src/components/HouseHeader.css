@@ -1,13 +1,10 @@
 .house-header {
   background: var(--brand);
   padding: var(--spacing-lg) var(--page-padding);
-  margin-bottom: 0;
+  margin-bottom: var(--spacing-xl);
   margin-top: 0;
-  position: fixed;
-  top: var(--header-h);
-  left: 0;
-  right: 0;
-  z-index: 999;
+  position: relative;
+  z-index: 10;
   width: 100%;
 }
 
