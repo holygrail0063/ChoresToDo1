@@ -1,8 +1,6 @@
 .global-header {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 1000;
   background-color: var(--surface);
   padding: 0 var(--page-padding);
@@ -10,7 +8,6 @@
   height: var(--header-h);
   display: flex;
   align-items: center;
-  position: relative;
 }
 
 [data-theme="light"] .global-header {

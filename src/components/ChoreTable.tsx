@@ -315,11 +315,14 @@ export default function ChoreTable({
         <div className="chore-table-card">
           <div className="chore-table-header">
             <div className="chore-table-header-left">
-              {weekRange && (
-                <span className="chore-table-week-label">
-                  Current Week {weekRange.fromLabel} — {weekRange.toLabel}
-                </span>
-              )}
+              <div className="chore-table-week-group">
+                <span className="chore-table-week-label">Current Week</span>
+                {weekRange && (
+                  <span className="chore-table-date-range">
+                    {weekRange.fromLabel} — {weekRange.toLabel}
+                  </span>
+                )}
+              </div>
             </div>
             <div className="chore-table-header-center">
               <h2 className="chore-table-title">Chore Schedule</h2>
@@ -354,11 +357,14 @@ export default function ChoreTable({
       <div className="chore-table-card">
         <div className="chore-table-header">
           <div className="chore-table-header-left">
-            {weekRange && (
-              <span className="chore-table-week-label">
-                Current Week {weekRange.fromLabel} — {weekRange.toLabel}
-              </span>
-            )}
+            <div className="chore-table-week-group">
+              <span className="chore-table-week-label">Current Week</span>
+              {weekRange && (
+                <span className="chore-table-date-range">
+                  {weekRange.fromLabel} — {weekRange.toLabel}
+                </span>
+              )}
+            </div>
           </div>
           <div className="chore-table-header-center">
             <h2 className="chore-table-title">Chore Schedule</h2>

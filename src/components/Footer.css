@@ -1,8 +1,5 @@
 .app-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   width: 100%;
   height: var(--footer-h);
   background-color: var(--surface);
