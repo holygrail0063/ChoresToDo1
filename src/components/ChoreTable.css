@@ -134,6 +134,7 @@
   max-height: none;
   -webkit-overflow-scrolling: touch;
   position: relative;
+  background: var(--surface); /* Match card background */
 }
 
 /* Desktop: Remove internal scrollbar, let page scroll handle it */
@@ -165,6 +166,7 @@
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   overflow: hidden;
+  background: var(--surface); /* Ensure table has consistent background */
 }
 
 .chore-table thead {
@@ -181,14 +183,14 @@
   letter-spacing: 0;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
-  background: var(--bg);
+  background: var(--bg) !important; /* Force consistent header background */
 }
 
 .chore-table td {
   padding: var(--spacing-lg);
   border-bottom: 1px solid var(--border-light);
   vertical-align: middle;
-  background: var(--surface);
+  background: var(--surface) !important; /* Force consistent body background */
 }
 
 .chore-table tbody tr:last-child td {
@@ -480,50 +482,43 @@
     margin: 0 calc(-1 * var(--spacing-md));
     padding: 0 var(--spacing-md);
     position: relative;
+    background: var(--surface); /* Match card background to prevent strip */
   }
 
-  /* Horizontal scroll indicator - right edge fade */
-  .chore-table-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 40px;
-    background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.8;
-  }
-
-  /* Horizontal scroll indicator - left edge fade (when scrolled) */
+  /* Remove gradient overlays on mobile - they cause background mismatch */
+  .chore-table-wrapper::after,
   .chore-table-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 40px;
-    background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  /* Show left indicator when scrolled */
-  .chore-table-wrapper:not(:hover)::before {
-    opacity: 0;
+    content: none !important;
+    display: none !important;
   }
 
   .chore-table {
     font-size: var(--font-size-sm);
     min-width: 800px;
+    width: max-content; /* Allow table to size based on content on mobile */
+    background: var(--surface) !important; /* Ensure consistent background */
   }
 
   .chore-table th,
   .chore-table td {
     padding: var(--spacing-sm) var(--spacing-xs);
+    background: inherit !important; /* Inherit from table, ensure consistency */
+  }
+
+  /* Force consistent backgrounds on mobile */
+  .chore-table thead th {
+    background: var(--bg) !important; /* Header background */
+  }
+
+  .chore-table tbody td {
+    background: var(--surface) !important; /* Body background */
+  }
+
+  /* Ensure no sticky columns or overlays */
+  .chore-table th,
+  .chore-table td {
+    position: static !important; /* Disable any sticky positioning */
+    box-shadow: none !important; /* Remove any shadows */
   }
 
   .col-done {
