@@ -3,7 +3,7 @@ import './Footer.css';
 
 export default function Footer() {
   return (
-    <footer className="app-footer">
+    <footer className="app-footer site-footer">
       <div className="footer-links">
         <Link to="/about">About</Link>
         <span className="footer-separator">|</span>

@@ -1,16 +1,16 @@
 .landing-page {
-  min-height: calc(100dvh - var(--header-h) - var(--footer-h));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: var(--bg);
-  padding: 24px 16px;
+  padding: 0; /* Padding handled by app-main */
   width: 100%;
   overflow-x: hidden;
   flex: 1;
   box-sizing: border-box;
   margin: 0; /* Remove any default margins */
+  min-height: 0; /* Allow flex shrinking */
 }
 
 /* When inside app-main, remove extra padding since app-main handles it */
@@ -96,8 +96,7 @@
 
 @media (max-width: 640px) {
   .landing-page {
-    padding: 12px 12px; /* Minimal padding, app-main handles header/footer spacing */
-    min-height: calc(100dvh - var(--header-h) - var(--footer-h));
+    padding: 0; /* Padding handled by app-main */
     justify-content: center;
     align-items: center;
   }

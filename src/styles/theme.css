@@ -36,13 +36,14 @@
   --border-radius-sm: 8px;
   --border-radius-lg: 14px;
   
-  /* Fixed header and footer heights */
+  /* Fixed header and footer heights - actual measured values */
   --header-h: 60px;
   --footer-h: 64px;
   --house-header-h: 80px; /* Approximate height of house header */
   
   @media (max-width: 768px) {
     --header-h: 56px;
+    --footer-h: 64px; /* Keep consistent */
     --house-header-h: 100px; /* Taller on mobile due to stacked buttons */
   }
   

@@ -35,22 +35,30 @@ export default function SiteAdminPage() {
 
   if (loading) {
     return (
-      <div className="site-admin-page">
+      <div className="admin-shell site-admin-page">
         <div className="loading">Checking admin access...</div>
       </div>
     );
   }
 
   if (isAdmin === false && uid) {
-    return <AccessDenied uid={uid} />;
+    return (
+      <div className="admin-shell">
+        <AccessDenied uid={uid} />
+      </div>
+    );
   }
 
   if (isAdmin === true) {
-    return <SiteAdminDashboard />;
+    return (
+      <div className="admin-shell">
+        <SiteAdminDashboard />
+      </div>
+    );
   }
 
   return (
-    <div className="site-admin-page">
+    <div className="admin-shell site-admin-page">
       <div className="loading">Loading...</div>
     </div>
   );

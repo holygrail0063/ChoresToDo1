@@ -87,7 +87,12 @@
   color: rgba(11, 11, 13, 0.3);
 }
 
+/* Hide footer on mobile for admin routes */
 @media (max-width: 768px) {
+  .admin-shell .site-footer {
+    display: none !important;
+  }
+
   .app-footer {
     padding: var(--spacing-md) var(--spacing-lg);
   }
