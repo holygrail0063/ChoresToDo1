@@ -12,6 +12,7 @@ interface ChoreTableProps {
   isAdmin?: boolean;
   isMaintenanceMode?: boolean;
   house?: House | null;
+  weekRange?: { fromLabel: string; toLabel: string } | null;
 }
 
 export default function ChoreTable({
@@ -21,6 +22,7 @@ export default function ChoreTable({
   isAdmin = false,
   isMaintenanceMode = false,
   house,
+  weekRange,
 }: ChoreTableProps) {
   const [editingChoreId, setEditingChoreId] = useState<string | null>(null);
   const [editedAssignedTo, setEditedAssignedTo] = useState('');
@@ -311,7 +313,14 @@ export default function ChoreTable({
     return (
       <div className="chore-table-container">
         <div className="chore-table-card">
-          <h2 className="chore-table-title">Chore Schedule</h2>
+          <div className="chore-table-header">
+            <h2 className="chore-table-title">Current Week Chore Schedule</h2>
+            {weekRange && (
+              <span className="chore-table-date-badge">
+                {weekRange.fromLabel} — {weekRange.toLabel}
+              </span>
+            )}
+          </div>
           <div className="chore-table-empty">
             <p>No chores yet. {isAdmin && !isMaintenanceMode && 'Add one to get started!'}</p>
           </div>
@@ -334,7 +343,14 @@ export default function ChoreTable({
   return (
     <div className="chore-table-container">
       <div className="chore-table-card">
-        <h2 className="chore-table-title">Chore Schedule</h2>
+        <div className="chore-table-header">
+          <h2 className="chore-table-title">Current Week Chore Schedule</h2>
+          {weekRange && (
+            <span className="chore-table-date-badge">
+              {weekRange.fromLabel} — {weekRange.toLabel}
+            </span>
+          )}
+        </div>
         <div className="chore-table-wrapper">
           <table className="chore-table">
             <thead>

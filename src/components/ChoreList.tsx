@@ -10,6 +10,7 @@ interface ChoreListProps {
   isAdmin?: boolean;
   isMaintenanceMode?: boolean;
   house?: House | null;
+  weekRange?: { fromLabel: string; toLabel: string } | null;
 }
 
 export default function ChoreList({ 
@@ -17,7 +18,8 @@ export default function ChoreList({
   currentUid, 
   isAdmin = false, 
   isMaintenanceMode = false,
-  house
+  house,
+  weekRange
 }: ChoreListProps) {
   const [chores, setChores] = useState<Chore[]>([]);
 
@@ -53,6 +55,7 @@ export default function ChoreList({
       isAdmin={isAdmin}
       isMaintenanceMode={isMaintenanceMode}
       house={house}
+      weekRange={weekRange}
     />
   );
 }

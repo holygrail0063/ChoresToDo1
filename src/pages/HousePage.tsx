@@ -131,20 +131,13 @@ export default function HousePage() {
             house={house}
           />
           
-          {weekRange && (
-            <div className="rotation-week-header">
-              <h2>
-                {weekRange.fromLabel} — {weekRange.toLabel}
-              </h2>
-            </div>
-          )}
-          
           <ChoreList 
             houseCode={normalizedCode}
             isMaintenanceMode={isMaintenanceMode} 
             currentUid={currentUid}
             isAdmin={isAdmin}
             house={house}
+            weekRange={weekRange}
           />
           
           <Footer />

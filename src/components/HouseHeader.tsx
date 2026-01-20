@@ -35,7 +35,7 @@ export default function HouseHeader({ houseCode, houseName }: HouseHeaderProps) 
             Share Link
           </button>
           <button onClick={() => navigate(`/house/${houseCode}/schedule`)} className="admin-button">
-            Schedule
+            Schedule Overview
           </button>
         </div>
       </div>

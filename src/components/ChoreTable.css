@@ -17,11 +17,30 @@
   overflow: visible;
 }
 
+.chore-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  gap: var(--spacing-md);
+}
+
 .chore-table-title {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   color: var(--text);
-  margin: 0 0 var(--spacing-xl) 0;
+  margin: 0;
+}
+
+.chore-table-date-badge {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs) var(--spacing-md);
+  white-space: nowrap;
 }
 
 .chore-table-empty {
