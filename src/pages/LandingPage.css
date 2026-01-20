@@ -1,5 +1,5 @@
 .landing-page {
-  min-height: calc(100vh - var(--header-h) - var(--footer-h));
+  min-height: calc(100dvh - var(--header-h) - var(--footer-h));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,11 +10,14 @@
   overflow-x: hidden;
   flex: 1;
   box-sizing: border-box;
+  margin: 0; /* Remove any default margins */
 }
 
-/* When inside app-main, remove extra padding-bottom */
-.app-main .home-main {
+/* When inside app-main, remove extra padding since app-main handles it */
+.app-main > .home-main {
   margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .landing-container {
@@ -28,6 +31,7 @@
   text-align: center;
   overflow: visible; /* Remove internal scroll, let page handle it */
   box-sizing: border-box;
+  margin: 0; /* Remove any default margins */
 }
 
 .landing-header {
@@ -92,24 +96,27 @@
 
 @media (max-width: 640px) {
   .landing-page {
-    padding: calc(var(--header-h) + 12px) 12px calc(var(--footer-h) + 12px) 12px;
-    min-height: calc(100vh - var(--header-h) - var(--footer-h));
+    padding: 12px 12px; /* Minimal padding, app-main handles header/footer spacing */
+    min-height: calc(100dvh - var(--header-h) - var(--footer-h));
     justify-content: center;
+    align-items: center;
   }
 
   .landing-container {
-    padding: var(--spacing-xl) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md); /* Reduced from xl to lg */
     border-radius: var(--border-radius);
     width: min(920px, 92vw);
     max-width: 100%;
+    margin: 0; /* Ensure no extra margins */
   }
 
   .landing-header {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg); /* Reduced from xl to lg */
   }
 
   .landing-header h1 {
     font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm); /* Reduced from md to sm */
   }
 
   .landing-subtitle {
@@ -118,11 +125,11 @@
 
   .landing-actions {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: var(--spacing-md); /* Reduced from 16px to spacing-md */
   }
 
   .action-card {
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg); /* Reduced from xl to lg */
     min-height: 44px;
     display: flex;
     flex-direction: column;
@@ -131,13 +138,13 @@
   }
 
   .action-icon {
-    font-size: 2.5rem;
-    margin-bottom: var(--spacing-md);
+    font-size: 2.5rem; /* Keep icon size reasonable */
+    margin-bottom: var(--spacing-sm); /* Reduced from md to sm */
   }
 
   .action-card h2 {
     font-size: var(--font-size-md);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs); /* Reduced from sm to xs */
   }
 
   .action-card p {

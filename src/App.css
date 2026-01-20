@@ -12,8 +12,12 @@
 
 /* Home page specific: center content vertically and remove extra padding */
 .app-main > .home-main {
-  padding-bottom: 0;
-  margin: 0;
   padding-top: 0; /* Landing page handles its own padding */
   padding-bottom: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100dvh - var(--header-h) - var(--footer-h));
 }
