@@ -140,7 +140,7 @@
 
 .housesTable {
   width: max-content; /* Allow table to be wider than viewport */
-  min-width: 680px; /* Adjust to your columns */
+  min-width: 900px; /* Ensure all columns (Code, Name, Members, Created, Status, Actions) require scroll */
   border-collapse: separate;
   border-spacing: 0;
 }
@@ -410,7 +410,7 @@
   }
 
   .housesTable {
-    min-width: 680px; /* Maintain minimum width for scrolling */
+    min-width: 900px; /* Maintain minimum width for scrolling - ensures all columns (Code, Name, Members, Created, Status, Actions) visible */
   }
 }
 
