@@ -11,7 +11,6 @@ import {
   startOfWeekMonday 
 } from '../utils/weekUtils';
 import { getCommonAssignmentsForWeek, getSoleResponsibilityAssignmentForWeek } from '../utils/taskAssignment';
-import HouseHeader from '../components/HouseHeader';
 import './ScheduleOverviewPage.css';
 
 export default function ScheduleOverviewPage() {
@@ -179,13 +178,6 @@ export default function ScheduleOverviewPage() {
 
       return (
         <div className="schedule-overview-page">
-          {houseCode && (
-            <HouseHeader 
-              houseCode={houseCode} 
-              houseName={house.name} 
-              house={house}
-            />
-          )}
           <div className="schedule-overview-container">
             <div className="schedule-overview-header">
               <div className="schedule-overview-header-top">
