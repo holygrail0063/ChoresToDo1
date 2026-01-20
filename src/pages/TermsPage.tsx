@@ -1,14 +1,10 @@
 import Footer from '../components/Footer';
 import BackButton from '../components/BackButton';
-import ThemeToggle from '../components/ThemeToggle';
 import './TermsPage.css';
 
 export default function TermsPage() {
   return (
     <div className="terms-page">
-      <div className="terms-header">
-        <ThemeToggle />
-      </div>
       <div className="terms-container">
         <BackButton />
         

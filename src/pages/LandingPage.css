@@ -5,14 +5,8 @@
   justify-content: center;
   background: var(--bg);
   padding: var(--page-padding);
+  padding-top: calc(60px + var(--page-padding));
   padding-bottom: 80px;
-}
-
-.landing-header-top {
-  position: fixed;
-  top: var(--spacing-lg);
-  right: var(--page-padding);
-  z-index: 100;
 }
 
 .landing-container {

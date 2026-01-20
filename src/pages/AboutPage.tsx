@@ -1,14 +1,10 @@
 import Footer from '../components/Footer';
 import BackButton from '../components/BackButton';
-import ThemeToggle from '../components/ThemeToggle';
 import './AboutPage.css';
 
 export default function AboutPage() {
   return (
     <div className="about-page">
-      <div className="about-header">
-        <ThemeToggle />
-      </div>
       <div className="about-container">
         <BackButton />
         

@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import MaintenanceBanner from '../components/MaintenanceBanner';
 import Footer from '../components/Footer';
-import ThemeToggle from '../components/ThemeToggle';
 import './LandingPage.css';
 
 export default function LandingPage() {
@@ -10,9 +9,6 @@ export default function LandingPage() {
   return (
     <div className="landing-page">
       <MaintenanceBanner />
-      <div className="landing-header-top">
-        <ThemeToggle />
-      </div>
       <div className="landing-container">
         <div className="landing-header">
           <h1>House Chores</h1>

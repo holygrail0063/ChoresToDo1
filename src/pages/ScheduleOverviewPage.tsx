@@ -12,7 +12,6 @@ import {
 } from '../utils/weekUtils';
 import { getCommonAssignmentsForWeek, getSoleResponsibilityAssignmentForWeek } from '../utils/taskAssignment';
 import Footer from '../components/Footer';
-import ThemeToggle from '../components/ThemeToggle';
 import './ScheduleOverviewPage.css';
 
 export default function ScheduleOverviewPage() {
@@ -186,7 +185,6 @@ export default function ScheduleOverviewPage() {
             <button onClick={() => navigate(`/house/${houseCode}`)} className="back-button">
               ← Back to House
             </button>
-            <ThemeToggle />
           </div>
           <h1>Schedule Overview</h1>
           <p className="house-name">{house.name}</p>

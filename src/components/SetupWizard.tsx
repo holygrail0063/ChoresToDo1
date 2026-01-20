@@ -9,7 +9,6 @@ import { getSiteSettings } from '../firebase/siteSettings';
 import MaintenanceBanner from './MaintenanceBanner';
 import Footer from './Footer';
 import SegmentedNav from './ui/SegmentedNav';
-import ThemeToggle from './ThemeToggle';
 import './SetupWizard.css';
 
 export default function SetupWizard() {
@@ -291,9 +290,6 @@ export default function SetupWizard() {
   return (
     <div className="setup-wizard">
       <MaintenanceBanner />
-      <div className="wizard-header-top">
-        <ThemeToggle />
-      </div>
       <div className="wizard-container">
         <div className="wizard-header">
           <h1>Set Up Your House</h1>

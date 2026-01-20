@@ -3,6 +3,7 @@
   background-color: var(--bg);
   overflow-y: auto;
   overflow-x: hidden;
+  padding-top: 60px;
   padding-bottom: 60px;
 }
 

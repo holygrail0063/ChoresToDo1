@@ -7,6 +7,7 @@ import ScheduleOverviewPage from './pages/ScheduleOverviewPage';
 import SiteAdminPage from './pages/SiteAdminPage';
 import AboutPage from './pages/AboutPage';
 import TermsPage from './pages/TermsPage';
+import GlobalHeader from './components/GlobalHeader';
 import './App.css';
 
 // Legacy route redirects
@@ -18,6 +19,7 @@ function LegacyHouseRedirect() {
 function App() {
   return (
     <HashRouter>
+      <GlobalHeader />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/create" element={<CreateHouse />} />

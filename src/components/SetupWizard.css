@@ -5,15 +5,9 @@
   align-items: center;
   justify-content: center;
   padding: var(--page-padding);
+  padding-top: calc(60px + var(--page-padding));
   background: var(--bg);
   position: relative;
-}
-
-.wizard-header-top {
-  position: fixed;
-  top: var(--spacing-lg);
-  right: var(--page-padding);
-  z-index: 100;
 }
 
 .wizard-container {
