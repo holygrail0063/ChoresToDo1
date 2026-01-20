@@ -133,6 +133,7 @@
   overflow-y: visible;
   max-height: none;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 /* Desktop: Remove internal scrollbar, let page scroll handle it */
@@ -478,6 +479,41 @@
     -webkit-overflow-scrolling: touch;
     margin: 0 calc(-1 * var(--spacing-md));
     padding: 0 var(--spacing-md);
+    position: relative;
+  }
+
+  /* Horizontal scroll indicator - right edge fade */
+  .chore-table-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  /* Horizontal scroll indicator - left edge fade (when scrolled) */
+  .chore-table-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Show left indicator when scrolled */
+  .chore-table-wrapper:not(:hover)::before {
+    opacity: 0;
   }
 
   .chore-table {

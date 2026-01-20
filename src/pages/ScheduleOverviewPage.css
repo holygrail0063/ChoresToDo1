@@ -175,6 +175,7 @@
 .schedule-table-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 .schedule-table {
@@ -358,6 +359,65 @@
     -webkit-overflow-scrolling: touch;
     margin: 0 calc(-1 * var(--spacing-md));
     padding: 0 var(--spacing-md);
+    position: relative;
+  }
+
+  /* Horizontal scroll indicator - right edge fade */
+  .schedule-table-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  /* Horizontal scroll indicator - left edge fade (when scrolled) */
+  .schedule-table-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Horizontal scroll indicator - right edge fade */
+  .schedule-table-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  /* Horizontal scroll indicator - left edge fade (when scrolled) */
+  .schedule-table-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   .schedule-table {
