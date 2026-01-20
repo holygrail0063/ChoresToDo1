@@ -11,7 +11,6 @@ import {
   startOfWeekMonday 
 } from '../utils/weekUtils';
 import { getCommonAssignmentsForWeek, getSoleResponsibilityAssignmentForWeek } from '../utils/taskAssignment';
-import HouseHeader from '../components/HouseHeader';
 import './ScheduleOverviewPage.css';
 
 export default function ScheduleOverviewPage() {
