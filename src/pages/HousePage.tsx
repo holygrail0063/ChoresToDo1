@@ -8,6 +8,7 @@ import { getSiteSettings } from '../firebase/siteSettings';
 import HouseHeader from '../components/HouseHeader';
 import ChoreList from '../components/ChoreList';
 import MaintenanceBanner from '../components/MaintenanceBanner';
+import HandDivider from '../components/HandDivider';
 import Footer from '../components/Footer';
 import './HousePage.css';
 
@@ -124,6 +125,7 @@ export default function HousePage() {
       return (
         <div className="house-page">
           <MaintenanceBanner />
+          <HandDivider />
           <HouseHeader 
             houseCode={normalizedCode} 
             houseName={houseName} 

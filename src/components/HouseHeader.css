@@ -1,6 +1,5 @@
 .house-header {
   background: var(--brand);
-  border-bottom: 1px solid var(--border);
   padding: var(--spacing-lg) var(--page-padding);
   margin-bottom: var(--spacing-xl);
   margin-top: 0;

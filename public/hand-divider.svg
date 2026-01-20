@@ -1,0 +1,20 @@
+<svg width="100%" height="16" viewBox="0 0 400 16" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main wavy line with hand-drawn variation -->
+  <path d="M0,8 Q18,4 35,8 Q52,12 70,8 Q88,4 105,8 Q122,12 140,8 Q158,4 175,8 Q192,12 210,8 Q228,4 245,8 Q262,12 280,8 Q298,4 315,8 Q332,12 350,8 Q368,4 385,8 Q400,12 400,8" 
+        stroke="#0B0B0D" 
+        stroke-width="2.8" 
+        fill="none" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        vector-effect="non-scaling-stroke"/>
+  <!-- Secondary line for depth -->
+  <path d="M0,8 Q22,5 45,8 Q67,11 90,8 Q112,5 135,8 Q157,11 180,8 Q202,5 225,8 Q247,11 270,8 Q292,5 315,8 Q337,11 360,8 Q382,5 400,8" 
+        stroke="#0B0B0D" 
+        stroke-width="1.5" 
+        fill="none" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        opacity="0.5"
+        vector-effect="non-scaling-stroke"/>
+</svg>
+
