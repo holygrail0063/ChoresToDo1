@@ -11,6 +11,7 @@ import {
   startOfWeekMonday 
 } from '../utils/weekUtils';
 import { getCommonAssignmentsForWeek, getSoleResponsibilityAssignmentForWeek } from '../utils/taskAssignment';
+import HouseHeader from '../components/HouseHeader';
 import './ScheduleOverviewPage.css';
 
 export default function ScheduleOverviewPage() {
@@ -176,18 +177,22 @@ export default function ScheduleOverviewPage() {
   });
   const taskColumns = Array.from(allTasks).sort();
 
-  return (
-    <div className="schedule-overview-page">
-      <div className="schedule-overview-container">
-        <div className="schedule-overview-header">
-          <div className="schedule-overview-header-top">
-            <button onClick={() => navigate(`/house/${houseCode}`)} className="back-button">
-              ← Back to House
-            </button>
-          </div>
-          <h1>Schedule Overview</h1>
-          <p className="house-name">{house.name}</p>
-        </div>
+      return (
+        <div className="schedule-overview-page">
+          <HouseHeader 
+            houseCode={houseCode} 
+            houseName={house.name} 
+            house={house}
+          />
+          <div className="schedule-overview-container">
+            <div className="schedule-overview-header">
+              <div className="schedule-overview-header-top">
+                <button onClick={() => navigate(`/house/${houseCode}`)} className="back-button">
+                  ← Back to House
+                </button>
+              </div>
+              <h1>Schedule Overview</h1>
+            </div>
 
         <div className="month-selector">
           <button onClick={handlePrevMonth} className="month-nav-button">←</button>
