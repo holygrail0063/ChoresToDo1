@@ -15,7 +15,7 @@ const THEME_STORAGE_KEY = 'ctd_theme';
 function getInitialTheme(): Theme {
   // Only access browser APIs on client side
   if (typeof window === 'undefined') {
-    return 'dark';
+    return 'light';
   }
   
   // Check localStorage first
@@ -28,13 +28,8 @@ function getInitialTheme(): Theme {
     // localStorage might not be available
   }
   
-  // Check system preference only if no stored preference
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    return 'dark';
-  }
-  
-  // Default to dark
-  return 'dark';
+  // Default to light
+  return 'light';
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
