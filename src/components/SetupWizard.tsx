@@ -423,12 +423,11 @@ export default function SetupWizard() {
                 </div>
               </div>
 
-              {(tasks.length > 0 || soleResponsibilityTasks.length > 0) && (
-                <SegmentedNav
-                  onPrevious={() => setStep(2)}
-                  onNext={handleStep3Next}
-                />
-              )}
+              <SegmentedNav
+                onPrevious={() => setStep(2)}
+                onNext={handleStep3Next}
+                nextDisabled={tasks.length === 0 && soleResponsibilityTasks.length === 0}
+              />
             </div>
           )}
 
