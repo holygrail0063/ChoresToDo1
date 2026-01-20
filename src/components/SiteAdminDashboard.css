@@ -1,54 +1,66 @@
 .admin-dashboard {
   min-height: 100vh;
-  background: #f5f7fa;
-  padding: 20px;
+  background: var(--bg);
+  padding: 24px 16px;
+  max-width: 1100px;
+  margin: 24px auto;
 }
 
 .admin-header {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
 }
 
 .admin-header h1 {
   margin: 0 0 20px 0;
-  color: #333;
-  font-size: 24px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
 }
 
 .admin-tabs {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .admin-tabs button {
   padding: 10px 20px;
-  border: none;
-  background: #e9ecef;
-  color: #666;
-  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
   transition: all 0.2s;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .admin-tabs button:hover {
-  background: #dee2e6;
+  background: var(--border-light);
+  color: var(--text);
 }
 
 .admin-tabs button.active {
   background: var(--primary);
   color: white;
+  border-color: var(--primary);
 }
 
 .admin-content {
-  background: white;
-  border-radius: 8px;
-  padding: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
 }
 
 .loading {
@@ -61,8 +73,10 @@
 .houses-section h2,
 .settings-section h2 {
   margin-top: 0;
-  color: #333;
-  font-size: 20px;
+  margin-bottom: 24px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
 }
 
 .stats-grid {
@@ -188,52 +202,177 @@
 }
 
 .settings-form {
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .setting-item {
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
 }
 
 .setting-item:last-child {
   border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
-.setting-item label {
-  display: block;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 8px;
-  font-size: 14px;
+/* Checkbox settings row layout */
+.setting-item.setting-checkbox {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.setting-item label input[type="checkbox"] {
-  margin-right: 8px;
+.setting-checkbox-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+}
+
+.setting-checkbox-left input[type="checkbox"] {
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.setting-checkbox-label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.setting-checkbox-label-group label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text);
+  font-size: var(--font-size-base);
+  margin: 0;
+  cursor: pointer;
 }
 
 .setting-description {
-  color: #666;
-  font-size: 13px;
-  margin-top: 6px;
-  margin-left: 24px;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  margin: 0;
+  line-height: var(--line-height-normal);
+}
+
+/* Text input and textarea settings */
+.setting-item.setting-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.setting-item label:not(.setting-checkbox-label-group) {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text);
+  font-size: var(--font-size-base);
+  margin-bottom: 6px;
+  display: block;
 }
 
 .setting-input {
   width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  font-size: 14px;
+  max-width: 260px;
+  padding: var(--input-padding-y) var(--input-padding-x);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
   font-family: inherit;
+  height: var(--input-height);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .setting-input:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.setting-textarea {
+  width: 100%;
+  max-width: 600px;
+  min-height: 90px;
+  padding: var(--input-padding-y) var(--input-padding-x);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  resize: vertical;
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.setting-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* Radio button group for theme */
+.setting-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.setting-radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.setting-radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.setting-radio-option label {
+  font-weight: var(--font-weight-normal);
+  color: var(--text);
+  font-size: var(--font-size-base);
+  margin: 0;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 16px;
+    margin: 16px auto;
+  }
+
+  .admin-header {
+    padding: 16px;
+  }
+
+  .admin-content {
+    padding: 20px 16px;
+  }
+
+  .setting-item.setting-checkbox {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .setting-input,
+  .setting-textarea {
+    max-width: 100%;
+  }
 }
 
 .save-message {

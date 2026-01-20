@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import ThemeToggle from './ThemeToggle';
 import './GlobalHeader.css';
 
 export default function GlobalHeader() {
@@ -14,9 +13,6 @@ export default function GlobalHeader() {
             <h1 className="global-header-title">ChoresToDo</h1>
             <span className="global-header-subtitle">Clean house, calm mind.</span>
           </div>
-        </div>
-        <div className="global-header-right">
-          <ThemeToggle />
         </div>
       </div>
     </header>

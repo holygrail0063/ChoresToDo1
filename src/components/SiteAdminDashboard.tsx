@@ -204,49 +204,56 @@ export default function SiteAdminDashboard() {
             )}
             
             <div className="settings-form">
-              <div className="setting-item">
-                <label>
+              <div className="setting-item setting-checkbox">
+                <div className="setting-checkbox-left">
                   <input
                     type="checkbox"
+                    id="maintenance-mode"
                     checked={settings.maintenanceMode}
                     onChange={(e) => handleUpdateSettings({ maintenanceMode: e.target.checked })}
                   />
-                  <span>Maintenance Mode</span>
-                </label>
-                <p className="setting-description">
-                  When enabled, users can read but cannot write. Shows maintenance banner.
-                </p>
+                  <div className="setting-checkbox-label-group">
+                    <label htmlFor="maintenance-mode">Maintenance Mode</label>
+                    <p className="setting-description">
+                      When enabled, users can read but cannot write. Shows maintenance banner.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <div className="setting-item">
-                <label>Maintenance Message</label>
+              <div className="setting-item setting-input-group">
+                <label htmlFor="maintenance-message">Maintenance Message</label>
                 <textarea
+                  id="maintenance-message"
                   value={settings.maintenanceMessage}
                   onChange={(e) => handleUpdateSettings({ maintenanceMessage: e.target.value })}
                   onBlur={() => handleUpdateSettings({ maintenanceMessage: settings.maintenanceMessage })}
-                  rows={3}
-                  className="setting-input"
+                  className="setting-textarea"
                 />
               </div>
 
-              <div className="setting-item">
-                <label>
+              <div className="setting-item setting-checkbox">
+                <div className="setting-checkbox-left">
                   <input
                     type="checkbox"
+                    id="allow-new-houses"
                     checked={settings.allowNewHouseCreation}
                     onChange={(e) => handleUpdateSettings({ allowNewHouseCreation: e.target.checked })}
                   />
-                  <span>Allow New House Creation</span>
-                </label>
-                <p className="setting-description">
-                  When disabled, users cannot create new houses.
-                </p>
+                  <div className="setting-checkbox-label-group">
+                    <label htmlFor="allow-new-houses">Allow New House Creation</label>
+                    <p className="setting-description">
+                      When disabled, users cannot create new houses.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <div className="setting-item">
-                <label>Max Members Per House</label>
+              <div className="setting-item setting-input-group">
+                <label htmlFor="max-members">Max Members Per House</label>
                 <input
                   type="number"
+                  id="max-members"
                   value={settings.maxMembersPerHouse}
                   onChange={(e) => {
                     const value = parseInt(e.target.value) || 1;
@@ -259,10 +266,11 @@ export default function SiteAdminDashboard() {
                 />
               </div>
 
-              <div className="setting-item">
-                <label>Max Chores Per House</label>
+              <div className="setting-item setting-input-group">
+                <label htmlFor="max-chores">Max Chores Per House</label>
                 <input
                   type="number"
+                  id="max-chores"
                   value={settings.maxChoresPerHouse}
                   onChange={(e) => {
                     const value = parseInt(e.target.value) || 1;
@@ -273,6 +281,37 @@ export default function SiteAdminDashboard() {
                   max="200"
                   className="setting-input"
                 />
+              </div>
+
+              <div className="setting-item setting-input-group">
+                <label>Theme Mode</label>
+                <div className="setting-radio-group">
+                  <div className="setting-radio-option">
+                    <input
+                      type="radio"
+                      id="theme-light"
+                      name="uiTheme"
+                      value="light"
+                      checked={settings.uiTheme === 'light' || !settings.uiTheme}
+                      onChange={() => handleUpdateSettings({ uiTheme: 'light' })}
+                    />
+                    <label htmlFor="theme-light">Light (default)</label>
+                  </div>
+                  <div className="setting-radio-option">
+                    <input
+                      type="radio"
+                      id="theme-dark"
+                      name="uiTheme"
+                      value="dark"
+                      checked={settings.uiTheme === 'dark'}
+                      onChange={() => handleUpdateSettings({ uiTheme: 'dark' })}
+                    />
+                    <label htmlFor="theme-dark">Dark (admin-controlled)</label>
+                  </div>
+                </div>
+                <p className="setting-description" style={{ marginTop: '6px' }}>
+                  This changes the theme globally for all users. Users cannot switch themes themselves.
+                </p>
               </div>
             </div>
           </div>

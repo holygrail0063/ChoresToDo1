@@ -7,6 +7,8 @@ export interface SiteSettings {
   allowNewHouseCreation: boolean;
   maxMembersPerHouse: number;
   maxChoresPerHouse: number;
+  uiTheme?: 'light' | 'dark';
+  userThemeAccess?: boolean;
 }
 
 const defaultSettings: SiteSettings = {
@@ -15,6 +17,8 @@ const defaultSettings: SiteSettings = {
   allowNewHouseCreation: true,
   maxMembersPerHouse: 11,
   maxChoresPerHouse: 50,
+  uiTheme: 'light',
+  userThemeAccess: false,
 };
 
 /**
