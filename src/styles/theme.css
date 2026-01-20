@@ -89,6 +89,15 @@
   --special-bg: rgba(255, 255, 255, 0.04);
   --special-border: rgba(255, 255, 255, 0.10);
   --special-accent: rgba(59, 130, 246, 0.35);
+  /* Chip/Pill styling for dark theme */
+  --chip-bg: rgba(255, 255, 255, 0.04);
+  --chip-border: rgba(255, 255, 255, 0.10);
+  --chip-hover: rgba(255, 255, 255, 0.06);
+  --chip-active-border: rgba(59, 130, 246, 0.45);
+  /* Panel styling for dark theme */
+  --panel-bg: rgba(255, 255, 255, 0.04);
+  --panel-border: rgba(255, 255, 255, 0.10);
+  --panel-accent: rgba(59, 130, 246, 0.35);
 }
 
 [data-theme="light"] {

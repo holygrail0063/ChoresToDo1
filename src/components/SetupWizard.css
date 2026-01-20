@@ -314,6 +314,17 @@
   color: var(--text);
 }
 
+[data-theme="dark"] .task-tag.sole-responsibility {
+  background-color: var(--chip-bg);
+  border-color: var(--chip-border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .task-tag.sole-responsibility:hover {
+  background-color: var(--chip-hover);
+  border-color: var(--chip-active-border);
+}
+
 .remove-task-button {
   background: none;
   border: none;
@@ -409,6 +420,11 @@
 .assignment-item.sole-responsibility {
   background-color: var(--warning-light);
   border-color: var(--warning);
+}
+
+[data-theme="dark"] .assignment-item.sole-responsibility {
+  background-color: var(--panel-bg);
+  border-color: var(--panel-border);
 }
 
 .schedule-assignments {
