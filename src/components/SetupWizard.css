@@ -511,17 +511,6 @@
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
-[data-theme="dark"] .sole-assignment-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background-color: var(--warning-yellow);
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
-}
-
 .sole-assignment-item .task-name {
   font-weight: var(--font-weight-medium);
   color: var(--text);
