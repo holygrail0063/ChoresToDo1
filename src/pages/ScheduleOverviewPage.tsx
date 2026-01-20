@@ -179,11 +179,13 @@ export default function ScheduleOverviewPage() {
 
       return (
         <div className="schedule-overview-page">
-          <HouseHeader 
-            houseCode={houseCode} 
-            houseName={house.name} 
-            house={house}
-          />
+          {houseCode && (
+            <HouseHeader 
+              houseCode={houseCode} 
+              houseName={house.name} 
+              house={house}
+            />
+          )}
           <div className="schedule-overview-container">
             <div className="schedule-overview-header">
               <div className="schedule-overview-header-top">
