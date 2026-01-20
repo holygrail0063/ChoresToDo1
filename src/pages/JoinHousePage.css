@@ -122,8 +122,36 @@
   transition: background-color 0.2s ease;
 }
 
+[data-theme="light"] .join-button {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .join-button:hover:not(:disabled) {
   background-color: var(--primary-hover);
+}
+
+[data-theme="light"] .join-button:hover:not(:disabled) {
+  background-color: var(--accent-pink-hover);
+}
+
+.join-button:active:not(:disabled) {
+  background-color: var(--primary-pressed);
+}
+
+[data-theme="light"] .join-button:active:not(:disabled) {
+  background-color: var(--accent-pink-pressed);
+}
+
+.join-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+[data-theme="light"] .join-button:focus-visible {
+  outline: 2px solid var(--accent-pink-hover);
+  outline-offset: 2px;
 }
 
 .join-button:disabled {

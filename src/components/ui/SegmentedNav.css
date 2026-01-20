@@ -25,9 +25,28 @@
   white-space: nowrap;
 }
 
+[data-theme="light"] .step-button {
+  background: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .step-button:hover:not(:disabled) {
   background: var(--border-light);
   border-color: var(--border);
+}
+
+[data-theme="light"] .step-button:hover:not(:disabled) {
+  background: var(--accent-pink-hover);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.step-button:active:not(:disabled) {
+  background: var(--accent-pink-pressed);
+}
+
+[data-theme="light"] .step-button:active:not(:disabled) {
+  background: var(--accent-pink-pressed);
 }
 
 .step-button:focus {
@@ -36,6 +55,11 @@
 
 .step-button:focus-visible {
   outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+[data-theme="light"] .step-button:focus-visible {
+  outline: 2px solid var(--accent-pink-hover);
   outline-offset: 2px;
 }
 

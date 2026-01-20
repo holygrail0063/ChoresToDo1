@@ -59,9 +59,20 @@
   transition: all 0.2s ease;
 }
 
+[data-theme="light"] .step {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+}
+
 .step.active {
   background-color: var(--primary);
   color: white;
+}
+
+[data-theme="light"] .step.active {
+  background-color: var(--accent-pink-pressed);
+  color: #0B0B0D;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .wizard-content {
@@ -135,8 +146,36 @@
   transition: background-color 0.2s ease;
 }
 
+[data-theme="light"] .wizard-button {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .wizard-button:hover:not(:disabled) {
   background-color: var(--primary-hover);
+}
+
+[data-theme="light"] .wizard-button:hover:not(:disabled) {
+  background-color: var(--accent-pink-hover);
+}
+
+.wizard-button:active:not(:disabled) {
+  background-color: var(--primary-pressed);
+}
+
+[data-theme="light"] .wizard-button:active:not(:disabled) {
+  background-color: var(--accent-pink-pressed);
+}
+
+.wizard-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+[data-theme="light"] .wizard-button:focus-visible {
+  outline: 2px solid var(--accent-pink-hover);
+  outline-offset: 2px;
 }
 
 .wizard-button:disabled {
@@ -158,8 +197,18 @@
   background-color: var(--primary);
 }
 
+[data-theme="light"] .wizard-button.primary {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .wizard-button.primary:hover:not(:disabled) {
   background-color: var(--primary-hover);
+}
+
+[data-theme="light"] .wizard-button.primary:hover:not(:disabled) {
+  background-color: var(--accent-pink-hover);
 }
 
 .wizard-actions {
@@ -167,6 +216,11 @@
   gap: var(--spacing-lg);
   justify-content: flex-end;
   margin-top: var(--spacing-2xl);
+}
+
+/* Step 5: Center the Check Schedule button */
+.wizard-actions.step-5-actions {
+  justify-content: center;
 }
 
 /* Segmented navigation is handled by SegmentedNav component */
@@ -191,8 +245,36 @@
   transition: background-color 0.15s ease;
 }
 
+[data-theme="light"] .add-task-button {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .add-task-button:hover {
   background-color: var(--primary-hover);
+}
+
+[data-theme="light"] .add-task-button:hover {
+  background-color: var(--accent-pink-hover);
+}
+
+.add-task-button:active {
+  background-color: var(--primary-pressed);
+}
+
+[data-theme="light"] .add-task-button:active {
+  background-color: var(--accent-pink-pressed);
+}
+
+.add-task-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+[data-theme="light"] .add-task-button:focus-visible {
+  outline: 2px solid var(--accent-pink-hover);
+  outline-offset: 2px;
 }
 
 .task-section {
@@ -628,8 +710,36 @@
   transition: background-color 0.2s ease;
 }
 
+[data-theme="light"] .copy-button {
+  background-color: var(--accent-pink);
+  color: #0B0B0D;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 .copy-button:hover {
   background-color: var(--primary-hover);
+}
+
+[data-theme="light"] .copy-button:hover {
+  background-color: var(--accent-pink-hover);
+}
+
+.copy-button:active {
+  background-color: var(--primary-pressed);
+}
+
+[data-theme="light"] .copy-button:active {
+  background-color: var(--accent-pink-pressed);
+}
+
+.copy-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+[data-theme="light"] .copy-button:focus-visible {
+  outline: 2px solid var(--accent-pink-hover);
+  outline-offset: 2px;
 }
 
 .bundle-chores-preview {

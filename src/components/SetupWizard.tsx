@@ -638,7 +638,7 @@ export default function SetupWizard() {
                 </div>
               </div>
 
-              <div className="wizard-actions">
+              <div className="wizard-actions step-5-actions">
                 <button 
                   onClick={() => navigate(`/house/${createdHouseCode}`)} 
                   className="wizard-button primary"
